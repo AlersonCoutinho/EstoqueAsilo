@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EstoqueAsilo.LoginPage"
+             Title="Pagina Login">
+    <ScrollView>
+        <Grid ColumnDefinitions="*, Auto, *" RowDefinitions="*, auto, auto, 2*" Background="#0152A1" RowSpacing="40">
+            <Border Grid.Column="1" Grid.Row="1" BackgroundColor="White" WidthRequest="280" StrokeShape="Ellipse" Padding="10" Stroke="Transparent">
+                <Image Source="logo_brasil_sem_fundo.png" Aspect="AspectFill"/>
+            </Border>
+            <VerticalStackLayout Grid.Column="1" Grid.Row="2" VerticalOptions="Center" Spacing="20">
+                <Label 
+                Text="Para continuar, faça seu login."
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                FontSize="24"
+                Shadow="4 4 5 Black 0.8" />
+                <Border Background="White" StrokeShape="RoundRectangle 15">
+                    <Grid ColumnDefinitions="auto, *" Padding="10, 0" >
+                        <Image Grid.Column="0" Source="icon_user.png" HeightRequest="24" />
+                        <Entry Grid.Column="1" x:Name="user" Placeholder="Usuário" FontSize="20" TextColor="Black"/>
+                    </Grid>
+                </Border>
+                <Border Background="White" StrokeShape="RoundRectangle 15">
+                    <Grid ColumnDefinitions="auto, *" Padding="10, 0">
+                        <Image Grid.Column="0" Source="icon_key.png" HeightRequest="24"/>
+                        <Entry Grid.Column="1" x:Name="senha" Placeholder="Senha" FontSize="20" TextColor="Black" IsPassword="True"/>
+                    </Grid>
+                </Border>
+                <Button 
+                Text="Entrar" 
+                FontSize="24" 
+                Background="#CB2323" 
+                TextColor="White" 
+                BorderColor="White" 
+                BorderWidth="1" 
+                CornerRadius="25" 
+                WidthRequest="186" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
