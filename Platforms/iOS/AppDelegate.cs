@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace EstoqueAsilo
+namespace protótipo_acelera
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

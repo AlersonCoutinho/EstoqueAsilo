@@ -1,24 +1,23 @@
-﻿namespace EstoqueAsilo
+﻿namespace protótipo_acelera
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
-
-        private void OnCounterClicked(object? sender, EventArgs e)
+        private async void Clicado(object? sender, EventArgs e)
         {
-            count++;
+            string email = Caixa1.Text;
+            string senha = Caixa2.Text;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+            {
+                await DisplayAlertAsync("Ops", "Você não preencheu os campos corretamente", "Ok");
+            }else{
+                await Shell.Current.GoToAsync("dashboard");
+            }
+            
         }
     }
 }

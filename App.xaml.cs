@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace EstoqueAsilo
+namespace protótipo_acelera
 {
     public partial class App : Application
     {
@@ -11,7 +11,14 @@ namespace EstoqueAsilo
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new LoginPage());
+            var window = new Window(new AppShell())
+            {
+                MinimumWidth = 800,
+                MinimumHeight = 500,
+                Width = 1280,
+                Height = 720
+            };
+            return window;
         }
     }
 }

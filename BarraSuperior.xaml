@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="protótipo_acelera.BarraSuperior"
+             HeightRequest="60"
+             BackgroundColor="White">
+    <Grid ColumnDefinitions="Auto, *, Auto" Padding="20,10">
+        <Image Grid.Column="0" Source="logo_brasil_sem_fundo_sem_letras.png" HeightRequest="40"/>
+        <Label Grid.Column="1" TextColor="Black" Text="Asilo São Vicente de paulo" HorizontalOptions="Center" VerticalOptions="Center" FontSize="30"/>
+        <HorizontalStackLayout Grid.Column="2" Spacing="10">
+            <Label Text="Elaine" TextColor="Black" VerticalOptions="Center"/>
+            <Image Source="icone.png" HeightRequest="35"/>
+        </HorizontalStackLayout>
+
+    </Grid>
+</ContentView>

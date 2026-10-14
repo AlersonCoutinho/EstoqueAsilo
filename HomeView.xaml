@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="protótipo_acelera.HomeView"
+             BackgroundColor="#F2F2F2">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+            <Label Text="Resumo do mês" FontSize="24" TextColor="Black"/>
+            <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="15" RowDefinitions="Auto" RowSpacing="10">
+                <Border Grid.Column="0" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                    <VerticalStackLayout>
+                        <Label Text="Entradas do mês" TextColor="Black"/>
+                        <Label Text="574" FontSize="28" TextColor="#2E8B57"/>
+                        <Label Text="Itens recebidos" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                    <VerticalStackLayout>
+                        <Label Text="saídas do mês" TextColor="Black"/>
+                        <Label Text="312" FontSize="28" TextColor="Gray"/>
+                        <Label Text="Itens consumidos ou doados" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="2" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                    <VerticalStackLayout>
+                        <Label Text="Precisa repor" TextColor="Black"/>
+                        <Label Text="4" FontSize="28" TextColor="#E67E22"/>
+                        <Label Text="Abaixo do minimo" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="3" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                    <VerticalStackLayout>
+                        <Label Text="Vencendo em 30 dias" TextColor="Black"/>
+                        <Label Text="3" FontSize="28" TextColor="#E74C3C"/>
+                        <Label Text="Na dispensa" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+            <Label Text="Precisa de atenção" FontSize="20"/>
+            <Grid ColumnDefinitions="2*, *, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+                <Label Grid.Row="0" Grid.Column="0" Text="Item" TextColor="Black" FontAttributes="Bold" />
+                <Label Grid.Row="0" Grid.Column="1" Text="Estoque" TextColor="Black" FontAttributes="Bold"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="Situação" TextColor="Black" FontAttributes="Bold" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Frango (kg)" TextColor="Black" />
+                <Label Grid.Row="1" Grid.Column="1" Text="15 kg" TextColor="Black" />
+                <Label Grid.Row="1" Grid.Column="2" Text="Vence em 5 d" TextColor="Black" />
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Café 500 g" TextColor="Black" />
+                <Label Grid.Row="2" Grid.Column="1" Text="8 pct" TextColor="Black" />
+                <Label Grid.Row="2" Grid.Column="2" Text="Vencido" TextColor="Black" />
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Fralda M" TextColor="Black" />
+                <Label Grid.Row="3" Grid.Column="1" Text="300 un" TextColor="Black" />
+                <Label Grid.Row="3" Grid.Column="2" Text="Estoque baixo" TextColor="Black" />
+
+                <Label Grid.Row="4" Grid.Column="0" Text="Leite UHT 1 L" TextColor="Black" />
+                <Label Grid.Row="4" Grid.Column="1" Text="18 un" TextColor="Black" />
+                <Label Grid.Row="4" Grid.Column="2" Text="Vence em 12 d" TextColor="Black" />
+
+                <Label Grid.Row="5" Grid.Column="0" Text="Água sanitária  2 L" TextColor="Black" />
+                <Label Grid.Row="5" Grid.Column="1" Text="9 un" TextColor="Black" />
+                <Label Grid.Row="5" Grid.Column="2" Text="Estoque baixo" TextColor="Black" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

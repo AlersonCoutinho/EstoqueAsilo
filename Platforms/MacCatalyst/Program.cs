@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace EstoqueAsilo
+namespace protótipo_acelera
 {
     public class Program
     {

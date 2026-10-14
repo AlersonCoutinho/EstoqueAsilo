@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace EstoqueAsilo
+namespace protótipo_acelera
 {
     public static class MauiProgram
     {
