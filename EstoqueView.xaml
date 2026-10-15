@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="protótipo_acelera.EstoqueView"
+             BackgroundColor="#F2F2F2">
+    <ScrollView>
+    <VerticalStackLayout Padding="30" Spacing="20">
+        <Label 
+            Text="Estoque" TextColor="Black" FontSize="24"/>
+            <Grid ColumnDefinitions="Auto, Auto, *" ColumnSpacing="20">
+                <Entry Grid.Column="0" Placeholder="Buscar item" TextColor="Black" WidthRequest="300" HorizontalOptions="Start" BackgroundColor="White"/>
+                <Button Grid.Column="1" Text="+ novo item" BackgroundColor="#0A6FB5" TextColor="White" CornerRadius="8" HorizontalOptions="Start"/>
+            </Grid>
+            <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="20">
+                <Grid ColumnDefinitions="2*, *, *, *, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" RowSpacing="8" ColumnSpacing="10">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="Quantidade" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Row="0" Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Row="0" Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Row="0" Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Arroz 5 kg" TextColor="Black" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="40 pct" TextColor="Black" />
+                    <Label Grid.Row="1" Grid.Column="2" Text="20" TextColor="Black" />
+                    <Label Grid.Row="1" Grid.Column="3" Text="30/04/2027" TextColor="Black" />
+                    <Label Grid.Row="1" Grid.Column="4" Text="OK" TextColor="#2E8B57" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Feijão 1 kg" TextColor="Black" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="35 pct" TextColor="Black" />
+                    <Label Grid.Row="2" Grid.Column="2" Text="25" TextColor="Black" />
+                    <Label Grid.Row="2" Grid.Column="3" Text="11/03/2027" TextColor="Black" />
+                    <Label Grid.Row="2" Grid.Column="4" Text="OK" TextColor="#2E8B57" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Leite UHT 1 L" TextColor="Black" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="18 un" TextColor="Black" />
+                    <Label Grid.Row="3" Grid.Column="2" Text="30" TextColor="Black" />
+                    <Label Grid.Row="3" Grid.Column="3" Text="24/10/2026" TextColor="Black" />
+                    <Label Grid.Row="3" Grid.Column="4" Text="Vence em 12 d" TextColor="#E67E22" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="Frango (kg)" TextColor="Black" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="15 kg" TextColor="Black" />
+                    <Label Grid.Row="4" Grid.Column="2" Text="10" TextColor="Black" />
+                    <Label Grid.Row="4" Grid.Column="3" Text="17/10/2026" TextColor="Black" />
+                    <Label Grid.Row="4" Grid.Column="4" Text="Vence em 5 d" TextColor="#E67E22" />
+
+                    <Label Grid.Row="5" Grid.Column="0" Text="Café 500 g" TextColor="Black" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="8 pct" TextColor="Black" />
+                    <Label Grid.Row="5" Grid.Column="2" Text="10" TextColor="Black" />
+                    <Label Grid.Row="5" Grid.Column="3" Text="10/10/2026" TextColor="Black" />
+                    <Label Grid.Row="5" Grid.Column="4" Text="Vencido" TextColor="#E74C3C" />
+                </Grid>
+            </Border>
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

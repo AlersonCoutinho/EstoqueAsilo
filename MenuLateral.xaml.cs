@@ -2,6 +2,9 @@ namespace protótipo_acelera;
 
 public partial class MenuLateral : ContentView
 {
+
+    public event EventHandler<string>? ItemSelecionado;
+
 	public MenuLateral()
 	{
 		InitializeComponent();
@@ -9,17 +12,17 @@ public partial class MenuLateral : ContentView
 
     private void inicio1_Clicked(object? sender, EventArgs e)
     {
-
+        ItemSelecionado?.Invoke(this, "inicio");
     }
 
     private void Entrada1_Clicked(object? sender, EventArgs e)
     {
-
+        ItemSelecionado?.Invoke(this, "entrada");
     }
 
     private void Saida1_Clicked(object? sender, EventArgs e)
     {
-
+        ItemSelecionado?.Invoke(this, "saida");
     }
 
     private void Sair1_Clicked(object? sender, EventArgs e)
@@ -29,6 +32,6 @@ public partial class MenuLateral : ContentView
 
     private void Estoque1_Clicked(object? sender, EventArgs e)
     {
-        
+        ItemSelecionado?.Invoke(this, "estoque");
     }
 }

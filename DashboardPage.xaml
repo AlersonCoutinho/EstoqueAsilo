@@ -6,10 +6,10 @@
              Title="DashboardPage"
              Shell.NavBarIsVisible="False">
     <Grid ColumnDefinitions="200, *">
-        <local:MenuLateral Grid.Column="0"/>
+        <local:MenuLateral x:Name="MenuLateralControl" Grid.Column="0"/>
         <Grid Grid.Column="1" RowDefinitions="Auto, *">
             <local:BarraSuperior Grid.Row="0"/>
-            <local:HomeView Grid.Row="1"/>
+            <ContentView x:Name="AreaConteudo" Grid.Row="1" />
         </Grid>
     </Grid>
 </ContentPage>

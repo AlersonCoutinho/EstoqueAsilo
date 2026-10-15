@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="protótipo_acelera.SaidaView"
+             BackgroundColor="#F2F2F2">
+    <ScrollView>
+        <VerticalStackLayout Padding="30,20" Spacing="10">
+            <Label Text="Registrar Saída" FontSize="24" TextColor="Black" />
+            <Grid ColumnDefinitions="2*, *" ColumnSpacing="20">
+                <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" VerticalOptions="Start">
+                    <VerticalStackLayout Grid.Column="0" Spacing="10">
+                        <Label Text="Últimas Saídas" FontSize="18" TextColor="Black"/>
+                        <Grid ColumnDefinitions="Auto, 2*, Auto, 2*, 2*" RowDefinitions="Auto, Auto, Auto, Auto, Auto" RowSpacing="8" ColumnSpacing="10">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="3" Text="Origem / motivo" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="4" Text="Detalhe" TextColor="Black" FontAttributes="Bold" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="11/10/2026" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="Fralda G" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="2" Text="120" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="3" Text="Uso interno" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="4" Text="Quartos" TextColor="Black" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="10/10/2026" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="Fralda M" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="2" Text="90" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="3" Text="Uso interno" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="4" Text="Quartos" TextColor="Black" />
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="09/10/2026" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="1" Text="Feijão 1 kg" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="2" Text="20" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="3" Text="Uso interno" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="4" Text="Cozinha" TextColor="Black" />
+
+                            <Label Grid.Row="4" Grid.Column="0" Text="08/10/2026" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="1" Text="Fralda GG" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="2" Text="60" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="3" Text="Uso interno" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="4" Text="Quartos" TextColor="Black" />
+
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundREctangle 8" Padding="20">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Nova Saída" FontSize="18" TextColor="Black"/>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Item" TextColor="Black" FontSize="12" />
+                            <Entry x:Name="ItemEntry" Placeholder="Ex: Café" TextColor="Black" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Quantidade" TextColor="Black" FontSize="12" />
+                            <Entry x:Name="QuantidadeEntry" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Motivo" TextColor="Black" FontSize="12" />
+                            <Entry x:Name="MotivoEntry" Placeholder="Ex: Doação" TextColor="Black" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Setor ou instituição de destino" TextColor="Black" FontSize="12" />
+                            <Entry x:Name="SetorEntry" Placeholder="Ex: Centro de ajuda" TextColor="Black" />
+                        </VerticalStackLayout>
+
+                        <Button x:Name="RegistrarButton"
+                                Text="Registrar saída"
+                                BackgroundColor="#0A6FB5"
+                                TextColor="White"
+                                CornerRadius="8"
+                                Margin="0,10,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>
