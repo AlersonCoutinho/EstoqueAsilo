@@ -1,5 +1,5 @@
-﻿namespace protótipo_acelera
-{
+﻿namespace EstoqueAsilo
+{ 
     public partial class AppShell : Shell
     {
         public AppShell()

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="EstoqueAsilo.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

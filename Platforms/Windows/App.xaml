@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="protótipo_acelera.WinUI.App"
+    x:Class="EstoqueAsilo.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:protótipo_acelera.WinUI">
+    xmlns:local="using:EstoqueAsilo.WinUI">
 
 </maui:MauiWinUIApplication>

@@ -1,4 +1,4 @@
-namespace protótipo_acelera;
+namespace EstoqueAsilo;
 
 public partial class BarraSuperior : ContentView
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace protótipo_acelera
-{
+namespace EstoqueAsilo
+{ 
     public partial class App : Application
     {
         public App()
