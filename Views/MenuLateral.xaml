@@ -15,7 +15,8 @@
             Grid.Row="1"
             x:Name="inicio1"
             Text="🏠​ Inicio"
-            Clicked="inicio1_Clicked"
+            Command="{Binding SelecionarItemCommand}"
+            CommandParameter="inicio"
             TextColor="White"
             BackgroundColor="Transparent"
             HorizontalOptions="Start"/>
@@ -23,7 +24,8 @@
             Grid.Row="1"
             x:Name="Entrada1"
             Text="🚪​ Entrada"
-            Clicked="Entrada1_Clicked"
+            Command="{Binding SelecionarItemCommand}"
+            CommandParameter="entrada"
             TextColor="White"
             BackgroundColor="Transparent"
             HorizontalOptions="Start"/>
@@ -31,7 +33,8 @@
             Grid.Row="1"
             x:Name="Saida1"
             Text="🚪​ Saida"
-            Clicked="Saida1_Clicked"
+            Command="{Binding SelecionarItemCommand}"
+            CommandParameter="saida"
             TextColor="White"
             BackgroundColor="Transparent"
             HorizontalOptions="Start"/>
@@ -39,14 +42,15 @@
             Grid.Row="1"
             x:Name="Estoque1"
             Text="​📦​ Estoque"
-            Clicked="Estoque1_Clicked"
+            Command="{Binding SelecionarItemCommand}"
+            CommandParameter="estoque"
             TextColor="White"
             BackgroundColor="Transparent"
             HorizontalOptions="Start"/>
         </VerticalStackLayout>
         
         <Button
-            Grid.Row="3"
+            Grid.Row="2"
             x:Name="Sair1"
             Text="Sair do sistema"
             Clicked="Sair1_Clicked"

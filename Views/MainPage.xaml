@@ -4,23 +4,18 @@
              x:Class="EstoqueAsilo.MainPage"
              Shell.NavBarIsVisible="False">
 
-    <Grid ColumnDefinitions="*, *"
-          RowSpacing="15">
+    <Grid ColumnDefinitions="*, *" RowSpacing="15">
 
-        <BoxView Grid.Row="1"
-                     Grid.RowSpan="3"
+        <BoxView     Grid.RowSpan="3"
                      Grid.Column="0"
                      Color="#0082db" >
         </BoxView>
-        <BoxView Grid.Row="1"
-                     Grid.RowSpan="3"
+        <BoxView     Grid.RowSpan="3"
                      Grid.Column="1"
                      Color="White" >
         </BoxView>
 
-        <Image
-                Grid.Row="1"
-                Grid.Column="0"
+        <Image  Grid.Column="0"
                 x:Name="ImagemLogo"
                 Source="logo_brasil_sem_fundo.png"
                 Aspect="AspectFit"
@@ -29,35 +24,23 @@
                 Margin="100,100,100,100">
         </Image>
 
-        <VerticalStackLayout Grid.Row="1"
-                             Grid.Column="1"
-                             Padding="30"
-                             Spacing="15"
-                             VerticalOptions="Center">
+        <VerticalStackLayout Grid.Column="1" Padding="30" Spacing="15" VerticalOptions="Center">
 
-            <!-- Linha 1: Título da tela -->
             <Label
-            Grid.Row="1"
-            Grid.Column="1"
             Text="Bem-vindo ao Asilo São Vicente!"
             FontSize="32"
             FontAttributes="Bold"
             HorizontalOptions="Center" 
             TextColor="black"/>
 
-            <!-- Linha 2: Rótulo do campo de e-mail -->
             <Label
-            Grid.Row="2"
-            Grid.Column="1"
             Text="Digite seu email"
             FontSize="14" 
             TextColor="black"/>
 
-            
             <Entry
-            Grid.Row="3"
-            Grid.Column="1"
             x:Name="Caixa1"
+            Text="{Binding Email}"
             Placeholder="E-mail"
             Keyboard="Email"
             ClearButtonVisibility="WhileEditing"
@@ -65,35 +48,34 @@
             TextColor="black"
             BackgroundColor="#F0F0F0"/>
 
-            <!-- Linha 4: Rótulo do campo de senha -->
             <Label
-            Grid.Row="4"
-            Grid.Column="1"
             Text="Digite a senha"
             FontSize="14"
             TextColor="black"/>
-
-            <!-- Linha 5: Campo de senha -->
+            
             <Entry
-            Grid.Row="5"
-            Grid.Column="1"
             x:Name="Caixa2"
+            Text="{Binding Senha}"
             Placeholder="Senha"
             IsPassword="True"
             MaxLength="50"
             TextColor="black"
-            BackgroundColor="#F0F0F0"
-            />
-
-            <!-- Linha 6: Botão de login -->
+            BackgroundColor="#F0F0F0"/>
+            
             <Button
-            Grid.Row="6"
-            Grid.Column="1"
-            x:Name="teste6"
+            x:Name="EntrarButton"
             Text="Entrar"
-            Clicked="Clicado"
+            Command="{Binding EntrarCommand}"
             TextColor="White"
             BackgroundColor="#0A6FB5"/>
+
+            <Label 
+            Text="{Binding MensagemErro}"
+            IsVisible="{Binding TemErro}"
+            TextColor="Red"
+            FontSize="13"
+            HorizontalOptions="Center" />
+
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

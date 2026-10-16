@@ -1,22 +1,13 @@
+using EstoqueAsilo.ViewModels;
+
 namespace EstoqueAsilo;
 
 public partial class DashboardPage : ContentPage
 {
-    public DashboardPage()
+    public DashboardPage(DashboardViewModel viewModel)
     {
         InitializeComponent();
-        AreaConteudo.Content = new HomeView();
-        MenuLateralControl.ItemSelecionado += OnItemSelecionado;
-    }
-    private void OnItemSelecionado(object? sender, string item)
-    {
-        AreaConteudo.Content = item switch
-        {
-            "inicio" => new HomeView(),
-            "entrada" => new EntradaView(),
-            "saida" => new SaidaView(),
-            "estoque" => new EstoqueView(),
-            _ => null
-        };
+        BindingContext = viewModel;
+        viewModel.SelecionarItemCommand.Execute("inicio");
     }
 }
