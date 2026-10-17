@@ -1,12 +1,16 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EstoqueAsilo.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EstoqueAsilo
 { 
     public partial class App : Application
     {
-        public App()
+        private readonly ServicoEstoque _estoque;
+        public App(ServicoEstoque estoque)
         {
             InitializeComponent();
+            _estoque = estoque;
+            _estoque.Carregar();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
@@ -16,8 +20,9 @@ namespace EstoqueAsilo
                 MinimumWidth = 800,
                 MinimumHeight = 500,
                 Width = 1280,
-                Height = 720
+                Height = 720,
             };
+            window.Destroying += (_, _) => _estoque.Salvar();
             return window;
         }
     }

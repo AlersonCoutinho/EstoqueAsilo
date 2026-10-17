@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using EstoqueAsilo.ViewModels;
+using EstoqueAsilo.Services;
 
 namespace EstoqueAsilo
 {
@@ -19,6 +20,7 @@ namespace EstoqueAsilo
             builder.Services.AddTransient<DashboardViewModel>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
+            builder.Services.AddSingleton<ServicoEstoque>();
 
 #if DEBUG
             builder.Logging.AddDebug();
