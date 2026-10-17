@@ -10,6 +10,7 @@ namespace EstoqueAsilo.Data
     {
         internal static List<Usuario> Carregar(string caminho)
         {
+            if (!File.Exists(caminho)) return new List<Usuario>();
             var doc = XDocument.Load(caminho);
 
             return doc.Root!.Elements("usuario").Select(u =>

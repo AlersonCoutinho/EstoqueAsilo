@@ -11,28 +11,31 @@ namespace EstoqueAsilo.Data
     {
         public static List<Produto> Carregar(string caminho)
         {
-            var doc = XDocument.Load(caminho);
-
-            return doc.Root!.Elements("produto").Select(p =>
+            if (!File.Exists(caminho)) return new List<Produto>();
             {
-                var d = p.Element("details");
-                var qtd = p.Element("quantidade")!;
+                var doc = XDocument.Load(caminho);
 
-                return new Produto
+                return doc.Root!.Elements("produto").Select(p =>
                 {
-                    Id = (int)p.Attribute("id")!,
-                    Categoria = (string)p.Attribute("categoria")!,
-                    Nome = (string)p.Element("nome")!,
-                    Quantidade = (decimal)qtd,
-                    Unidade = (string?)qtd.Attribute("unidade") ?? "",
-                    Doacao = (bool)p.Element("doacao")!,
+                    var d = p.Element("details");
+                    var qtd = p.Element("quantidade")!;
 
-                    Doador = (string?)d?.Element("doador"),
-                    DataValidade = (DateTime?)d?.Element("dataValidade"),
-                    Preco = (decimal?)d?.Element("preco"),
-                    IdNotaFiscal = (string?)d?.Element("idNotaFiscal")
-                };
-            }).ToList();
+                    return new Produto
+                    {
+                        Id = (int)p.Attribute("id")!,
+                        Categoria = (string)p.Attribute("categoria")!,
+                        Nome = (string)p.Element("nome")!,
+                        Quantidade = (decimal)qtd,
+                        Unidade = (string?)qtd.Attribute("unidade") ?? "",
+                        Doacao = (bool)p.Element("doacao")!,
+
+                        Doador = (string?)d?.Element("doador"),
+                        DataValidade = (DateTime?)d?.Element("dataValidade"),
+                        Preco = (decimal?)d?.Element("preco"),
+                        IdNotaFiscal = (string?)d?.Element("idNotaFiscal")
+                    };
+                }).ToList();
+            }
         }
 
         public static void Salvar(string caminho, List<Produto> produtos)
