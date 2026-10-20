@@ -9,26 +9,35 @@
                          VerticalOptions="Fill">
         
         <VerticalStackLayout Grid.Row="1" 
-                             Spacing="40" 
+                             Spacing="20" 
                              Padding="0">
             <Button
             Grid.Row="1"
-            x:Name="inicio1"
             Text="🏠​ Inicio"
             Command="{Binding SelecionarItemCommand}"
             CommandParameter="inicio"
             TextColor="White"
-            BackgroundColor="Transparent"
-            HorizontalOptions="Start"/>
-        <Button
+            BackgroundColor="#33FFFFFF"
+            CornerRadius="8"
+            Padding="15,10"
+            HorizontalOptions="Fill"
+            ContentLayout="15,0"/>
+
+            <Label Text="REGISTRAR"
+            TextColor="#A0C8E8"
+            FontSize="12"
+            FontAttributes="Bold"
+            Margin="5,15,0,5"
+            HorizontalOptions="Center"/>
+
+            <Button
             Grid.Row="1"
-            x:Name="Entrada1"
             Text="🚪​ Entrada"
             Command="{Binding SelecionarItemCommand}"
             CommandParameter="entrada"
             TextColor="White"
-            BackgroundColor="Transparent"
-            HorizontalOptions="Start"/>
+            BackgroundColor="#33FFFFFF"
+            HorizontalOptions="Fill"/>
         <Button
             Grid.Row="1"
             x:Name="Saida1"
@@ -36,17 +45,25 @@
             Command="{Binding SelecionarItemCommand}"
             CommandParameter="saida"
             TextColor="White"
-            BackgroundColor="Transparent"
-            HorizontalOptions="Start"/>
-        <Button
+            BackgroundColor="#33FFFFFF"
+            HorizontalOptions="Fill"/>
+
+            <Label Text="ESTOQUE"
+           TextColor="#A0C8E8"
+           FontSize="12"
+           FontAttributes="Bold"
+           Margin="5,15,0,5"
+           HorizontalOptions="Center"/>
+
+            <Button
             Grid.Row="1"
             x:Name="Estoque1"
             Text="​📦​ Estoque"
             Command="{Binding SelecionarItemCommand}"
             CommandParameter="estoque"
             TextColor="White"
-            BackgroundColor="Transparent"
-            HorizontalOptions="Start"/>
+            BackgroundColor="#33FFFFFF"
+            HorizontalOptions="Fill"/>
         </VerticalStackLayout>
         
         <Button
