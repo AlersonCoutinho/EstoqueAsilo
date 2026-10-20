@@ -4,25 +4,25 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 
-namespace EstoqueAsilo.Data
+namespace EstoqueAsilo.Services
 {
     internal class ListaUsuarios
     {
         internal static List<Usuario> Carregar(string caminho)
         {
-            if (!File.Exists(caminho)) return new List<Usuario>();
+            if (!File.Exists(caminho)) return [];
             var doc = XDocument.Load(caminho);
 
-            return doc.Root!.Elements("usuario").Select(u =>
+            return [.. doc.Root!.Elements("usuario").Select(u =>
             {
                 return new Usuario
                 {
-                    Nome = (string)u.Attribute("nome")!,
                     Admin = (bool)u.Attribute("admin")!,
-                    Email = (string)u.Attribute("email")!,
-                    Senha = (string)u.Attribute("senha")!
+                    Nome = (string)u.Element("nome")!,
+                    Hash = (string)u.Element("hash")!,
+                    Salt = (string)u.Element("salt")!
                 };
-            }).ToList();
+            })];
         }
 
         internal static void Salvar(string caminho, List<Usuario> usuarios)
@@ -33,8 +33,8 @@ namespace EstoqueAsilo.Data
                         new XElement("usuario",
                             new XAttribute("admin", u.Admin),
                             new XElement("nome", u.Nome),
-                            new XElement("email", u.Email),
-                            new XElement("senha", u.Senha)
+                            new XElement("hash", u.Hash),
+                            new XElement("salt", u.Salt)
                         )
                     )
                 )

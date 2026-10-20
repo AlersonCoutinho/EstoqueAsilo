@@ -40,8 +40,8 @@
 
             <Entry
             x:Name="Caixa1"
-            Text="{Binding Email}"
-            Placeholder="E-mail"
+            Text="{Binding Nome}"
+            Placeholder="Nome"
             Keyboard="Email"
             ClearButtonVisibility="WhileEditing"
             MaxLength="100"
@@ -68,6 +68,19 @@
             Command="{Binding EntrarCommand}"
             TextColor="White"
             BackgroundColor="#0A6FB5"/>
+
+            <Button
+            Text="Cadastrar"
+            Command="{Binding CadastrarCommand}"
+            TextColor="White"
+            BackgroundColor="#0A6FB5"/>
+            
+            
+            <Button
+            Text="Acessar xmls [DEBUG]"
+            Command="{Binding DebugCommand}"
+            TextColor="White"
+            BackgroundColor="Red"/>
 
             <Label 
             Text="{Binding MensagemErro}"

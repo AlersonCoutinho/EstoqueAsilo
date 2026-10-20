@@ -5,17 +5,17 @@ using System.Resources;
 using System.Text;
 using System.Xml.Linq;
 
-namespace EstoqueAsilo.Data
+namespace EstoqueAsilo.Services
 {
     public class ListaProdutos
     {
         public static List<Produto> Carregar(string caminho)
         {
-            if (!File.Exists(caminho)) return new List<Produto>();
+            if (!File.Exists(caminho)) return [];
             {
                 var doc = XDocument.Load(caminho);
 
-                return doc.Root!.Elements("produto").Select(p =>
+                return [.. doc.Root!.Elements("produto").Select(p =>
                 {
                     var d = p.Element("details");
                     var qtd = p.Element("quantidade")!;
@@ -34,7 +34,7 @@ namespace EstoqueAsilo.Data
                         Preco = (decimal?)d?.Element("preco"),
                         IdNotaFiscal = (string?)d?.Element("idNotaFiscal")
                     };
-                }).ToList();
+                })];
             }
         }
 

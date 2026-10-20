@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Arquivos de dados XML
+/Resources/Raw/Produtos.xml
+/Resources/Raw/Usuarios.xml
