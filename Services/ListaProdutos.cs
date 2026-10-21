@@ -17,24 +17,37 @@ namespace EstoqueAsilo.Services
 
                 return [.. doc.Root!.Elements("produto").Select(p =>
                 {
-                    var d = p.Element("details");
-                    var qtd = p.Element("quantidade")!;
+                    var e = p.Element("entrada");
+                    var s = p.Element("saida");
 
                     return new Produto
                     {
-                        Id = (int)p.Attribute("id")!,
-                        Categoria = (string)p.Attribute("categoria")!,
-                        Nome = (string)p.Element("nome")!,
-                        Quantidade = (decimal)qtd,
-                        Unidade = (string?)qtd.Attribute("unidade") ?? "",
-                        Doacao = (bool)p.Element("doacao")!,
+                        Id           = (int?)p.Attribute("id") ?? 0,
+                        Categoria    = (string?)p.Attribute("categoria") ?? "",
+                        Nome         = (string?)p.Element("nome") ?? "",
+                        Unidade      = (string?)p.Element("unidade") ?? "",
+                        DataValidade = LerData(p.Element("dataValidade")),
 
-                        Doador = (string?)d?.Element("doador"),
-                        DataValidade = (DateTime?)d?.Element("dataValidade"),
-                        Preco = (decimal?)d?.Element("preco"),
-                        IdNotaFiscal = (string?)d?.Element("idNotaFiscal")
+                        Entrada = new Entrada
+                        {
+                            Id           = (int?)e?.Attribute("id") ?? 0,
+                            Doacao       = (bool?)e?.Attribute("doacao") ?? false,
+                            Quantidade   = (int?)e?.Element("quantidade") ?? 0,
+                            Doador       = (string?)e?.Element("doador"),
+                            Fornecedor   = (string?)e?.Element("fornecedor"),
+                            Preco        = (decimal?)e?.Element("preco"),
+                            IdNotaFiscal = (string?)e?.Element("idNotaFiscal")
+                        },
+
+                        Saida = s == null ? null : new Saida
+                        {
+                            Id         = (int?)s.Attribute("id") ?? 0,
+                            Doacao     = (bool?)s.Attribute("doacao") ?? false,
+                            Quantidade = (int?)s.Element("quantidade") ?? 0,
+                            Doado      = (string?)s.Element("doado")
+                        }
                     };
-                })];
+                }) ?? []];
             }
         }
 
@@ -47,19 +60,38 @@ namespace EstoqueAsilo.Services
                             new XAttribute("id", p.Id),
                             new XAttribute("categoria", p.Categoria),
                             new XElement("nome", p.Nome),
-                            new XElement("quantidade", new XAttribute("unidade", p.Unidade), p.Quantidade),
-                            new XElement("doacao", p.Doacao),
-                            new XElement("details",
-                                p.Doador is not null ? new XElement("doador", p.Doador) : null,
-                                p.DataValidade is not null ? new XElement("dataValidade", p.DataValidade) : null,
-                                p.Preco is not null ? new XElement("preco", p.Preco) : null,
-                                p.IdNotaFiscal is not null ? new XElement("idNotaFiscal", p.IdNotaFiscal) : null
-                            )
+                            new XElement("unidade", p.Unidade),
+                            p.DataValidade != null ? new XElement("dataValidade",p.DataValidade.Value.ToString("yyyy-MM-dd")) : null,
+                            new XElement("entrada",
+                                new XAttribute("id", p.Entrada.Id),
+                                new XAttribute("doacao", p.Entrada.Doacao),
+                                new XElement("quantidade", p.Entrada.Quantidade),
+                                p.Entrada.Doador != null ? new XElement("doador", p.Entrada.Doador) : null,
+                                p.Entrada.Fornecedor != null ? new XElement("fornecedor", p.Entrada.Fornecedor) : null,
+                                p.Entrada.Preco != null ? new XElement("preco", p.Entrada.Preco) : null,
+                                p.Entrada.IdNotaFiscal != null ? new XElement("idNotaFiscal", p.Entrada.IdNotaFiscal) : null
+                            ),
+                            p.Saida != null ? new XElement("saida",
+                                new XAttribute("id", p.Saida.Id),
+                                new XAttribute("doacao", p.Saida.Doacao),
+                                new XElement("quantidade", p.Saida.Quantidade),
+                                p.Saida.Doado != null ? new XElement("doado", p.Saida.Doado) : null
+                            ) : null
+
                         )
                     )
                 )
             );
             doc.Save(caminho);
+        }
+
+        private static DateTime? LerData(XElement? el)
+        {
+            var texto = el?.Value;
+            return DateTime.TryParse(texto, System.Globalization.CultureInfo.InvariantCulture,
+                                     System.Globalization.DateTimeStyles.None, out var data)
+                ? data
+                : null;
         }
     }
 }

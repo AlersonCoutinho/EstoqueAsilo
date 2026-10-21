@@ -9,13 +9,9 @@ namespace EstoqueAsilo.Models
         public required int Id { get; set; }
         public required string Categoria { get; set; }
         public required string Nome { get; set; }
-        public required decimal Quantidade { get; set; }
         public required string Unidade { get; set; }
-        public required bool Doacao { get; set; }
-
         public DateTime? DataValidade { get; set; }
-        public string? Doador { get; set; }
-        public decimal? Preco { get; set; }
-        public string? IdNotaFiscal { get; set; }
+        public required Entrada Entrada { get; set; }
+        public Saida? Saida { get; set; }
     }
 }
