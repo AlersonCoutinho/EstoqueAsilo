@@ -8,9 +8,6 @@ namespace EstoqueAsilo.Models
     {
         public int Id { get; set; }
         public required string Nome { get; set; }
-        public bool Admin { get; set; }
-        public required string Hash { get; set; }
-        public required string Salt { get; set; }
 
     }
 }

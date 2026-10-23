@@ -20,6 +20,9 @@ namespace EstoqueAsilo
             builder.Services.AddTransient<DashboardViewModel>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
+            builder.Services.AddTransient<EntradaView>();
+            builder.Services.AddTransient<EntradaViewModel>();
+            builder.Services.AddTransient<BarraSuperior>();
             builder.Services.AddSingleton<ServicoEstoque>();
 
 #if DEBUG

@@ -35,7 +35,7 @@ public partial class MainPageViewModel : ObservableObject
 
         if (!servicoEstoque.Login(Nome, Senha))
         {
-            MensagemErro = "Usuário ou senha inválidos!!!!";
+            MensagemErro = "Senha inválida!!!!";
             TemErro = true;
             return;
         }
@@ -44,24 +44,24 @@ public partial class MainPageViewModel : ObservableObject
         await Shell.Current.GoToAsync("dashboard");
     }
 
-    [RelayCommand]
-    private async Task Cadastrar()
-    {
-        if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Senha))
-        {
-            MensagemErro = "Preencha todos os campos!!!!";
-            TemErro = true;
-            return;
-        }
-        if (!servicoEstoque.CadastrarUsuario(Nome, Senha, false))
-        {
-            MensagemErro = "Usuário já existe!!!!";
-            TemErro = true;
-            return;
-        }
-        TemErro = false;
-        await Shell.Current.GoToAsync("dashboard");
-    }
+    //[RelayCommand]
+    //private async Task Cadastrar()
+    //{
+    //    if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Senha))
+    //    {
+    //        MensagemErro = "Preencha todos os campos!!!!";
+    //        TemErro = true;
+    //        return;
+    //    }
+    //    if (!servicoEstoque.CadastrarUsuario(Nome, Senha, false))
+    //    {
+    //        MensagemErro = "Usuário já existe!!!!";
+    //        TemErro = true;
+    //        return;
+    //    }
+    //    TemErro = false;
+    //    await Shell.Current.GoToAsync("dashboard");
+    //}
 
     [RelayCommand]
     private async Task Debug()

@@ -49,35 +49,35 @@
                         <Label Text="Nova entrada" FontSize="18" TextColor="Black"/>
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Item" TextColor="Black" FontSize="12" />
-                            <Entry x:Name="ItemEntry" Placeholder="Ex: Café" TextColor="Black" />
+                            <Entry Placeholder="Ex: Café" TextColor="Black" Text="{Binding NomeProduto}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Quantidade" TextColor="Black" FontSize="12" />
-                            <Entry x:Name="QuantidadeEntry" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" />
+                            <Entry Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="Origem" TextColor="Black" FontSize="12" />
-                            <Entry x:Name="OrigemEntry" Placeholder="Ex: Escola" TextColor="Black" />
+                            <Label Text="é doação" TextColor="Black" FontSize="12" />
+                            <Entry x:Name="OrigemEntry" Placeholder="Ex: Escola" TextColor="Black" Text="{Binding Doacao}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="Doador / fornecedor / nota fiscal" TextColor="Black" FontSize="12" />
-                            <Entry x:Name="DoadorEntry" Placeholder="Ex: Nome" TextColor="Black" />
+                            <Label Text="Doador / fornecedor / nota fiscal" TextColor="Black" FontSize="12"/>
+                            <Entry x:Name="DoadorEntry" Placeholder="Ex: Nome" TextColor="Black"  Text="{Binding Origem}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Validade (alimentos)" TextColor="Black" FontSize="12" />
-                            <Entry x:Name="ValidadeEntry" Placeholder="dd/mm/aaaa" TextColor="Black" />
+                                <Entry x:Name="ValidadeEntry" Placeholder="dd/mm/aaaa" TextColor="Black" Text="{Binding Validade}"/>
                         </VerticalStackLayout>
 
-                        <Button x:Name="RegistrarButton"
-                                Text="Registrar entrada"
+                        <Button Text="Registrar entrada"
                                 BackgroundColor="#2E8B57"
                                 TextColor="White"
                                 CornerRadius="8"
-                                Margin="0,10,0,0" />
+                                Margin="0,10,0,0"
+                                Command="{Binding RegEntradaCommand}"/>
                     </VerticalStackLayout>
                 </Border>
         </Grid>

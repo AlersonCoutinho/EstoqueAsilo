@@ -7,6 +7,8 @@ namespace EstoqueAsilo.Models
     public class Entrada
     {
         public required int Id { get; set; }
+        public required Usuario Usuario { get; set; }
+        public required Produto Produto { get; set; }
         public required bool Doacao { get; set; }
         public required int Quantidade { get; set; }
         public string? Doador { get; set; }

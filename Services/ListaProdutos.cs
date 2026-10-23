@@ -22,30 +22,15 @@ namespace EstoqueAsilo.Services
 
                     return new Produto
                     {
-                        Id           = (int?)p.Attribute("id") ?? 0,
-                        Categoria    = (string?)p.Attribute("categoria") ?? "",
-                        Nome         = (string?)p.Element("nome") ?? "",
-                        Unidade      = (string?)p.Element("unidade") ?? "",
-                        DataValidade = LerData(p.Element("dataValidade")),
-
-                        Entrada = new Entrada
-                        {
-                            Id           = (int?)e?.Attribute("id") ?? 0,
-                            Doacao       = (bool?)e?.Attribute("doacao") ?? false,
-                            Quantidade   = (int?)e?.Element("quantidade") ?? 0,
-                            Doador       = (string?)e?.Element("doador"),
-                            Fornecedor   = (string?)e?.Element("fornecedor"),
-                            Preco        = (decimal?)e?.Element("preco"),
-                            IdNotaFiscal = (string?)e?.Element("idNotaFiscal")
-                        },
-
-                        Saida = s == null ? null : new Saida
-                        {
-                            Id         = (int?)s.Attribute("id") ?? 0,
-                            Doacao     = (bool?)s.Attribute("doacao") ?? false,
-                            Quantidade = (int?)s.Element("quantidade") ?? 0,
-                            Doado      = (string?)s.Element("doado")
-                        }
+                        Id = (int?)p.Attribute("id") ?? 0,
+                        Categoria  = (string?)p.Attribute("categoria") ?? "",
+                        Nome = (string?)p.Element("nome") ?? "",
+                        Unidade = (string?)p.Element("unidade") ?? "",
+                        DatasValidade = [.. p.Element("datasValidade")?
+                            .Elements("dataValidade")
+                            .Select(x => LerData(x))
+                            .Where(d => d.HasValue)
+                            .Select(d => d!.Value) ?? []]
                     };
                 }) ?? []];
             }
@@ -61,21 +46,10 @@ namespace EstoqueAsilo.Services
                             new XAttribute("categoria", p.Categoria),
                             new XElement("nome", p.Nome),
                             new XElement("unidade", p.Unidade),
-                            p.DataValidade != null ? new XElement("dataValidade",p.DataValidade.Value.ToString("yyyy-MM-dd")) : null,
-                            new XElement("entrada",
-                                new XAttribute("id", p.Entrada.Id),
-                                new XAttribute("doacao", p.Entrada.Doacao),
-                                new XElement("quantidade", p.Entrada.Quantidade),
-                                p.Entrada.Doador != null ? new XElement("doador", p.Entrada.Doador) : null,
-                                p.Entrada.Fornecedor != null ? new XElement("fornecedor", p.Entrada.Fornecedor) : null,
-                                p.Entrada.Preco != null ? new XElement("preco", p.Entrada.Preco) : null,
-                                p.Entrada.IdNotaFiscal != null ? new XElement("idNotaFiscal", p.Entrada.IdNotaFiscal) : null
-                            ),
-                            p.Saida != null ? new XElement("saida",
-                                new XAttribute("id", p.Saida.Id),
-                                new XAttribute("doacao", p.Saida.Doacao),
-                                new XElement("quantidade", p.Saida.Quantidade),
-                                p.Saida.Doado != null ? new XElement("doado", p.Saida.Doado) : null
+                            p.DatasValidade != null ? new XElement("datasValidade",
+                                p.DatasValidade.Select(d =>
+                                    new XElement("dataValidade", d.ToString("yyyy-MM-dd"))
+                                )
                             ) : null
 
                         )
@@ -83,6 +57,33 @@ namespace EstoqueAsilo.Services
                 )
             );
             doc.Save(caminho);
+        }
+
+        internal static Produto NovoProduto(List<Produto> produtos,int id, string nomeProduto, string categoria, string unidade)
+        {
+            Produto produto = new()
+            {
+                Id = id,
+                Nome = nomeProduto.Trim(),
+                Categoria = categoria,
+                Unidade = unidade
+            };
+            produtos.Add(produto);
+            return produto;
+        }
+
+        internal static Produto NovoProduto(List<Produto> produtos, int id, string nomeProduto, string categoria, string unidade, DateTime validade)
+        {
+            Produto produto = new()
+            {
+                Id = id,
+                Nome = nomeProduto.Trim(),
+                Categoria = categoria,
+                Unidade = unidade,
+                DatasValidade = new List<DateTime> { validade }
+            };
+            produtos.Add(produto);
+            return produto;
         }
 
         private static DateTime? LerData(XElement? el)
