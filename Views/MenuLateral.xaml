@@ -3,77 +3,147 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EstoqueAsilo.MenuLateral"
              BackgroundColor="#0082db">
-    <Grid RowDefinitions="Auto, *, Auto"
-                         Padding="20"
-                         HorizontalOptions="Fill"
-                         VerticalOptions="Fill">
-        
-        <VerticalStackLayout Grid.Row="1" 
-                             Spacing="20" 
-                             Padding="0">
-            <Button
-            Grid.Row="1"
-            Text="🏠​ Inicio"
-            Command="{Binding SelecionarItemCommand}"
-            CommandParameter="inicio"
-            TextColor="White"
-            BackgroundColor="#33FFFFFF"
-            CornerRadius="8"
-            Padding="15,10"
-            HorizontalOptions="Fill"
-            ContentLayout="15,0"/>
+    <ContentView.Resources>
+        <Style x:Key="MenuItemBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+            <Setter Property="Padding" Value="15,10" />
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+        <Style x:Key="MenuItemText" TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="MenuSeparator" TargetType="Label">
+            <Setter Property="TextColor" Value="#FFFFFF" />
+            <Setter Property="Opacity" Value="0.7" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="15,15,0,5" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
+    </ContentView.Resources>
 
-            <Label Text="REGISTRAR"
-            TextColor="#A0C8E8"
-            FontSize="12"
-            FontAttributes="Bold"
-            Margin="5,15,0,5"
-            HorizontalOptions="Center"/>
+    <Grid RowDefinitions="Auto, *, Auto" Padding="10" HorizontalOptions="Fill" VerticalOptions="Fill">
 
-            <Button
-            Grid.Row="1"
-            Text="🚪​ Entrada"
-            Command="{Binding SelecionarItemCommand}"
-            CommandParameter="entrada"
-            TextColor="White"
-            BackgroundColor="#33FFFFFF"
-            HorizontalOptions="Fill"/>
-        <Button
-            Grid.Row="1"
-            x:Name="Saida1"
-            Text="🚪​ Saida"
-            Command="{Binding SelecionarItemCommand}"
-            CommandParameter="saida"
-            TextColor="White"
-            BackgroundColor="#33FFFFFF"
-            HorizontalOptions="Fill"/>
+        <VerticalStackLayout Grid.Row="1" Spacing="0">
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="inicio" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="casa.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Início" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
 
-            <Label Text="ESTOQUE"
-           TextColor="#A0C8E8"
-           FontSize="12"
-           FontAttributes="Bold"
-           Margin="5,15,0,5"
-           HorizontalOptions="Center"/>
+            <Label Text="Registrar" Style="{StaticResource MenuSeparator}" />
 
-            <Button
-            Grid.Row="1"
-            x:Name="Estoque1"
-            Text="​📦​ Estoque"
-            Command="{Binding SelecionarItemCommand}"
-            CommandParameter="estoque"
-            TextColor="White"
-            BackgroundColor="#33FFFFFF"
-            HorizontalOptions="Fill"/>
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="entrada" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="entrada.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Entrada" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="saida" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="saida.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Saída" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Label Text="Ver estoque" Style="{StaticResource MenuSeparator}" />
+
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="estoque_alimentos" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="despensa.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Despensa" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="estoque_almoxarifado" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="almoxarifado.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Almoxarifado" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="estoque_limpeza" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="limpeza.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Limpeza" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Label Text="Mais" Style="{StaticResource MenuSeparator}" />
+
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="relatorios" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="relatorio.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Relatórios" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+
         </VerticalStackLayout>
-        
-        <Button
-            Grid.Row="2"
-            x:Name="Sair1"
-            Text="Sair do sistema"
-            Clicked="Sair1_Clicked"
-            TextColor="White"
-            BackgroundColor="Red"
-            HorizontalOptions="Fill"/>
+        <Border Grid.Row="2" BackgroundColor="#E53935" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="15,12">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#E53935" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#B71C1C" />
+
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Sair1_Clicked" />
+            </Border.GestureRecognizers>
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                <Image Source="desligar.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                <Label Text="Sair do Sistema" TextColor="White" FontSize="15" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Border>
     </Grid>
-      
 </ContentView>
