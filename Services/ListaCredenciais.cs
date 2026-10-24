@@ -38,9 +38,9 @@ namespace EstoqueAsilo.Services
             doc.Save(caminho);
         }
 
-        internal static List<Senha> CarregarSenhas(string caminho)
+        internal static async Task<List<Senha>> CarregarSenhasAsync(string caminho)
         {
-            if (!File.Exists(caminho)) return [];
+            await GarantirArquivoAsync("Senhas.xml", caminho);
             var doc = XDocument.Load(caminho);
 
             return [.. doc.Root!.Elements("senha").Select(u =>
@@ -51,9 +51,18 @@ namespace EstoqueAsilo.Services
                     Hash = (string)u.Element("hash")!,
                     Salt = (string)u.Element("salt")!
                 };
-            })];
+            }) ?? []];
         }
 
+        internal static async Task GarantirArquivoAsync(string nomeAsset, string destino)
+        {
+            if (File.Exists(destino))
+                return;
+
+            using var origem = await FileSystem.OpenAppPackageFileAsync(nomeAsset);
+            using var saida = File.Create(destino);
+            await origem.CopyToAsync(saida);
+        }
         internal static void SalvarSenhas(string caminho, List<Senha> usuarios)
         {
             var doc = new XDocument(

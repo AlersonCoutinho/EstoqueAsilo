@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EstoqueAsilo.Services
+namespace EstoqueAsilo.Helpers
 {
     internal class SenhaHelper
     {

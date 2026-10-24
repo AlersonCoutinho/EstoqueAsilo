@@ -7,7 +7,7 @@ namespace EstoqueAsilo.ViewModels;
 
 public partial class MainPageViewModel : ObservableObject
 {
-    private readonly ServicoEstoque servicoEstoque;
+    private readonly ServicoAutenticacao _auth;
 
     [ObservableProperty]
     private string nome = string.Empty;
@@ -21,7 +21,7 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private bool temErro = false;
 
-    public MainPageViewModel(ServicoEstoque servicoEstoque) => this.servicoEstoque = servicoEstoque;
+    public MainPageViewModel(ServicoAutenticacao auth) => this._auth = auth;
 
     [RelayCommand]
     private async Task Entrar()
@@ -33,7 +33,7 @@ public partial class MainPageViewModel : ObservableObject
             return;
         }
 
-        if (!servicoEstoque.Login(Nome, Senha))
+        if (!_auth.Login(Nome, Senha))
         {
             MensagemErro = "Senha inválida!!!!";
             TemErro = true;
@@ -43,25 +43,6 @@ public partial class MainPageViewModel : ObservableObject
         TemErro = false;
         await Shell.Current.GoToAsync("dashboard");
     }
-
-    //[RelayCommand]
-    //private async Task Cadastrar()
-    //{
-    //    if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Senha))
-    //    {
-    //        MensagemErro = "Preencha todos os campos!!!!";
-    //        TemErro = true;
-    //        return;
-    //    }
-    //    if (!servicoEstoque.CadastrarUsuario(Nome, Senha, false))
-    //    {
-    //        MensagemErro = "Usuário já existe!!!!";
-    //        TemErro = true;
-    //        return;
-    //    }
-    //    TemErro = false;
-    //    await Shell.Current.GoToAsync("dashboard");
-    //}
 
     [RelayCommand]
     private async Task Debug()

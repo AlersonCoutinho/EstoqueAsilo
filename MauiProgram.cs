@@ -24,6 +24,7 @@ namespace EstoqueAsilo
             builder.Services.AddTransient<EntradaViewModel>();
             builder.Services.AddTransient<BarraSuperior>();
             builder.Services.AddSingleton<ServicoEstoque>();
+            builder.Services.AddSingleton<ServicoAutenticacao>();
 
 #if DEBUG
             builder.Logging.AddDebug();
