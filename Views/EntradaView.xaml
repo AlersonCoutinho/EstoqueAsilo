@@ -47,30 +47,43 @@
                 <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundREctangle 8" Padding="20">
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Nova entrada" FontSize="18" TextColor="Black"/>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Categoria" TextColor="Black" FontSize="12"/>
+                            <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" />
+                        </VerticalStackLayout>
+
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Item" TextColor="Black" FontSize="12" />
                             <Entry Placeholder="Ex: Café" TextColor="Black" Text="{Binding NomeProduto}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="Quantidade" TextColor="Black" FontSize="12" />
-                            <Entry Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
+                            <Label Text="Quantidade e Unidade" TextColor="Black" FontSize="12" />
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                                <Entry Grid.Column="0" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
+                                <Picker Grid.Column="1" ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
+                            </Grid>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="é doação" TextColor="Black" FontSize="12" />
-                            <Entry x:Name="OrigemEntry" Placeholder="Ex: Escola" TextColor="Black" Text="{Binding Doacao}"/>
-                        </VerticalStackLayout>
-
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Doador / fornecedor / nota fiscal" TextColor="Black" FontSize="12"/>
-                            <Entry x:Name="DoadorEntry" Placeholder="Ex: Nome" TextColor="Black"  Text="{Binding Origem}"/>
-                        </VerticalStackLayout>
-
-                        <VerticalStackLayout Spacing="5">
+                        <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarValidade}">
                             <Label Text="Validade (alimentos)" TextColor="Black" FontSize="12" />
-                                <Entry x:Name="ValidadeEntry" Placeholder="dd/mm/aaaa" TextColor="Black" Text="{Binding Validade}"/>
+                            <DatePicker Date="{Binding DataValidade}" Format="dd/MM/yyyy" TextColor="Black" />
                         </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="É doação?" TextColor="Black" FontSize="12" />
+                            <HorizontalStackLayout Spacing="15">
+                                <RadioButton Content="Sim" GroupName="Doacao" IsChecked="True" CheckedChanged="OnSimChecked" TextColor="Black" />
+                                <RadioButton Content="Não" GroupName="Doacao" CheckedChanged="OnNaoChecked" TextColor="Black" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Doador / Fornecedor" TextColor="Black" FontSize="12"/>
+                            <Entry Placeholder="Ex: Nome" TextColor="Black" Text="{Binding DetalheOrigem}"/>
+                        </VerticalStackLayout>
+
 
                         <Button Text="Registrar entrada"
                                 BackgroundColor="#2E8B57"

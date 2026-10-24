@@ -9,4 +9,15 @@ public partial class EntradaView : ContentView
 		InitializeComponent();
         BindingContext = viewModel;
     }
+    private void OnSimChecked(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value && BindingContext is EntradaViewModel vm)
+            vm.EhDoacao = true;
+    }
+
+    private void OnNaoChecked(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value && BindingContext is EntradaViewModel vm)
+            vm.EhDoacao = false;
+    }
 }
