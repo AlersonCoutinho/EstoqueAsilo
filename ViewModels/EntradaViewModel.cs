@@ -34,6 +34,14 @@ namespace EstoqueAsilo.ViewModels
         private DateTime dataValidade = DateTime.Today;
         [ObservableProperty]
         private bool mostrarValidade = true;
+        [ObservableProperty] 
+        private string preco = string.Empty;
+        [ObservableProperty] 
+        private string notaFiscal = string.Empty;
+        [ObservableProperty] 
+        private bool mostrarDoador = false;
+        [ObservableProperty] 
+        private bool mostrarFornecedor = true;
 
         public EntradaViewModel(ServicoEstoque servicoEstoque)
         {
@@ -55,12 +63,33 @@ namespace EstoqueAsilo.ViewModels
             NomeProduto = string.Empty;
             Quantidade = string.Empty;
             DetalheOrigem = string.Empty;
+            DataValidade = DateTime.Today;
+            if (EhDoacao)
+            {
+            }
+            else
+            {
+                Preco = string.Empty;
+                NotaFiscal = string.Empty;
+            }
 
             await Task.CompletedTask;
         }
         partial void OnCategoriaSelecionadaChanged(string value)
         {
             MostrarValidade = (value == "Alimentos");
+        }
+        partial void OnEhDoacaoChanged(bool value)
+        {
+            MostrarDoador = value;
+            MostrarFornecedor = !value;
+
+            // Se voltar para doação, limpamos os campos de compra por segurança
+            if (value)
+            {
+                Preco = string.Empty;
+                NotaFiscal = string.Empty;
+            }
         }
     }
 }

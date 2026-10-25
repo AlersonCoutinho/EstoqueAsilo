@@ -94,6 +94,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\Icones\casa.png" />
+	  <None Remove="Resources\Images\Icones\config.png" />
+	  <None Remove="Resources\Images\Icones\desligar.png" />
+	  <None Remove="Resources\Images\Icones\despensa.png" />
+	  <None Remove="Resources\Images\Icones\entrada.png" />
+	  <None Remove="Resources\Images\Icones\limpeza.png" />
+	  <None Remove="Resources\Images\Icones\relatorio.png" />
+	  <None Remove="Resources\Images\Icones\saida.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icones\almoxarifado.png" />
+	  <MauiImage Include="Resources\Images\Icones\casa.png" />
+	  <MauiImage Include="Resources\Images\Icones\config.png" />
+	  <MauiImage Include="Resources\Images\Icones\desligar.png" />
+	  <MauiImage Include="Resources\Images\Icones\despensa.png" />
+	  <MauiImage Include="Resources\Images\Icones\entrada.png" />
+	  <MauiImage Include="Resources\Images\Icones\limpeza.png" />
+	  <MauiImage Include="Resources\Images\Icones\relatorio.png" />
+	  <MauiImage Include="Resources\Images\Icones\saida.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />

@@ -34,6 +34,9 @@ public partial class DashboardViewModel : ObservableObject
             "entrada" => _services.GetRequiredService<EntradaView>(),
             "saida" => new SaidaView(),
             "estoque" => new EstoqueView(),
+            "estoque_alimentos" => new EstoqueView(),
+            "estoque_limpeza" => new EstoqueView(),
+            "estoque_almoxarifado" => new EstoqueView(),
             _ => null
         };
     }
