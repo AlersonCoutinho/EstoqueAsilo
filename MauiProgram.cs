@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using EstoqueAsilo.Services;
 using EstoqueAsilo.ViewModels;
-using EstoqueAsilo.Services;
+using Microsoft.Extensions.Logging;
 
 namespace EstoqueAsilo
 {
@@ -23,8 +23,8 @@ namespace EstoqueAsilo
             builder.Services.AddTransient<EntradaView>();
             builder.Services.AddTransient<EntradaViewModel>();
             builder.Services.AddTransient<BarraSuperior>();
-            builder.Services.AddSingleton<ServicoEstoque>();
-            builder.Services.AddSingleton<ServicoAutenticacao>();
+            builder.Services.AddSingleton<EstoqueService>();
+            builder.Services.AddSingleton<AuthService>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -6,8 +6,8 @@ namespace EstoqueAsilo.ViewModels;
 
 public partial class DashboardViewModel : ObservableObject
 {
-    private readonly ServicoEstoque _estoque;
-    private readonly ServicoAutenticacao _auth;
+    private readonly EstoqueService _estoque;
+    private readonly AuthService _auth;
     private readonly IServiceProvider _services;
 
     [ObservableProperty]
@@ -16,7 +16,7 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string nomeUsuario = string.Empty;
 
-    public DashboardViewModel(IServiceProvider services, ServicoEstoque estoque, ServicoAutenticacao auth)
+    public DashboardViewModel(IServiceProvider services, EstoqueService estoque, AuthService auth)
     {
         _services = services;
 

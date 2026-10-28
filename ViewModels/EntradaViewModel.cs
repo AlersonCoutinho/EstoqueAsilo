@@ -1,52 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Text;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EstoqueAsilo.Enums;
 using EstoqueAsilo.Services;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace EstoqueAsilo.ViewModels
 {
     public partial class EntradaViewModel : ObservableObject
     {
-        private readonly ServicoEstoque servicoEstoque;
-
-        public ObservableCollection<string> TiposOrigem { get; } = new() { "Compra", "Doação" };
-        public ObservableCollection<string> Categorias { get; } = new() { "Alimentos", "Limpeza", "Almoxarifado" };
-        public ObservableCollection<string> Unidades { get; } = new() { "Unidades", "Litros", "Quilos", "Gramas" };
+        private readonly EstoqueService servicoEstoque;
+        public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
+        public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
 
         [ObservableProperty]
         private string nomeProduto = string.Empty;
-
         [ObservableProperty]
         private string quantidade = string.Empty;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string unidadeSelecionada = string.Empty;
         [ObservableProperty]
         private bool ehDoacao = false;
         [ObservableProperty]
-        private string categoriaSelecionada = string.Empty;
+        private Categoria categoriaSelecionada = Categoria.Outros;
         [ObservableProperty]
-        private string detalheOrigem = string.Empty;
+        private string origem = string.Empty;
         [ObservableProperty]
         private DateTime dataValidade = DateTime.Today;
         [ObservableProperty]
         private bool mostrarValidade = true;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string preco = string.Empty;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string notaFiscal = string.Empty;
-        [ObservableProperty] 
+        [ObservableProperty]
         private bool mostrarDoador = false;
-        [ObservableProperty] 
+        [ObservableProperty]
         private bool mostrarFornecedor = true;
 
-        public EntradaViewModel(ServicoEstoque servicoEstoque)
+        public EntradaViewModel(EstoqueService servicoEstoque)
         {
             this.servicoEstoque = servicoEstoque;
-            CategoriaSelecionada = Categorias[0];
             UnidadeSelecionada = Unidades[0];
         }
 
@@ -56,28 +51,27 @@ namespace EstoqueAsilo.ViewModels
             if (string.IsNullOrWhiteSpace(NomeProduto) || string.IsNullOrWhiteSpace(Quantidade))
                 return;
 
-            string validadeStr = DataValidade.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            Decimal? precoNum = !string.IsNullOrEmpty(Preco) ? Decimal.Parse(Quantidade, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) : null;
 
-            servicoEstoque.RegNovaEntrada(NomeProduto, Quantidade, ehDoacao, DetalheOrigem, validadeStr);
-
-            NomeProduto = string.Empty;
-            Quantidade = string.Empty;
-            DetalheOrigem = string.Empty;
-            DataValidade = DateTime.Today;
-            if (EhDoacao)
+            var (sucesso, erro) = servicoEstoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, CategoriaSelecionada, DataValidade, precoNum, NotaFiscal);
+            if (sucesso)
             {
-            }
-            else
-            {
+                NomeProduto = string.Empty;
+                Quantidade = string.Empty;
+                Origem = string.Empty;
+                DataValidade = DateTime.Today;
                 Preco = string.Empty;
                 NotaFiscal = string.Empty;
             }
-
+            else
+            {
+                Debug.WriteLine(erro);
+            }
             await Task.CompletedTask;
         }
-        partial void OnCategoriaSelecionadaChanged(string value)
+        partial void OnCategoriaSelecionadaChanged(Categoria value)
         {
-            MostrarValidade = (value == "Alimentos");
+            MostrarValidade = (value == Categoria.Alimentos);
         }
         partial void OnEhDoacaoChanged(bool value)
         {

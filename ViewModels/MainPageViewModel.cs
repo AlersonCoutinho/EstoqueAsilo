@@ -1,13 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EstoqueAsilo.Models;
 using EstoqueAsilo.Services;
 
 namespace EstoqueAsilo.ViewModels;
 
 public partial class MainPageViewModel : ObservableObject
 {
-    private readonly ServicoAutenticacao _auth;
+    private readonly AuthService _auth;
 
     [ObservableProperty]
     private string nome = string.Empty;
@@ -21,7 +20,7 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private bool temErro = false;
 
-    public MainPageViewModel(ServicoAutenticacao auth) => this._auth = auth;
+    public MainPageViewModel(AuthService auth) => this._auth = auth;
 
     [RelayCommand]
     private async Task Entrar()
@@ -45,8 +44,5 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task Debug()
-    {
-        System.Diagnostics.Process.Start("explorer.exe", FileSystem.AppDataDirectory);
-    }
+    private static async Task Debug() => System.Diagnostics.Process.Start("explorer.exe", FileSystem.AppDataDirectory);
 }

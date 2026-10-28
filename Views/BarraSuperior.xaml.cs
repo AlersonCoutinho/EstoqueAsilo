@@ -1,11 +1,9 @@
-using EstoqueAsilo.ViewModels;
-
 namespace EstoqueAsilo;
 
 public partial class BarraSuperior : ContentView
 {
-	public BarraSuperior()
-	{
-		InitializeComponent();
-	}
+    public BarraSuperior()
+    {
+        InitializeComponent();
+    }
 }

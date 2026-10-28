@@ -2,8 +2,8 @@ namespace EstoqueAsilo;
 
 public partial class HomeView : ContentView
 {
-	public HomeView()
-	{
-		InitializeComponent();
-	}
+    public HomeView()
+    {
+        InitializeComponent();
+    }
 }
