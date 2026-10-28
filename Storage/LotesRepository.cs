@@ -7,7 +7,7 @@ namespace EstoqueAsilo.Storage
 {
     internal static class LotesRepository
     {
-        public static List<Lote> Carregar(string caminho, Dictionary<int, Produto> porId)
+        internal static List<Lote> Carregar(string caminho, Dictionary<int, Produto> porId)
         {
             if (!File.Exists(caminho)) return [];
             var doc = XDocument.Load(caminho);
@@ -49,7 +49,7 @@ namespace EstoqueAsilo.Storage
             return lista;
         }
 
-        public static void Salvar(string caminho, List<Lote> lotes)
+        internal static void Salvar(string caminho, List<Lote> lotes)
         {
             var doc = new XDocument(
                 new XElement("lotes",

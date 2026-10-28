@@ -11,12 +11,13 @@ namespace EstoqueAsilo.Services
         private readonly string _caminhoMovimentacoes = Path.Combine(FileSystem.AppDataDirectory, "Movimentacoes.xml");
         private readonly string _caminhoProdutos = Path.Combine(FileSystem.AppDataDirectory, "Produtos.xml");
         private readonly string _caminhoLotes = Path.Combine(FileSystem.AppDataDirectory, "Lotes.xml");
-        public List<Produto> Produtos { get; private set; } = [];
-        public List<Movimentacao> Movimentacoes { get; private set; } = [];
-        public List<Lote> Lotes { get; private set; } = [];
+        internal List<Produto> Produtos { get; private set; } = [];
+        internal List<Movimentacao> Movimentacoes { get; private set; } = [];
+        internal List<Lote> Lotes { get; private set; } = [];
         private readonly AuthService _auth = auth;
 
-        public void Carregar()
+        // Carrega os dados de produtos, lotes e movimentações do armazenamento
+        internal void Carregar()
         {
             Produtos = ProdutosRepository.Carregar(_caminhoProdutos);
             var produtosPorId = Produtos.ToDictionary(p => p.Id);
@@ -25,15 +26,19 @@ namespace EstoqueAsilo.Services
             var userPorId = _auth.Usuarios.ToDictionary(u => u.Id);
             Movimentacoes = MovimentacoesRepository.Carregar(_caminhoMovimentacoes, produtosPorId, userPorId, lotePorId);
         }
-        public void Salvar()
+
+        // Salva os dados de produtos, lotes e movimentações no armazenamento
+        internal void Salvar()
         {
             if (Produtos.Count > 0) ProdutosRepository.Salvar(_caminhoProdutos, Produtos);
             if (Lotes.Count > 0) LotesRepository.Salvar(_caminhoLotes, Lotes);
             if (Movimentacoes.Count > 0) MovimentacoesRepository.Salvar(_caminhoMovimentacoes, Movimentacoes);
         }
 
-        public (bool Sucesso, string? Erro) RegNovaEntrada(string nomeProduto, string unidade, string quantidadeStr, bool isDoacao, string origem, Categoria categoria,
-            DateTime? validade = null, decimal? preco = null, string? idNotaFiscal = null)
+        // Criações de novos objetos e registro de movimentações
+        internal (bool Sucesso, string? Erro) RegNovaEntrada(string nomeProduto, string unidade, string quantidadeStr,
+            bool isDoacao, string origem, Categoria categoria, DateTime? validade = null, decimal? preco = null,
+            string? idNotaFiscal = null)
         {
             //Checando validações de entrada
             if (_auth.UsuarioLogado is null)
@@ -49,8 +54,8 @@ namespace EstoqueAsilo.Services
             if (preco is not null && preco <= 0) return (false, "Preço inválido");
 
             //Procurando produto existente ou criando novo
-            var produto = Produtos.FirstOrDefault(p => 
-                p.Nome.Equals(nomeProduto.Trim(), StringComparison.OrdinalIgnoreCase) && 
+            var produto = Produtos.FirstOrDefault(p =>
+                p.Nome.Equals(nomeProduto.Trim(), StringComparison.OrdinalIgnoreCase) &&
                 p.Unidade.Equals(unidade.Trim(), StringComparison.OrdinalIgnoreCase));
             if (produto is not null && produto.Categoria != categoria)
             {
@@ -63,7 +68,7 @@ namespace EstoqueAsilo.Services
                 );
 
             //Criação lote se tiver validade
-            var lote = validade is DateTime v ? 
+            var lote = validade is DateTime v ?
                 NovoLote(produto, v, quantidade) : null;
 
             //Criação da movimentação de entrada
@@ -85,7 +90,7 @@ namespace EstoqueAsilo.Services
             return (true, null);
 
         }
-
+        
         private Produto NovoProduto(string nomeProduto, Categoria categoria, string unidade)
         {
             Produto produto = new()
@@ -101,14 +106,30 @@ namespace EstoqueAsilo.Services
 
         private Lote NovoLote(Produto produto, DateTime dataValidade, int quantidadeInicial)
         {
-            Lote lote = new() { 
+            Lote lote = new()
+            {
                 Id = IdHelper.NovoId(Lotes, l => l.Id),
-                Produto = produto, 
-                DataValidade = dataValidade, 
+                Produto = produto,
+                DataValidade = dataValidade,
                 QuantidadeInicial = quantidadeInicial
             };
             Lotes.Add(lote);
             return lote;
+        }
+
+
+        // Busca de informações
+        internal IEnumerable<Movimentacao> ListarEntradas()
+        {
+            return [.. Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Entrada)];
+        }
+        internal IEnumerable<Movimentacao> ListarSaidas()
+        {
+            return [.. Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Saida)];
+        }
+        internal IEnumerable<Movimentacao> ListarMovimentacoesPorUsuario(Usuario user)
+        {
+            return [.. Movimentacoes.Where(m => m.Usuario == user)];
         }
     }
 }

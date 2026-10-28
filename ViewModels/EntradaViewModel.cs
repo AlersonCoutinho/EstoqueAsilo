@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstoqueAsilo.Enums;
+using EstoqueAsilo.Models;
 using EstoqueAsilo.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -10,10 +11,12 @@ namespace EstoqueAsilo.ViewModels
 {
     public partial class EntradaViewModel : ObservableObject
     {
-        private readonly EstoqueService servicoEstoque;
+        private readonly EstoqueService _estoque;
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
         public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
 
+        [ObservableProperty]
+        private ObservableCollection<Movimentacao> entradas = [];
         [ObservableProperty]
         private string nomeProduto = string.Empty;
         [ObservableProperty]
@@ -21,11 +24,15 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         private string unidadeSelecionada = string.Empty;
         [ObservableProperty]
-        private bool ehDoacao = false;
+        private bool ehDoacao = true;
+        [ObservableProperty]
+        private bool naoEhDoacao = false;
         [ObservableProperty]
         private Categoria categoriaSelecionada = Categoria.Outros;
         [ObservableProperty]
         private string origem = string.Empty;
+        [ObservableProperty]
+        private string tipoOrigem = "Doador";
         [ObservableProperty]
         private DateTime dataValidade = DateTime.Today;
         [ObservableProperty]
@@ -34,15 +41,28 @@ namespace EstoqueAsilo.ViewModels
         private string preco = string.Empty;
         [ObservableProperty]
         private string notaFiscal = string.Empty;
-        [ObservableProperty]
-        private bool mostrarDoador = false;
-        [ObservableProperty]
-        private bool mostrarFornecedor = true;
 
         public EntradaViewModel(EstoqueService servicoEstoque)
         {
-            this.servicoEstoque = servicoEstoque;
+            this._estoque = servicoEstoque;
+            AtualizarEntradas();
             UnidadeSelecionada = Unidades[0];
+        }
+
+        public void AtualizarEntradas()
+        {
+            Entradas = new ObservableCollection<Movimentacao>(_estoque.ListarEntradas());
+        }
+
+        public void LimparCampos()
+        {
+            NomeProduto = string.Empty;
+            Quantidade = string.Empty;
+            UnidadeSelecionada = Unidades[0];
+            Origem = string.Empty;
+            DataValidade = DateTime.Today;
+            Preco = string.Empty;
+            NotaFiscal = string.Empty;
         }
 
         [RelayCommand]
@@ -53,15 +73,11 @@ namespace EstoqueAsilo.ViewModels
 
             Decimal? precoNum = !string.IsNullOrEmpty(Preco) ? Decimal.Parse(Quantidade, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) : null;
 
-            var (sucesso, erro) = servicoEstoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, CategoriaSelecionada, DataValidade, precoNum, NotaFiscal);
+            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, CategoriaSelecionada, DataValidade, precoNum, NotaFiscal);
             if (sucesso)
             {
-                NomeProduto = string.Empty;
-                Quantidade = string.Empty;
-                Origem = string.Empty;
-                DataValidade = DateTime.Today;
-                Preco = string.Empty;
-                NotaFiscal = string.Empty;
+                LimparCampos();
+                AtualizarEntradas();
             }
             else
             {
@@ -75,8 +91,8 @@ namespace EstoqueAsilo.ViewModels
         }
         partial void OnEhDoacaoChanged(bool value)
         {
-            MostrarDoador = value;
-            MostrarFornecedor = !value;
+            NaoEhDoacao = !value;
+            TipoOrigem = value ? "Doador" : "Fornecedor";
 
             // Se voltar para doação, limpamos os campos de compra por segurança
             if (value)

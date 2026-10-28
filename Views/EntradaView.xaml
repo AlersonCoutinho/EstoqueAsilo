@@ -89,28 +89,21 @@
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarDoador}">
-                            <Label Text="Doador" TextColor="Black" FontSize="12"/>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="{Binding TipoOrigem}" TextColor="Black" FontSize="12"/>
                             <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
                                 <Entry Placeholder="Ex: Escola Municipal" TextColor="Black" Text="{Binding Origem}"/>
                             </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarFornecedor}">
-                            <Label Text="Fornecedor" TextColor="Black" FontSize="12"/>
-                            <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <Entry Placeholder="Ex: Mercado Silva" TextColor="Black" Text="{Binding Origem}"/>
-                            </Border>
-                        </VerticalStackLayout>
-
-                        <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarFornecedor}">
+                        <VerticalStackLayout Spacing="5" IsVisible="{Binding NaoEhDoacao}">
                             <Label Text="Preço Unitário (R$)" TextColor="Black" FontSize="12"/>
                             <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
                                 <Entry Placeholder="Ex: 5.50" Keyboard="Numeric" TextColor="Black" Text="{Binding Preco}"/>
                             </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarFornecedor}">
+                        <VerticalStackLayout Spacing="5" IsVisible="{Binding NaoEhDoacao}">
                             <Label Text="Nota Fiscal" TextColor="Black" FontSize="12"/>
                             <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
                                 <Entry Placeholder="Ex: NF-12345" TextColor="Black" Text="{Binding NotaFiscal}"/>

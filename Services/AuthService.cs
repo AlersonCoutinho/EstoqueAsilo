@@ -9,23 +9,23 @@ namespace EstoqueAsilo.Services
     {
         private readonly string _caminhoUsuarios = Path.Combine(FileSystem.AppDataDirectory, "Usuarios.xml");
         private readonly string _caminhoSenhas = Path.Combine(FileSystem.AppDataDirectory, "Senhas.xml");
-        public List<Usuario> Usuarios { get; private set; } = [];
-        public List<Senha> Senhas { get; private set; } = [];
-        public Usuario? UsuarioLogado { get; private set; }
+        internal List<Usuario> Usuarios { get; private set; } = [];
+        internal List<Senha> Senhas { get; private set; } = [];
+        internal Usuario? UsuarioLogado { get; private set; }
 
-        public async Task Carregar()
+        internal async Task Carregar()
         {
             Usuarios = CredenciaisRepository.CarregarUsuarios(_caminhoUsuarios);
             Senhas = await CredenciaisRepository.CarregarSenhasAsync(_caminhoSenhas);
         }
 
-        public void Salvar()
+        internal void Salvar()
         {
             CredenciaisRepository.SalvarUsuarios(_caminhoUsuarios, Usuarios);
             CredenciaisRepository.SalvarSenhas(_caminhoSenhas, Senhas);
         }
 
-        public bool Login(string nome, string senha)
+        internal bool Login(string nome, string senha)
         {
             foreach (var s in Senhas)
             {
@@ -52,7 +52,7 @@ namespace EstoqueAsilo.Services
 
         }
 
-        public void Logout()
+        internal void Logout()
         {
             UsuarioLogado = null;
         }
