@@ -81,13 +81,10 @@
                             </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Spacing="5">
+                        <HorizontalStackLayout Spacing="15">
                             <Label Text="É doação?" TextColor="Black" FontSize="12" />
-                            <HorizontalStackLayout Spacing="15">
-                                <RadioButton Content="Sim" GroupName="Doacao" IsChecked="True" CheckedChanged="OnSimChecked" TextColor="Black" />
-                                <RadioButton Content="Não" GroupName="Doacao" CheckedChanged="OnNaoChecked" TextColor="Black" />
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
+                            <Switch IsToggled="{Binding EhDoacao}" />
+                        </HorizontalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="{Binding TipoOrigem}" TextColor="Black" FontSize="12"/>
