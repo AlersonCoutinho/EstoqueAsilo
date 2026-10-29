@@ -9,16 +9,16 @@ public partial class LoginViewModel(AuthService auth) : ObservableObject
     private readonly AuthService _auth = auth;
 
     [ObservableProperty]
-    private partial string Nome { get; set; } = string.Empty;
+    public partial string Nome { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private partial string Senha { get; set; } = string.Empty;
+    public partial string Senha { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private partial string MensagemErro { get; set; } = string.Empty;
+    public partial string MensagemErro { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private partial bool TemErro { get; set; } = false;
+    public partial bool TemErro { get; set; } = false;
 
     [RelayCommand]
     private async Task Entrar()

@@ -17,35 +17,34 @@ namespace EstoqueAsilo.ViewModels
         public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
 
         [ObservableProperty]
-        private partial ObservableCollection<Movimentacao> Entradas { get; set; }
+        public partial ObservableCollection<Movimentacao> Entradas { get; set; }
         [ObservableProperty]
         public partial string NomeProduto { get; set; }
         [ObservableProperty]
-        private partial string Quantidade { get; set; }
+        public partial string Quantidade { get; set; }
         [ObservableProperty]
-        private partial string UnidadeSelecionada { get; set; }
+        public partial string UnidadeSelecionada { get; set; }
         [ObservableProperty]
-        private partial bool EhDoacao { get; set; }
+        public partial bool EhDoacao { get; set; }
         [ObservableProperty]
-        private partial bool NaoEhDoacao { get; set; }
+        public partial bool NaoEhDoacao { get; set; }
         [ObservableProperty]
-        private partial Categoria CategoriaSelecionada { get; set; }
+        public partial Categoria CategoriaSelecionada { get; set; }
         [ObservableProperty]
-        private partial string Origem { get; set; }
+        public partial string Origem { get; set; }
         [ObservableProperty]
-        private partial string TipoOrigem { get; set; }
+        public partial string TipoOrigem { get; set; }
         [ObservableProperty]
-        private partial DateTime DataValidade { get; set; }
+        public partial DateTime DataValidade { get; set; }
         [ObservableProperty]
-        private partial bool MostrarValidade { get; set; }
+        public partial bool MostrarValidade { get; set; }
         [ObservableProperty]
-        private partial string Preco { get; set; }
+        public partial string Preco { get; set; }
         [ObservableProperty]
-        private partial string NotaFiscal { get; set; }
+        public partial string NotaFiscal { get; set; }
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
             _estoque = servicoEstoque;
-            AtualizarEntradas();
             _consulta = consulta;
 
             Entradas = [];
@@ -61,6 +60,8 @@ namespace EstoqueAsilo.ViewModels
             MostrarValidade = true;
             Preco = string.Empty;
             NotaFiscal = string.Empty;
+
+            AtualizarEntradas();
         }
 
         public void AtualizarEntradas()
