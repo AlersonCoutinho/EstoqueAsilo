@@ -5,7 +5,7 @@ using EstoqueAsilo.Models.Resultados;
 namespace EstoqueAsilo.Services
 {
         // Busca de informações
-    internal class ConsultaService (EstoqueService estoque)
+    public class ConsultaService (EstoqueService estoque)
     {
         private readonly EstoqueService _estoque = estoque;
 

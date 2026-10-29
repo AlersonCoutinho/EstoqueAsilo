@@ -12,6 +12,7 @@ namespace EstoqueAsilo.ViewModels
     public partial class EntradaViewModel : ObservableObject
     {
         private readonly EstoqueService _estoque;
+        private readonly ConsultaService _consulta;
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
         public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
 
@@ -42,16 +43,17 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         private string notaFiscal = string.Empty;
 
-        public EntradaViewModel(EstoqueService servicoEstoque)
+        public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
-            this._estoque = servicoEstoque;
+            _estoque = servicoEstoque;
             AtualizarEntradas();
             UnidadeSelecionada = Unidades[0];
+            _consulta = consulta;
         }
 
         public void AtualizarEntradas()
         {
-            Entradas = new ObservableCollection<Movimentacao>(_estoque.ListarEntradas());
+            Entradas = new ObservableCollection<Movimentacao>(_consulta.ListarEntradas());
         }
 
         public void LimparCampos()
