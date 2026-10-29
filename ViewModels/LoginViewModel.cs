@@ -4,23 +4,21 @@ using EstoqueAsilo.Services;
 
 namespace EstoqueAsilo.ViewModels;
 
-public partial class MainPageViewModel : ObservableObject
+public partial class LoginViewModel(AuthService auth) : ObservableObject
 {
-    private readonly AuthService _auth;
+    private readonly AuthService _auth = auth;
 
     [ObservableProperty]
-    private string nome = string.Empty;
+    private partial string Nome { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private string senha = string.Empty;
+    private partial string Senha { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private string mensagemErro = string.Empty;
+    private partial string MensagemErro { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private bool temErro = false;
-
-    public MainPageViewModel(AuthService auth) => this._auth = auth;
+    private partial bool TemErro { get; set; } = false;
 
     [RelayCommand]
     private async Task Entrar()

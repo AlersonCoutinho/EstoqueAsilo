@@ -17,38 +17,50 @@ namespace EstoqueAsilo.ViewModels
         public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
 
         [ObservableProperty]
-        private ObservableCollection<Movimentacao> entradas = [];
+        private partial ObservableCollection<Movimentacao> Entradas { get; set; }
         [ObservableProperty]
-        private string nomeProduto = string.Empty;
+        public partial string NomeProduto { get; set; }
         [ObservableProperty]
-        private string quantidade = string.Empty;
+        private partial string Quantidade { get; set; }
         [ObservableProperty]
-        private string unidadeSelecionada = string.Empty;
+        private partial string UnidadeSelecionada { get; set; }
         [ObservableProperty]
-        private bool ehDoacao = true;
+        private partial bool EhDoacao { get; set; }
         [ObservableProperty]
-        private bool naoEhDoacao = false;
+        private partial bool NaoEhDoacao { get; set; }
         [ObservableProperty]
-        private Categoria categoriaSelecionada = Categoria.Outros;
+        private partial Categoria CategoriaSelecionada { get; set; }
         [ObservableProperty]
-        private string origem = string.Empty;
+        private partial string Origem { get; set; }
         [ObservableProperty]
-        private string tipoOrigem = "Doador";
+        private partial string TipoOrigem { get; set; }
         [ObservableProperty]
-        private DateTime dataValidade = DateTime.Today;
+        private partial DateTime DataValidade { get; set; }
         [ObservableProperty]
-        private bool mostrarValidade = true;
+        private partial bool MostrarValidade { get; set; }
         [ObservableProperty]
-        private string preco = string.Empty;
+        private partial string Preco { get; set; }
         [ObservableProperty]
-        private string notaFiscal = string.Empty;
-
+        private partial string NotaFiscal { get; set; }
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
             _estoque = servicoEstoque;
             AtualizarEntradas();
-            UnidadeSelecionada = Unidades[0];
             _consulta = consulta;
+
+            Entradas = [];
+            NomeProduto = string.Empty;
+            Quantidade = string.Empty;
+            UnidadeSelecionada = Unidades[0];
+            EhDoacao = true;
+            NaoEhDoacao = false;
+            CategoriaSelecionada = Categoria.Outros;
+            Origem = string.Empty;
+            TipoOrigem = "Doador";
+            DataValidade = DateTime.Today;
+            MostrarValidade = true;
+            Preco = string.Empty;
+            NotaFiscal = string.Empty;
         }
 
         public void AtualizarEntradas()

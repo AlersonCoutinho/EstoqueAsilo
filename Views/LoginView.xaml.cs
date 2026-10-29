@@ -4,7 +4,7 @@ namespace EstoqueAsilo;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(MainPageViewModel viewModel)
+    public MainPage(LoginViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
