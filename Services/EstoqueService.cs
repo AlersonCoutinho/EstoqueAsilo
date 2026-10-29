@@ -1,6 +1,7 @@
 ﻿using EstoqueAsilo.Enums;
 using EstoqueAsilo.Helpers;
 using EstoqueAsilo.Models;
+using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Storage;
 using System.Diagnostics;
 
@@ -117,19 +118,14 @@ namespace EstoqueAsilo.Services
             return lote;
         }
 
-
-        // Busca de informações
-        internal IEnumerable<Movimentacao> ListarEntradas()
+        private static void ConfigurarQuantidadeMinima(Produto produto, int quantidadeMinima)
         {
-            return [.. Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Entrada)];
-        }
-        internal IEnumerable<Movimentacao> ListarSaidas()
-        {
-            return [.. Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Saida)];
-        }
-        internal IEnumerable<Movimentacao> ListarMovimentacoesPorUsuario(Usuario user)
-        {
-            return [.. Movimentacoes.Where(m => m.Usuario == user)];
+            if (quantidadeMinima <= 0)
+            {
+                Debug.WriteLine($"Quantidade mínima inválida para o produto {produto.Nome}. Ignorando.");
+                return;
+            }
+            produto.QuantidadeMinima = quantidadeMinima;
         }
     }
 }

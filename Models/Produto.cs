@@ -8,5 +8,6 @@ namespace EstoqueAsilo.Models
         public required Categoria Categoria { get; set; }
         public required string Nome { get; set; }
         public required string Unidade { get; set; }
+        public int? QuantidadeMinima { get; set; }
     }
 }

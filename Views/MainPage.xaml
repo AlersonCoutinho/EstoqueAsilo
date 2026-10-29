@@ -39,7 +39,6 @@
             TextColor="black"/>
 
             <Entry
-            x:Name="Caixa1"
             Text="{Binding Nome}"
             Placeholder="Nome"
             ReturnType="Next" 
@@ -56,12 +55,12 @@
             TextColor="black"/>
             
             <Entry
-            x:Name="Caixa2"
+            x:Name="CaixaSenha"
             Text="{Binding Senha}"
             Placeholder="Senha"
             IsPassword="True"
             ReturnType="Go" 
-            Completed="OnCampoSenhaCompleted"
+            ReturnCommand="{Binding EntrarCommand}"
             MaxLength="50"
             TextColor="black"
             BackgroundColor="#F0F0F0"/>

@@ -15,5 +15,9 @@ namespace EstoqueAsilo.Models
         public string? Contraparte { get; set; }
         public decimal? Preco { get; set; }
         public string? IdNotaFiscal { get; set; }
+
+        // Calcula a quantidade com sinal, considerando o tipo de movimentação (entrada ou saída).
+        // Para calcular a quantidade total de um produto.
+        public int QuantidadeComSinal => TipoMovimentacao == TipoMovimentacao.Entrada ? Quantidade : -Quantidade;
     }
 }
