@@ -8,7 +8,7 @@
 
         <BoxView     Grid.RowSpan="3"
                      Grid.Column="0"
-                     Color="#0082db" >
+                     Color="{StaticResource Primary}" >
         </BoxView>
         <BoxView     Grid.RowSpan="3"
                      Grid.Column="1"

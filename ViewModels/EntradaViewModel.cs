@@ -53,7 +53,7 @@ namespace EstoqueAsilo.ViewModels
             UnidadeSelecionada = Unidades[0];
             EhDoacao = true;
             NaoEhDoacao = false;
-            CategoriaSelecionada = Categoria.Outros;
+            CategoriaSelecionada = Categoria.Alimentos;
             Origem = string.Empty;
             TipoOrigem = "Doador";
             DataValidade = DateTime.Today;

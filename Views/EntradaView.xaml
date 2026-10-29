@@ -3,108 +3,95 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EstoqueAsilo.EntradaView"
              BackgroundColor="#F2F2F2">
-    <ScrollView>
-    <VerticalStackLayout Padding="30,20" Spacing="10">
-        <Label Text="Registrar Entrada" FontSize="24" TextColor="Black" />
-        <Grid ColumnDefinitions="2*, *" ColumnSpacing="20">
-                <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" VerticalOptions="Start">
-                <VerticalStackLayout Grid.Column="0" Spacing="10">
-                    <Label Text="Últimas entradas" FontSize="18" TextColor="Black"/>
-                    <Grid ColumnDefinitions="Auto, 2*, Auto, 2*, 2*" RowDefinitions="Auto, Auto, Auto, Auto, Auto" RowSpacing="8" ColumnSpacing="10">
-                        <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" />
-                        <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" />
-                        <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" />
-                        <Label Grid.Row="0" Grid.Column="3" Text="Origem / motivo" TextColor="Black" FontAttributes="Bold" />
-                        <Label Grid.Row="0" Grid.Column="4" Text="Detalhe" TextColor="Black" FontAttributes="Bold" />
+    
+    <Grid RowDefinitions="auto, *"  Padding="30,20" RowSpacing="10">
+        <Label Grid.Row="0" Text="Registrar Entrada" FontSize="24" TextColor="Black" />
+        <Grid Grid.Row="1" ColumnDefinitions="2*, *" ColumnSpacing="20" RowDefinitions="*">
+            <ScrollView Grid.Column="0" VerticalScrollBarVisibility="Always">
+                <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="15" VerticalOptions="Start">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Últimas entradas" FontSize="18" TextColor="Black"/>
+                        <Grid ColumnDefinitions="Auto, 2*, Auto, 2*, 2*" RowDefinitions="Auto, Auto, Auto, Auto, Auto" RowSpacing="8" ColumnSpacing="10">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="3" Text="Origem / motivo" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="4" Text="Detalhe" TextColor="Black" FontAttributes="Bold" />
 
-                        <Label Grid.Row="1" Grid.Column="0" Text="11/10/2026" TextColor="Black" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="Fralda G" TextColor="Black" />
-                        <Label Grid.Row="1" Grid.Column="2" Text="500" TextColor="Black" />
-                        <Label Grid.Row="1" Grid.Column="3" Text="Doação" TextColor="Black" />
-                        <Label Grid.Row="1" Grid.Column="4" Text="Campanha das fraldas" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="11/10/2026" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="Fralda G" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="2" Text="500" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="3" Text="Doação" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="4" Text="Campanha das fraldas" TextColor="Black" />
 
-                        <Label Grid.Row="2" Grid.Column="0" Text="09/10/2026" TextColor="Black" />
-                        <Label Grid.Row="2" Grid.Column="1" Text="Arroz 5 kg" TextColor="Black" />
-                        <Label Grid.Row="2" Grid.Column="2" Text="30" TextColor="Black" />
-                        <Label Grid.Row="2" Grid.Column="3" Text="Compra" TextColor="Black" />
-                        <Label Grid.Row="2" Grid.Column="4" Text="Mercado Silva" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="09/10/2026" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="Arroz 5 kg" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="2" Text="30" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="3" Text="Compra" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="4" Text="Mercado Silva" TextColor="Black" />
 
-                        <Label Grid.Row="3" Grid.Column="0" Text="07/10/2026 " TextColor="Black" />
-                        <Label Grid.Row="3" Grid.Column="1" Text="Leite UHT 1 L" TextColor="Black" />
-                        <Label Grid.Row="3" Grid.Column="2" Text="24" TextColor="Black" />
-                        <Label Grid.Row="3" Grid.Column="3" Text="Doação" TextColor="Black" />
-                        <Label Grid.Row="3" Grid.Column="4" Text="Escola Municipal" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="0" Text="07/10/2026 " TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="1" Text="Leite UHT 1 L" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="2" Text="24" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="3" Text="Doação" TextColor="Black" />
+                            <Label Grid.Row="3" Grid.Column="4" Text="Escola Municipal" TextColor="Black" />
 
-                        <Label Grid.Row="4" Grid.Column="0" Text="06/10/2026" TextColor="Black" />
-                        <Label Grid.Row="4" Grid.Column="1" Text="Detergente" TextColor="Black" />
-                        <Label Grid.Row="4" Grid.Column="2" Text="20" TextColor="Black" />
-                        <Label Grid.Row="4" Grid.Column="3" Text="Compra" TextColor="Black" />
-                        <Label Grid.Row="4" Grid.Column="4" Text="Atacado" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="0" Text="06/10/2026" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="1" Text="Detergente" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="2" Text="20" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="3" Text="Compra" TextColor="Black" />
+                            <Label Grid.Row="4" Grid.Column="4" Text="Atacado" TextColor="Black" />
 
-                    </Grid>
-                </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
                 </Border>
-                <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundREctangle 3" Padding="20">
+            </ScrollView>
+            <ScrollView Grid.Column="1" VerticalScrollBarVisibility="Always">
+                <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Nova entrada" FontSize="18" TextColor="Black"/>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Categoria" TextColor="Black" FontSize="12"/>
-                            <Border BackgroundColor="White" Stroke="#0A6FB5" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" />
-                            </Border>
+                            <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Item" TextColor="Black" FontSize="12" />
-                            <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <Entry Placeholder="Ex: Café" TextColor="Black" Text="{Binding NomeProduto}" BackgroundColor="Transparent"/>
-                            </Border>
+                            <Entry Placeholder="Ex: Café" TextColor="Black" Text="{Binding NomeProduto}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Quantidade e Unidade" TextColor="Black" FontSize="12" />
                             <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
-                                <Border Grid.Column="0" BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                    <Entry Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
-                                </Border>
-                                <Border Grid.Column="1" BackgroundColor="White" Stroke="#0A6FB5" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                    <Picker ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
-                                </Border>
+                                <Entry Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
+                                <Picker ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
                             </Grid>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarValidade}">
                             <Label Text="Validade" TextColor="Black" FontSize="12" />
-                            <Border BackgroundColor="White" Stroke="#0A6FB5" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <DatePicker Date="{Binding DataValidade}" Format="dd/MM/yyyy" TextColor="Black" />
-                            </Border>
+                            <DatePicker Date="{Binding DataValidade}" Format="dd/MM/yyyy" TextColor="Black" />
                         </VerticalStackLayout>
 
-                        <HorizontalStackLayout Spacing="15">
-                            <Label Text="É doação?" TextColor="Black" FontSize="12" />
-                            <Switch IsToggled="{Binding EhDoacao}" />
-                        </HorizontalStackLayout>
+                        <Grid ColumnDefinitions="auto, *, 50">
+                            <Label Grid.Column="0" Text="É doação?" TextColor="Black" FontSize="12" VerticalOptions="Center" />
+                            <Switch Grid.Column="2" IsToggled="{Binding EhDoacao}" />
+                        </Grid>
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="{Binding TipoOrigem}" TextColor="Black" FontSize="12"/>
-                            <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <Entry Placeholder="Ex: Escola Municipal" TextColor="Black" Text="{Binding Origem}"/>
-                            </Border>
+                            <Entry Placeholder="Ex: Escola Municipal" TextColor="Black" Text="{Binding Origem}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5" IsVisible="{Binding NaoEhDoacao}">
                             <Label Text="Preço Unitário (R$)" TextColor="Black" FontSize="12"/>
-                            <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <Entry Placeholder="Ex: 5.50" Keyboard="Numeric" TextColor="Black" Text="{Binding Preco}"/>
-                            </Border>
+                            <Entry Placeholder="Ex: 5.50" Keyboard="Numeric" TextColor="Black" Text="{Binding Preco}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5" IsVisible="{Binding NaoEhDoacao}">
                             <Label Text="Nota Fiscal" TextColor="Black" FontSize="12"/>
-                            <Border BackgroundColor="#F5F5F5" Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-                                <Entry Placeholder="Ex: NF-12345" TextColor="Black" Text="{Binding NotaFiscal}"/>
-                            </Border>
+                            <Entry Placeholder="Ex: NF-12345" TextColor="Black" Text="{Binding NotaFiscal}"/>
                         </VerticalStackLayout>
 
                         <Border BackgroundColor="#2E8B57" StrokeThickness="0" StrokeShape="RoundRectangle 3" Padding="15,12" Margin="0,10,0,0">
@@ -134,7 +121,7 @@
                         </Border>
                     </VerticalStackLayout>
                 </Border>
+            </ScrollView>
         </Grid>
-    </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentView>
