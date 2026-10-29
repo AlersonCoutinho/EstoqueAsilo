@@ -64,8 +64,8 @@
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Quantidade e Unidade" TextColor="Black" FontSize="12" />
                             <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
-                                <Entry Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
-                                <Picker ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
+                                <Entry Grid.Column="0" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
+                                <Picker Grid.Column="1" ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
                             </Grid>
                         </VerticalStackLayout>
 
