@@ -6,7 +6,7 @@
         {
             InitializeComponent();
             Routing.RegisterRoute("dashboard", typeof(DashboardPage));
-            Routing.RegisterRoute("mainpage", typeof(MainPage));
+            Routing.RegisterRoute("loginview", typeof(LoginView));
         }
 
     }

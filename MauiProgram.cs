@@ -18,8 +18,10 @@ namespace EstoqueAsilo
                 });
             builder.Services.AddTransient<DashboardPage>();
             builder.Services.AddTransient<DashboardViewModel>();
-            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<LoginView>();
             builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<HomeView>();
+            builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddTransient<EntradaView>();
             builder.Services.AddTransient<EntradaViewModel>();
             builder.Services.AddTransient<BarraSuperior>();
