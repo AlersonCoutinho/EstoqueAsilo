@@ -30,7 +30,7 @@ public partial class DashboardViewModel : ObservableObject
     {
         ConteudoAtual = item switch
         {
-            "inicio" => new HomeView(),
+            "inicio" => _services.GetRequiredService<HomeView>(),
             "entrada" => _services.GetRequiredService<EntradaView>(),
             "saida" => new SaidaView(),
             "estoque" => new EstoqueView(),

@@ -9,10 +9,10 @@ namespace EstoqueAsilo
         public App(EstoqueService estoque, AuthService auth)
         {
             InitializeComponent();
-            _estoque = estoque;
-            _estoque.Carregar();
             _auth = auth;
             _ = _auth.Carregar();
+            _estoque = estoque;
+            _estoque.Carregar();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
