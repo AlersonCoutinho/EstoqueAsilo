@@ -1,6 +1,7 @@
 ﻿using EstoqueAsilo.Enums;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
+using System.Collections.ObjectModel;
 
 namespace EstoqueAsilo.Services
 {
@@ -26,6 +27,14 @@ namespace EstoqueAsilo.Services
         {
             return [.. _estoque.Movimentacoes.Where(m => m.Produto.Id == produto.Id)];
         }
+        internal IEnumerable<Movimentacao> ObterEntradasMes()
+        {
+            return MovimentacoesUltimosNDias(TipoMovimentacao.Entrada, -30);
+        }
+        internal IEnumerable<Movimentacao> ObterSaidasMes()
+        {
+            return MovimentacoesUltimosNDias(TipoMovimentacao.Saida, -30);
+        }
 
         // -- Listagem de quantidade de produtos
         internal int CalcularQuantidadeDeProduto(Produto produto)
@@ -37,6 +46,12 @@ namespace EstoqueAsilo.Services
         {
             return _estoque.Movimentacoes.Where(m => m.Lote?.Id == lote.Id)
                 .Sum(m => m.QuantidadeComSinal);
+        }
+
+        // -- Listagem de produtos com quantidade baixa
+        internal IEnumerable<Produto> ListarProdutosComQuantidadeBaixa()
+        {
+            return [.. _estoque.Produtos.Where(p => p.QuantidadeMinima is not null && CalcularQuantidadeDeProduto(p) <= p.QuantidadeMinima)];
         }
 
         // -- Listagem de Produtos com vencimento
@@ -60,20 +75,39 @@ namespace EstoqueAsilo.Services
         }
         internal IEnumerable<VencimentoInfo> VencimentosEntre(DateTime? min, DateTime? max)
         {
-            var hoje = DateTime.Today;
-
             return [.. _estoque.Lotes
                 .Where(l => (min is null || l.DataValidade >= min) && (max is null || l.DataValidade <= max))
                 .Select(l => new VencimentoInfo(
                     l.Produto, 
                     l.DataValidade,
                     RestantePorLote().GetValueOrDefault(l.Id),
-                    (l.DataValidade - hoje).Days))
+                    (l.DataValidade - DateTime.Today).Days))
                 .Where(v => v.QuantidadeRestante > 0)
                 .OrderBy(v => v.DataValidade)];
         }
 
-        //Filtrar movimento por se é doação ou não
+        // -- Listagem de produtos com atenção
+        internal ObservableCollection<AtencaoLinha> ListarProdutosComAtencao()
+        {
+            var produtosBaixa = ListarProdutosComQuantidadeBaixa()
+                .Select(p => new AtencaoLinha(
+                    p.Nome,
+                    CalcularQuantidadeDeProduto(p),
+                    "Quantidade baixa"));
+            var produtosVencidos = ListarProdutosVencidos()
+                .Select(v => new AtencaoLinha(
+                    v.Produto.Nome,
+                    v.QuantidadeRestante,
+                    "Produto vencido"));
+            var produtosVencendo = ListarVencimentosNoTempoLimite()
+                .Select(v => new AtencaoLinha(
+                    v.Produto.Nome,
+                    v.QuantidadeRestante,
+                    $"Vence em {v.TempoRestanteEmDias} dias"));
+            return [.. produtosBaixa.Concat(produtosVencidos).Concat(produtosVencendo)];
+        }
+
+        // -- Listagem de movimentações filtradas por doação
         internal IEnumerable<Movimentacao> ListarEntradasDoacao()
         {
             return ListarMovimentacoesPorDoacao(TipoMovimentacao.Entrada, true);
@@ -103,5 +137,11 @@ namespace EstoqueAsilo.Services
                 .ToDictionary(
                     g => g.Key,
                     g => g.Sum(m => m.QuantidadeComSinal));
+
+        private IEnumerable<Movimentacao> MovimentacoesUltimosNDias(TipoMovimentacao tipo, int n)
+        {
+            return [.. _estoque.Movimentacoes
+                .Where(m => (m.TipoMovimentacao == tipo && m.Data >= DateTime.Today.AddDays(n)))];
+        }
     }
 }

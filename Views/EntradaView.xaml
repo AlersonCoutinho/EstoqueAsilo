@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
              x:Class="EstoqueAsilo.EntradaView"
              BackgroundColor="#F2F2F2">
     
@@ -11,36 +12,34 @@
                 <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="15" VerticalOptions="Start">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Últimas entradas" FontSize="18" TextColor="Black"/>
-                        <Grid ColumnDefinitions="Auto, 2*, Auto, 2*, 2*" RowDefinitions="Auto, Auto, Auto, Auto, Auto" RowSpacing="8" ColumnSpacing="10">
+                        <Grid ColumnDefinitions="100,2*,90,100" RowDefinitions="Auto, *" RowSpacing="8" ColumnSpacing="10">
                             <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" />
                             <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" />
                             <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" />
-                            <Label Grid.Row="0" Grid.Column="3" Text="Origem / motivo" TextColor="Black" FontAttributes="Bold" />
-                            <Label Grid.Row="0" Grid.Column="4" Text="Detalhe" TextColor="Black" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="3" Text="Origem" TextColor="Black" FontAttributes="Bold" />
 
-                            <Label Grid.Row="1" Grid.Column="0" Text="11/10/2026" TextColor="Black" />
-                            <Label Grid.Row="1" Grid.Column="1" Text="Fralda G" TextColor="Black" />
-                            <Label Grid.Row="1" Grid.Column="2" Text="500" TextColor="Black" />
-                            <Label Grid.Row="1" Grid.Column="3" Text="Doação" TextColor="Black" />
-                            <Label Grid.Row="1" Grid.Column="4" Text="Campanha das fraldas" TextColor="Black" />
+                            <CollectionView Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Entradas}" SelectionMode="None">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                                </CollectionView.ItemsLayout>
 
-                            <Label Grid.Row="2" Grid.Column="0" Text="09/10/2026" TextColor="Black" />
-                            <Label Grid.Row="2" Grid.Column="1" Text="Arroz 5 kg" TextColor="Black" />
-                            <Label Grid.Row="2" Grid.Column="2" Text="30" TextColor="Black" />
-                            <Label Grid.Row="2" Grid.Column="3" Text="Compra" TextColor="Black" />
-                            <Label Grid.Row="2" Grid.Column="4" Text="Mercado Silva" TextColor="Black" />
+                                <CollectionView.EmptyView>
+                                    <Label Text="Nenhuma entrada registrada." HorizontalOptions="Center" Margin="0,30" />
+                                </CollectionView.EmptyView>
 
-                            <Label Grid.Row="3" Grid.Column="0" Text="07/10/2026 " TextColor="Black" />
-                            <Label Grid.Row="3" Grid.Column="1" Text="Leite UHT 1 L" TextColor="Black" />
-                            <Label Grid.Row="3" Grid.Column="2" Text="24" TextColor="Black" />
-                            <Label Grid.Row="3" Grid.Column="3" Text="Doação" TextColor="Black" />
-                            <Label Grid.Row="3" Grid.Column="4" Text="Escola Municipal" TextColor="Black" />
-
-                            <Label Grid.Row="4" Grid.Column="0" Text="06/10/2026" TextColor="Black" />
-                            <Label Grid.Row="4" Grid.Column="1" Text="Detergente" TextColor="Black" />
-                            <Label Grid.Row="4" Grid.Column="2" Text="20" TextColor="Black" />
-                            <Label Grid.Row="4" Grid.Column="3" Text="Compra" TextColor="Black" />
-                            <Label Grid.Row="4" Grid.Column="4" Text="Atacado" TextColor="Black" />
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:EntradaLinha">
+                                        <Border StrokeThickness="0" Padding="12,10" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                            <Grid ColumnSpacing="10" ColumnDefinitions="100,2*,90,100">
+                                                <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" />
+                                                <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
+                                                <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}" />
+                                                <Label Grid.Column="3" Text="{Binding Origem}" FontSize="12" TextColor="#222222" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
 
                         </Grid>
                     </VerticalStackLayout>
@@ -64,8 +63,8 @@
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Quantidade e Unidade" TextColor="Black" FontSize="12" />
                             <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
-                                <Entry Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
-                                <Picker ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
+                                <Entry Grid.Column="0" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
+                                <Picker Grid.Column="1" ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
                             </Grid>
                         </VerticalStackLayout>
 

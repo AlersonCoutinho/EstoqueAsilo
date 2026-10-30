@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using EstoqueAsilo.Enums;
 using EstoqueAsilo.Models;
+using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace EstoqueAsilo.ViewModels
         public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
 
         [ObservableProperty]
-        public partial ObservableCollection<Movimentacao> Entradas { get; set; }
+        public partial ObservableCollection<EntradaLinha> Entradas { get; set; }
         [ObservableProperty]
         public partial string NomeProduto { get; set; }
         [ObservableProperty]
@@ -48,6 +49,7 @@ namespace EstoqueAsilo.ViewModels
             _consulta = consulta;
 
             Entradas = [];
+            AtualizarEntradas();
             NomeProduto = string.Empty;
             Quantidade = string.Empty;
             UnidadeSelecionada = Unidades[0];
@@ -61,12 +63,21 @@ namespace EstoqueAsilo.ViewModels
             Preco = string.Empty;
             NotaFiscal = string.Empty;
 
-            AtualizarEntradas();
         }
 
         public void AtualizarEntradas()
         {
-            Entradas = new ObservableCollection<Movimentacao>(_consulta.ListarEntradas());
+            Entradas.Clear();
+
+            foreach (var m in _consulta.ListarEntradas().OrderByDescending(m => m.Data))
+            {
+                Entradas.Add(new EntradaLinha(
+                    m.Data,
+                    $"{m.Produto.Nome} {m.Produto.Unidade}",
+                    m.IsDoacao ? "Doação" : "Compra",
+                    m.Contraparte ?? "—",
+                    m.Quantidade));
+            }
         }
 
         public void LimparCampos()
