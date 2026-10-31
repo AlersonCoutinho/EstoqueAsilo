@@ -52,23 +52,28 @@
                         <Label Text="Nova entrada" FontSize="18" TextColor="Black"/>
 
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="Categoria" TextColor="Black" FontSize="12"/>
-                            <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" />
-                        </VerticalStackLayout>
-
-                        <VerticalStackLayout Spacing="5">
                             <Label Text="Item" TextColor="Black" FontSize="12" />
                             <comp:ComboEditavel ItemsSource="{Binding Produtos}"
                                 Text="{Binding NomeProduto}"
-                                Placeholder="Ex: kg" />
+                                Placeholder="Ex: Arroz" />
                         </VerticalStackLayout>
 
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="Quantidade e Unidade" TextColor="Black" FontSize="12" />
-                            <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                                <Label Text="Tamanho/Peso/Volume" TextColor="Black" FontSize="12"/>
+                                <comp:ComboEditavel ItemsSource="{Binding Unidades}"
+                                    Text="{Binding UnidadeSelecionada}"
+                                    Placeholder="Ex: G/500g/2L" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1"  Spacing="5">
+                                <Label Text="Categoria" TextColor="Black" FontSize="12"/>
+                                <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" IsEnabled="{Binding CategoriaIsEnabled}" />
+                        </VerticalStackLayout>
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Quantidade" TextColor="Black" FontSize="12" />
                                 <Entry Grid.Column="0" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
-                                <Picker Grid.Column="1" ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" TextColor="Black"/>
-                            </Grid>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarValidade}">

@@ -5,20 +5,18 @@
              x:Name="root">
 
     <VerticalStackLayout Spacing="2">
-        <Border Stroke="#0A6FB5" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="10,0">
-            <Grid ColumnDefinitions="*,Auto">
-                <Entry x:Name="CampoEntry"
-                       Text="{Binding Text, Source={x:Reference root}}"
-                       Placeholder="{Binding Placeholder, Source={x:Reference root}}"
-                       TextColor="Black"
-                       TextChanged="OnTextChanged"
-                       Focused="OnFocused"
-                       Unfocused="OnUnfocused" />
-                <Button Grid.Column="1" Text="▾" Clicked="OnSetaClicked"
-                        BackgroundColor="Transparent" TextColor="#0A6FB5"
-                        Padding="0" WidthRequest="36" />
-            </Grid>
-        </Border>
+        <Grid ColumnDefinitions="*">
+            <Entry x:Name="CampoEntry"
+                Text="{Binding Text, Source={x:Reference root}}"
+                Placeholder="{Binding Placeholder, Source={x:Reference root}}"
+                TextColor="Black"
+                TextChanged="OnTextChanged"
+                Focused="OnFocused"
+                Unfocused="OnUnfocused"/>
+            <Button Text="▾" Clicked="OnSetaClicked" FontSize="30"
+                BackgroundColor="Transparent" TextColor="#0A6FB5"
+                Padding="0" WidthRequest="36" HorizontalOptions="End"/>
+        </Grid>
 
         <Border x:Name="Lista" IsVisible="False" Stroke="LightGray" StrokeThickness="1"
                 StrokeShape="RoundRectangle 3" BackgroundColor="White">

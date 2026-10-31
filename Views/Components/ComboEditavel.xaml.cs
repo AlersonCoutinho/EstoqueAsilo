@@ -37,7 +37,7 @@ public partial class ComboEditavel : ContentView
         texto = texto?.Trim() ?? "";
 
         var resultado = string.IsNullOrEmpty(texto)
-            ? itens.ToList()
+            ? [.. itens]
             : itens.Where(i => i.Contains(texto, StringComparison.OrdinalIgnoreCase)).ToList();
 
         Sugestoes.ItemsSource = resultado;
@@ -65,8 +65,7 @@ public partial class ComboEditavel : ContentView
 
     private void OnSelecionado(object? s, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is not string item) return;
-
+        if (e.CurrentSelection.Count == 0 || e.CurrentSelection[0] is not string item) return;
         Text = item;
         Lista.IsVisible = false;
         Sugestoes.SelectedItem = null;

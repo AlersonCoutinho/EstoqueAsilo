@@ -36,10 +36,23 @@ namespace EstoqueAsilo.Services
             return MovimentacoesUltimosNDias(TipoMovimentacao.Saida, -30);
         }
 
-        // -- Listagem de produtos
-        internal IEnumerable<Produto> ListarProdutos()
+        // -- Listagem objetos, variáveis e propriedades
+        internal IEnumerable<string> ListarUnidades()
         {
-            return [.. _estoque.Produtos];
+            return [.. _estoque.Produtos
+                .Select(p => p.Unidade).Distinct().OrderBy(u=>u)];
+        }
+        internal IEnumerable<string> ListarProdutos()
+        {
+            return [.. _estoque.Produtos
+                .Select(p => p.Nome).Distinct().OrderBy(p => p)];
+        }
+        internal Produto? ProdutoPorNome(string nomeProduto, string unidade)
+        {
+            if (nomeProduto == null || unidade == null) return null;
+            return _estoque.Produtos.FirstOrDefault(p =>
+                p.Nome.Equals(nomeProduto.Trim(), StringComparison.OrdinalIgnoreCase) &&
+                p.Unidade.Equals(unidade.Trim(), StringComparison.OrdinalIgnoreCase));
         }
 
         // -- Listagem de quantidade de produtos
