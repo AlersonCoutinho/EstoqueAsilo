@@ -36,6 +36,12 @@ namespace EstoqueAsilo.Services
             return MovimentacoesUltimosNDias(TipoMovimentacao.Saida, -30);
         }
 
+        // -- Listagem de produtos
+        internal IEnumerable<Produto> ListarProdutos()
+        {
+            return [.. _estoque.Produtos];
+        }
+
         // -- Listagem de quantidade de produtos
         internal int CalcularQuantidadeDeProduto(Produto produto)
         {

@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
+             xmlns:comp="clr-namespace:EstoqueAsilo.Views.Components"
              x:Class="EstoqueAsilo.EntradaView"
              BackgroundColor="#F2F2F2">
     
@@ -57,7 +58,9 @@
 
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Item" TextColor="Black" FontSize="12" />
-                            <Entry Placeholder="Ex: Café" TextColor="Black" Text="{Binding NomeProduto}"/>
+                            <comp:ComboEditavel ItemsSource="{Binding Produtos}"
+                                Text="{Binding NomeProduto}"
+                                Placeholder="Ex: kg" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5">

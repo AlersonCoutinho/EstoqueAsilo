@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstoqueAsilo.Enums;
-using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
 using System.Collections.ObjectModel;
@@ -12,13 +11,18 @@ namespace EstoqueAsilo.ViewModels
 {
     public partial class EntradaViewModel : ObservableObject
     {
+        // -- Serviços
         private readonly EstoqueService _estoque;
         private readonly ConsultaService _consulta;
+
+        // -- Listas
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
         public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
+        public ObservableCollection<EntradaLinha> Entradas { get; set; } = [];
 
+        // -- Propriedades
         [ObservableProperty]
-        public partial ObservableCollection<EntradaLinha> Entradas { get; set; }
+        public partial IEnumerable<string> Produtos { get; set; }
         [ObservableProperty]
         public partial string NomeProduto { get; set; }
         [ObservableProperty]
@@ -43,13 +47,12 @@ namespace EstoqueAsilo.ViewModels
         public partial string Preco { get; set; }
         [ObservableProperty]
         public partial string NotaFiscal { get; set; }
+
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
             _estoque = servicoEstoque;
             _consulta = consulta;
 
-            Entradas = [];
-            AtualizarEntradas();
             NomeProduto = string.Empty;
             Quantidade = string.Empty;
             UnidadeSelecionada = Unidades[0];
@@ -62,6 +65,9 @@ namespace EstoqueAsilo.ViewModels
             MostrarValidade = true;
             Preco = string.Empty;
             NotaFiscal = string.Empty;
+
+            AtualizarEntradas();
+            Produtos = _consulta.ListarProdutos().Select(p => p.Nome).Distinct().OrderBy(p => p);
 
         }
 
@@ -97,9 +103,10 @@ namespace EstoqueAsilo.ViewModels
             if (string.IsNullOrWhiteSpace(NomeProduto) || string.IsNullOrWhiteSpace(Quantidade))
                 return;
 
-            Decimal? precoNum = !string.IsNullOrEmpty(Preco) ? Decimal.Parse(Quantidade, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) : null;
+            Decimal? precoNum = !string.IsNullOrEmpty(Preco) ? Decimal.Parse(Preco, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) : null;
+            DateTime? validade = MostrarValidade ? DataValidade : null;
 
-            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, CategoriaSelecionada, DataValidade, precoNum, NotaFiscal);
+            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, CategoriaSelecionada, validade, precoNum, NotaFiscal);
             if (sucesso)
             {
                 LimparCampos();
