@@ -1,6 +1,6 @@
 ﻿namespace EstoqueAsilo.Models.Resultados
 {
-    internal record VencimentoInfo
+    public record VencimentoInfo
     (
         Produto Produto,
         DateTime DataValidade,

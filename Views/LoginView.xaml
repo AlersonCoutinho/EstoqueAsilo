@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:comp="clr-namespace:EstoqueAsilo.Views.Components"
              x:Class="EstoqueAsilo.LoginView"
              Shell.NavBarIsVisible="False">
 
@@ -38,16 +39,9 @@
             FontSize="14" 
             TextColor="black"/>
 
-            <Entry
-            Text="{Binding Nome}"
-            Placeholder="Nome"
-            ReturnType="Next" 
-            Completed="OnCampoNomeCompleted"
-            Keyboard="Email"
-            ClearButtonVisibility="WhileEditing"
-            MaxLength="100"
-            TextColor="black"
-            BackgroundColor="#F0F0F0"/>
+            <comp:ComboEditavel ItemsSource="{Binding Usuarios}"
+                Text="{Binding Usuario}"
+                Placeholder="Usuario" />
 
             <Label
             Text="Digite a senha"

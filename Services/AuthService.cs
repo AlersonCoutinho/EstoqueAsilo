@@ -1,4 +1,5 @@
-﻿using EstoqueAsilo.Helpers;
+﻿using EstoqueAsilo.Enums;
+using EstoqueAsilo.Helpers;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Storage;
 using System.Globalization;
@@ -55,6 +56,12 @@ namespace EstoqueAsilo.Services
         internal void Logout()
         {
             UsuarioLogado = null;
+        }
+
+        // -- Consultas
+        internal IEnumerable<string> ListarUsuarios()
+        {
+            return [.. Usuarios.Select(u => u.Nome).Distinct().OrderBy(u => u)];
         }
     }
 }
