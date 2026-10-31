@@ -47,6 +47,17 @@ namespace EstoqueAsilo.Services
             return [.. _estoque.Produtos
                 .Select(p => p.Nome).Distinct().OrderBy(p => p)];
         }
+        internal IEnumerable<string> ListarUnidadesProduto(string nomeProduto)
+        {
+            if (string.IsNullOrWhiteSpace(nomeProduto))
+                return [];
+
+            return [.. _estoque.Produtos
+                .Where(p => p.Nome.Equals(nomeProduto.Trim(), StringComparison.OrdinalIgnoreCase))
+                .Select(p => p.Unidade)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(u => u)];
+        }
         internal Produto? ProdutoPorNome(string nomeProduto, string unidade)
         {
             if (nomeProduto == null || unidade == null) return null;
@@ -76,12 +87,38 @@ namespace EstoqueAsilo.Services
         // -- Listagem de Produtos com vencimento
         internal IEnumerable<Lote> ListarLotesDeProduto(Produto produto)
         {
-            return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id)];
+            return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id)
+                .OrderBy(l => l.DataValidade)];
         }
-        internal IEnumerable<DateTime> ListarValidadesDeProduto(Produto produto)
+
+        // -- Proximo Lote a vencer de um produto
+        internal List<LoteSugerido> SugerirLotes(Produto produto, int falta)
         {
-            return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id).Select(l => l.DataValidade)];
+            var restante = RestantePorLote();
+            var sugeridos = new List<LoteSugerido>();
+
+            var lotes = ListarLotesDeProduto(produto);
+
+            foreach (var lote in lotes)
+            {
+                if (falta <= 0) break;
+
+                int disponivel = restante.GetValueOrDefault(lote.Id);
+                if (disponivel <= 0) continue;
+
+                int retirar = Math.Min(disponivel, falta);
+                sugeridos.Add(new LoteSugerido(lote, disponivel, retirar));
+                falta -= retirar;
+            }
+
+            return sugeridos;
         }
+
+        // --- Não Utilizado por enquanto
+        //internal IEnumerable<DateTime> ListarValidadesDeProduto(Produto produto)
+        //{
+        //    return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id).Select(l => l.DataValidade)];
+        //}
 
         // -- Listagem de Produtos organizados por vencimento
         internal IEnumerable<VencimentoInfo> ListarProdutosVencidos()

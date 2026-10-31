@@ -1,11 +1,11 @@
 ﻿namespace EstoqueAsilo.Models.Resultados
 {
-    public record EntradaLinha
+    public record MovimentacaoLinha
     (
         DateTime Data,
         string Item,
-        string TipoOrigem,
-        string Origem,
+        bool IsDoacao,
+        string? Contraparte,
         int Quantidade
     );
 }

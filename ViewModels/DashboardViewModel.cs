@@ -6,23 +6,21 @@ namespace EstoqueAsilo.ViewModels;
 
 public partial class DashboardViewModel : ObservableObject
 {
-    private readonly EstoqueService _estoque;
     private readonly AuthService _auth;
     private readonly IServiceProvider _services;
 
     [ObservableProperty]
-    private View? conteudoAtual;
+    public partial View? ConteudoAtual { get; set; } = null;
 
     [ObservableProperty]
-    private string nomeUsuario = string.Empty;
+    public partial string NomeUsuario { get; set; } = string.Empty;
 
-    public DashboardViewModel(IServiceProvider services, EstoqueService estoque, AuthService auth)
+    public DashboardViewModel(IServiceProvider services, AuthService auth)
     {
         _services = services;
-
-        _estoque = estoque;
         _auth = auth;
-        nomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
+
+        NomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
     }
 
     [RelayCommand]
@@ -32,7 +30,7 @@ public partial class DashboardViewModel : ObservableObject
         {
             "inicio" => _services.GetRequiredService<HomeView>(),
             "entrada" => _services.GetRequiredService<EntradaView>(),
-            "saida" => new SaidaView(),
+            "saida" => _services.GetRequiredService<SaidaView>(),
             "estoque" => new EstoqueView(),
             "estoque_alimentos" => new EstoqueView(),
             "estoque_limpeza" => new EstoqueView(),

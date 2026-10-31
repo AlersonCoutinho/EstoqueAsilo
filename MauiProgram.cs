@@ -24,6 +24,8 @@ namespace EstoqueAsilo
             builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddTransient<EntradaView>();
             builder.Services.AddTransient<EntradaViewModel>();
+            builder.Services.AddTransient<SaidaView>();
+            builder.Services.AddTransient<SaidaViewModel>();
             builder.Services.AddTransient<BarraSuperior>();
 
             builder.Services.AddSingleton<EstoqueService>();

@@ -42,6 +42,7 @@ namespace EstoqueAsilo.Services
             string? idNotaFiscal = null)
         {
             //Checando validações de entrada
+            //Verificando Usuário Logado
             if (_auth.UsuarioLogado is null)
                 throw new InvalidOperationException("Usuário não está logado.");
 
@@ -91,7 +92,56 @@ namespace EstoqueAsilo.Services
             return (true, null);
 
         }
-        
+
+        internal (bool Sucesso, string? Erro) RegNovaSaida(Produto produto, int quantidade,
+            bool isDoacao, string instituicao, List<LoteSugerido> lotes)
+        {
+
+            // --- Checando validações de entrada
+            // -- Verificando Usuário Logado
+            if (_auth.UsuarioLogado is null)
+                throw new InvalidOperationException("Usuário não está logado.");
+
+            // -- Informações Movimentação
+            if (isDoacao && string.IsNullOrWhiteSpace(instituicao)) 
+                return (false, "Instituição inválida");
+
+            //Criação da movimentação de saida, considerando lotes sugeridos se houver
+            if (lotes.Count > 0)
+            {
+                foreach (var l in lotes)
+                {
+                    Movimentacao saidaComLote = new()
+                    {
+                        Id = IdHelper.NovoId(Movimentacoes, e => e.Id),
+                        TipoMovimentacao = TipoMovimentacao.Saida,
+                        Produto = produto,
+                        Usuario = _auth.UsuarioLogado,
+                        Quantidade = quantidade,
+                        Data = DateTime.Now,
+                        IsDoacao = isDoacao,
+                        Lote = l.Lote,
+                        Contraparte = isDoacao? instituicao.Trim() : null
+                    };
+                    Movimentacoes.Add(saidaComLote);
+                }
+                return (true, null);
+            }
+            Movimentacao saida = new()
+            {
+                Id = IdHelper.NovoId(Movimentacoes, e => e.Id),
+                TipoMovimentacao = TipoMovimentacao.Saida,
+                Produto = produto,
+                Usuario = _auth.UsuarioLogado,
+                Quantidade = quantidade,
+                Data = DateTime.Now,
+                IsDoacao = isDoacao,
+                Contraparte = isDoacao ? instituicao.Trim() : null
+            };
+            Movimentacoes.Add(saida);
+            return (true, null);
+
+        }
         private Produto NovoProduto(string nomeProduto, Categoria categoria, string unidade)
         {
             Produto produto = new()
