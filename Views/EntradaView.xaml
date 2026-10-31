@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:EstoqueAsilo.Behaviors"
              xmlns:comp="clr-namespace:EstoqueAsilo.Views.Components"
+             xmlns:conv="clr-namespace:EstoqueAsilo.Converters"
+             xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
              x:Class="EstoqueAsilo.EntradaView"
              BackgroundColor="#F2F2F2">
-    
+    <ContentView.Resources>
+        <conv:BoolToStringConverter x:Key="BoolToString" />
+    </ContentView.Resources>
     <Grid RowDefinitions="auto, *"  Padding="30,20" RowSpacing="10">
         <Label Grid.Row="0" Text="Registrar Entrada" FontSize="24" TextColor="Black" />
         <Grid Grid.Row="1" ColumnDefinitions="2*, *" ColumnSpacing="20" RowDefinitions="*">
@@ -59,7 +63,7 @@
                         </VerticalStackLayout>
 
                         <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
-                        <VerticalStackLayout Spacing="5">
+                            <VerticalStackLayout Spacing="5">
                                 <Label Text="Tamanho/Peso/Volume" TextColor="Black" FontSize="12"/>
                                 <comp:ComboEditavel ItemsSource="{Binding Unidades}"
                                     Text="{Binding UnidadeSelecionada}"
@@ -68,12 +72,12 @@
                             <VerticalStackLayout Grid.Column="1"  Spacing="5">
                                 <Label Text="Categoria" TextColor="Black" FontSize="12"/>
                                 <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" IsEnabled="{Binding CategoriaIsEnabled}" />
-                        </VerticalStackLayout>
+                            </VerticalStackLayout>
                         </Grid>
-
+                        
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Quantidade" TextColor="Black" FontSize="12" />
-                                <Entry Grid.Column="0" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
+                            <Entry Grid.Column="0" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" Text="{Binding Quantidade}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarValidade}">
@@ -87,8 +91,11 @@
                         </Grid>
 
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="{Binding TipoOrigem}" TextColor="Black" FontSize="12"/>
-                            <Entry Placeholder="Ex: Escola Municipal" TextColor="Black" Text="{Binding Origem}"/>
+                            <Label Text="{Binding EhDoacao, Converter={StaticResource BoolToString}, ConverterParameter='Doador|Fornecedor'}" 
+                                   TextColor="Black" FontSize="12"/>
+                            <Entry Placeholder="{Binding EhDoacao, Converter={StaticResource BoolToString}, 
+                                        ConverterParameter='Ex: Escola Municipal|Ex: Mercado Silva'}" 
+                                   TextColor="Black" Text="{Binding Origem}"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="5" IsVisible="{Binding NaoEhDoacao}">

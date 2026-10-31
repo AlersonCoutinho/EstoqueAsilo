@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstoqueAsilo.Enums;
+using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
 
 namespace EstoqueAsilo.ViewModels
 {
@@ -17,61 +17,47 @@ namespace EstoqueAsilo.ViewModels
 
         // -- Listas
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
-        public ObservableCollection<string> Unidades { get; } = ["Unidades", "Litros", "Quilos", "Gramas"];
         public ObservableCollection<EntradaLinha> Entradas { get; set; } = [];
 
         // -- Propriedades
         [ObservableProperty]
-        public partial IEnumerable<string> Produtos { get; set; }
+        public partial IEnumerable<string> Produtos { get; set; } = [];
         [ObservableProperty]
-        public partial string NomeProduto { get; set; }
+        public partial IEnumerable<string> Unidades { get; set; } = [];
         [ObservableProperty]
-        public partial string Quantidade { get; set; }
+        public partial string NomeProduto { get; set; } = string.Empty;
         [ObservableProperty]
-        public partial string UnidadeSelecionada { get; set; }
+        public partial string Quantidade { get; set; } = string.Empty;
         [ObservableProperty]
-        public partial bool EhDoacao { get; set; }
+        public partial string UnidadeSelecionada { get; set; } = string.Empty;
         [ObservableProperty]
-        public partial bool NaoEhDoacao { get; set; }
+        public partial bool EhDoacao { get; set; } = true;
         [ObservableProperty]
-        public partial Categoria CategoriaSelecionada { get; set; }
+        public partial bool NaoEhDoacao { get; set; } = false;
         [ObservableProperty]
-        public partial string Origem { get; set; }
+        public partial Categoria CategoriaSelecionada { get; set; } = Categoria.Alimentos;
         [ObservableProperty]
-        public partial string TipoOrigem { get; set; }
+        public partial bool CategoriaIsEnabled { get; set; } = true;
         [ObservableProperty]
-        public partial DateTime DataValidade { get; set; }
+        public partial string Origem { get; set; } = string.Empty;
         [ObservableProperty]
-        public partial bool MostrarValidade { get; set; }
+        public partial DateTime DataValidade { get; set; } = DateTime.Today;
         [ObservableProperty]
-        public partial string Preco { get; set; }
+        public partial bool MostrarValidade { get; set; } = true;
         [ObservableProperty]
-        public partial string NotaFiscal { get; set; }
+        public partial decimal Preco { get; set; } = 0m;
+        [ObservableProperty]
+        public partial string NotaFiscal { get; set; } = string.Empty;
 
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
             _estoque = servicoEstoque;
             _consulta = consulta;
 
-            NomeProduto = string.Empty;
-            Quantidade = string.Empty;
-            UnidadeSelecionada = Unidades[0];
-            EhDoacao = true;
-            NaoEhDoacao = false;
-            CategoriaSelecionada = Categoria.Alimentos;
-            Origem = string.Empty;
-            TipoOrigem = "Doador";
-            DataValidade = DateTime.Today;
-            MostrarValidade = true;
-            Preco = string.Empty;
-            NotaFiscal = string.Empty;
-
-            AtualizarEntradas();
-            Produtos = _consulta.ListarProdutos().Select(p => p.Nome).Distinct().OrderBy(p => p);
-
+            Atualizar();
         }
 
-        public void AtualizarEntradas()
+        public void Atualizar()
         {
             Entradas.Clear();
 
@@ -84,16 +70,19 @@ namespace EstoqueAsilo.ViewModels
                     m.Contraparte ?? "—",
                     m.Quantidade));
             }
+
+            Produtos = _consulta.ListarProdutos() ?? [];
+            Unidades = _consulta.ListarUnidades() ?? [];
         }
 
         public void LimparCampos()
         {
             NomeProduto = string.Empty;
             Quantidade = string.Empty;
-            UnidadeSelecionada = Unidades[0];
+            UnidadeSelecionada = string.Empty;
             Origem = string.Empty;
             DataValidade = DateTime.Today;
-            Preco = string.Empty;
+            Preco = 0m;
             NotaFiscal = string.Empty;
         }
 
@@ -103,14 +92,15 @@ namespace EstoqueAsilo.ViewModels
             if (string.IsNullOrWhiteSpace(NomeProduto) || string.IsNullOrWhiteSpace(Quantidade))
                 return;
 
-            Decimal? precoNum = !string.IsNullOrEmpty(Preco) ? Decimal.Parse(Preco, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) : null;
+            Decimal? precoNum = Preco > 0 ? Preco : null;
             DateTime? validade = MostrarValidade ? DataValidade : null;
 
-            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, CategoriaSelecionada, validade, precoNum, NotaFiscal);
+            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, 
+                CategoriaSelecionada, validade, precoNum, NotaFiscal);
             if (sucesso)
             {
                 LimparCampos();
-                AtualizarEntradas();
+                Atualizar();
             }
             else
             {
@@ -125,14 +115,29 @@ namespace EstoqueAsilo.ViewModels
         partial void OnEhDoacaoChanged(bool value)
         {
             NaoEhDoacao = !value;
-            TipoOrigem = value ? "Doador" : "Fornecedor";
 
             // Se voltar para doação, limpamos os campos de compra por segurança
             if (value)
             {
-                Preco = string.Empty;
+                Preco = 0m;
                 NotaFiscal = string.Empty;
             }
+        }
+
+        partial void OnNomeProdutoChanged(string value) => 
+            AtualizarCategoriaSelecionada(value, UnidadeSelecionada);
+        partial void OnUnidadeSelecionadaChanged(string value) =>
+            AtualizarCategoriaSelecionada(NomeProduto, value);
+
+        private void AtualizarCategoriaSelecionada(string nome, string unidade)
+        {
+            if (_consulta.ProdutoPorNome(nome, unidade) is not Produto produto) 
+            {
+                CategoriaIsEnabled = true;
+                return;
+            }
+            CategoriaSelecionada = produto.Categoria;
+            CategoriaIsEnabled = false;
         }
     }
 }

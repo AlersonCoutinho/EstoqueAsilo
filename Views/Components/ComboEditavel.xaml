@@ -13,9 +13,13 @@
                 TextChanged="OnTextChanged"
                 Focused="OnFocused"
                 Unfocused="OnUnfocused"/>
-            <Button Text="▾" Clicked="OnSetaClicked" FontSize="30"
-                BackgroundColor="Transparent" TextColor="#0A6FB5"
-                Padding="0" WidthRequest="36" HorizontalOptions="End"/>
+            <Label Grid.Column="1" Text="▾" FontSize="30" TextColor="#0A6FB5"
+               VerticalOptions="Center" HorizontalOptions="End" WidthRequest="36"
+               HorizontalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSetaClicked" />
+                </Label.GestureRecognizers>
+            </Label>
         </Grid>
 
         <Border x:Name="Lista" IsVisible="False" Stroke="LightGray" StrokeThickness="1"

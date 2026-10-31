@@ -57,7 +57,7 @@ public partial class ComboEditavel : ContentView
         Lista.IsVisible = false;
     }
 
-    private void OnSetaClicked(object? s, EventArgs e)
+    private void OnSetaClicked(object? s, TappedEventArgs e)
     {
         if (Lista.IsVisible) Lista.IsVisible = false;
         else Filtrar("");               // arrow shows the full list
