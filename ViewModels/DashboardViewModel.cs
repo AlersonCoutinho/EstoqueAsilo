@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using EstoqueAsilo.Enums;
 using EstoqueAsilo.Services;
+using static EstoqueAsilo.EstoqueView;
 
 namespace EstoqueAsilo.ViewModels;
 
@@ -23,6 +26,10 @@ public partial class DashboardViewModel : ObservableObject
         _estoque = estoque;
         _auth = auth;
         nomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
+        WeakReferenceMessenger.Default.Register<NavegarParaEntradaMessage>(this, (r, m) =>
+        {
+            SelecionarItem("entrada");
+        });
     }
 
     [RelayCommand]
@@ -33,11 +40,18 @@ public partial class DashboardViewModel : ObservableObject
             "inicio" => _services.GetRequiredService<HomeView>(),
             "entrada" => _services.GetRequiredService<EntradaView>(),
             "saida" => new SaidaView(),
-            "estoque" => new EstoqueView(),
-            "estoque_alimentos" => new EstoqueView(),
-            "estoque_limpeza" => new EstoqueView(),
-            "estoque_almoxarifado" => new EstoqueView(),
+            "estoque_alimentos" => CriarEstoqueView(Categoria.Alimentos),
+            "estoque_limpeza" => CriarEstoqueView(Categoria.Limpeza),
+            "estoque_almoxarifado" => CriarEstoqueView(Categoria.Almoxarifado),
+            "relatorios" => _services.GetRequiredService<RelatorioView>(),
             _ => null
         };
+    }
+
+    private EstoqueView CriarEstoqueView(Categoria categoria)
+    {
+        var vm = _services.GetRequiredService<EstoqueViewModel>();
+        vm.CarregarCategoria(categoria);
+        return new EstoqueView(vm);
     }
 }

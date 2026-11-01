@@ -1,11 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using EstoqueAsilo.Enums;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace EstoqueAsilo.ViewModels
 {
@@ -101,6 +102,7 @@ namespace EstoqueAsilo.ViewModels
             {
                 LimparCampos();
                 Atualizar();
+                WeakReferenceMessenger.Default.Send(new EstoqueAtualizadoMessage());
             }
             else
             {

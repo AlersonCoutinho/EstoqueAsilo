@@ -1,9 +1,12 @@
+using EstoqueAsilo.ViewModels;
 namespace EstoqueAsilo;
 
 public partial class EstoqueView : ContentView
 {
-    public EstoqueView()
+    public class NavegarParaEntradaMessage { }
+    public EstoqueView(EstoqueViewModel viewModel)
     {
         InitializeComponent();
+        BindingContext = viewModel;
     }
 }

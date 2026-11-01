@@ -153,6 +153,9 @@
 	  <MauiXaml Update="Views\MenuLateral.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\RelatorioView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\SaidaView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

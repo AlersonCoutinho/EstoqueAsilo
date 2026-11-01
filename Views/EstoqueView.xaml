@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
+             xmlns:conv="clr-namespace:EstoqueAsilo.Converters"
              x:Class="EstoqueAsilo.EstoqueView"
              BackgroundColor="#F2F2F2">
+    <ContentView.Resources>
+        <conv:SituacaoColorConverter x:Key="SituacaoColor" />
+    </ContentView.Resources>
     <ScrollView>
-    <VerticalStackLayout Padding="30" Spacing="20">
-        <Label 
-            Text="Estoque" TextColor="Black" FontSize="24"/>
-            <Grid ColumnDefinitions="Auto, Auto, *" ColumnSpacing="20">
-                <Entry Grid.Column="0" Placeholder="Buscar item" TextColor="Black" WidthRequest="300" HorizontalOptions="Start" BackgroundColor="White"/>
-                <Button Grid.Column="1" Text="+ novo item" BackgroundColor="#0A6FB5" TextColor="White" CornerRadius="8" HorizontalOptions="Start"/>
+        <VerticalStackLayout Padding="30" Spacing="20">
+            <Label Text="{Binding TituloCategoria}" TextColor="Black" FontSize="24" FontAttributes="Bold"/>
+            <Grid ColumnDefinitions="500, Auto" ColumnSpacing="30">
+                <Entry Placeholder="Buscar item" TextColor="Black" Text="{Binding TermoBusca}" BackgroundColor="White"/>
+                <Border Grid.Column="1" Style="{StaticResource BotaoAcaoAzul}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NovoItemCommand}" />
+                    </Border.GestureRecognizers>
+                    <Label Text="+ novo item" TextColor="White" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
+                </Border>
             </Grid>
-            <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="20">
-                <Grid ColumnDefinitions="2*, *, *, *, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" RowSpacing="8" ColumnSpacing="10">
-                    <Label Grid.Row="0" Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Row="0" Grid.Column="1" Text="Quantidade" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Row="0" Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Row="0" Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Row="0" Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" />
+            <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
+                <Grid RowDefinitions="Auto, *" RowSpacing="10">
+                    <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10" Padding="0,0,0,10">
+                        <Label Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black" />
+                        <Label Grid.Column="1" Text="Quantidade" FontAttributes="Bold" TextColor="Black" />
+                        <Label Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" />
+                        <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" />
+                        <Label Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" />
+                    </Grid>
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding ProdutosFiltrados}" SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                        </CollectionView.ItemsLayout>
 
-                    <Label Grid.Row="1" Grid.Column="0" Text="Arroz 5 kg" TextColor="Black" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="40 pct" TextColor="Black" />
-                    <Label Grid.Row="1" Grid.Column="2" Text="20" TextColor="Black" />
-                    <Label Grid.Row="1" Grid.Column="3" Text="30/04/2027" TextColor="Black" />
-                    <Label Grid.Row="1" Grid.Column="4" Text="OK" TextColor="#2E8B57" />
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhum item encontrado nesta categoria." TextColor="Gray" HorizontalOptions="Center" Margin="0,20" />
+                        </CollectionView.EmptyView>
 
-                    <Label Grid.Row="2" Grid.Column="0" Text="Feijão 1 kg" TextColor="Black" />
-                    <Label Grid.Row="2" Grid.Column="1" Text="35 pct" TextColor="Black" />
-                    <Label Grid.Row="2" Grid.Column="2" Text="25" TextColor="Black" />
-                    <Label Grid.Row="2" Grid.Column="3" Text="11/03/2027" TextColor="Black" />
-                    <Label Grid.Row="2" Grid.Column="4" Text="OK" TextColor="#2E8B57" />
-
-                    <Label Grid.Row="3" Grid.Column="0" Text="Leite UHT 1 L" TextColor="Black" />
-                    <Label Grid.Row="3" Grid.Column="1" Text="18 un" TextColor="Black" />
-                    <Label Grid.Row="3" Grid.Column="2" Text="30" TextColor="Black" />
-                    <Label Grid.Row="3" Grid.Column="3" Text="24/10/2026" TextColor="Black" />
-                    <Label Grid.Row="3" Grid.Column="4" Text="Vence em 12 d" TextColor="#E67E22" />
-
-                    <Label Grid.Row="4" Grid.Column="0" Text="Frango (kg)" TextColor="Black" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="15 kg" TextColor="Black" />
-                    <Label Grid.Row="4" Grid.Column="2" Text="10" TextColor="Black" />
-                    <Label Grid.Row="4" Grid.Column="3" Text="17/10/2026" TextColor="Black" />
-                    <Label Grid.Row="4" Grid.Column="4" Text="Vence em 5 d" TextColor="#E67E22" />
-
-                    <Label Grid.Row="5" Grid.Column="0" Text="Café 500 g" TextColor="Black" />
-                    <Label Grid.Row="5" Grid.Column="1" Text="8 pct" TextColor="Black" />
-                    <Label Grid.Row="5" Grid.Column="2" Text="10" TextColor="Black" />
-                    <Label Grid.Row="5" Grid.Column="3" Text="10/10/2026" TextColor="Black" />
-                    <Label Grid.Row="5" Grid.Column="4" Text="Vencido" TextColor="#E74C3C" />
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EstoqueLinha">
+                                <Border StrokeThickness="0" Padding="10,8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 3">
+                                    <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10">
+                                        <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Text="{Binding Quantidade}" TextColor="Black" VerticalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding Minimo}" TextColor="Black" VerticalOptions="Center"/>
+                                        <Label Grid.Column="3" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center"/>
+                                        <Label Grid.Column="4" Text="{Binding Situacao}" TextColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" VerticalOptions="Center" FontAttributes="Bold"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </Border>
-    </VerticalStackLayout>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentView>

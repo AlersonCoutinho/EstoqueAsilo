@@ -119,24 +119,7 @@
             </Border>
 
         </VerticalStackLayout>
-        <Border Grid.Row="2" BackgroundColor="#E53935" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="15,12">
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroupList>
-                    <VisualStateGroup Name="CommonStates">
-                        <VisualState Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="#E53935" />
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState Name="PointerOver">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="#B71C1C" />
-
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </VisualStateManager.VisualStateGroups>
+        <Border Grid.Row="2" Style="{StaticResource BotaoAcaoVermelho}">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Tapped="Sair1_Clicked" />
             </Border.GestureRecognizers>
