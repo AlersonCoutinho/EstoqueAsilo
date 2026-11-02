@@ -17,7 +17,7 @@
                 <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="15" VerticalOptions="Start">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Últimas entradas" FontSize="18" TextColor="Black"/>
-                        <Grid ColumnDefinitions="100,2*,90,100" RowDefinitions="Auto, *" RowSpacing="8" ColumnSpacing="10">
+                        <Grid ColumnDefinitions="100,*,90,100" RowDefinitions="Auto, *" RowSpacing="8" ColumnSpacing="10">
                             <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" />
                             <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" />
                             <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" />
@@ -33,13 +33,13 @@
                                 </CollectionView.EmptyView>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:EntradaLinha">
+                                    <DataTemplate x:DataType="models:MovimentacaoLinha">
                                         <Border StrokeThickness="0" Padding="12,10" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
                                             <Grid ColumnSpacing="10" ColumnDefinitions="100,2*,90,100">
                                                 <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" />
                                                 <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
                                                 <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}" />
-                                                <Label Grid.Column="3" Text="{Binding Origem}" FontSize="12" TextColor="#222222" />
+                                                <Label Grid.Column="3" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222" />
                                             </Grid>
                                         </Border>
                                     </DataTemplate>

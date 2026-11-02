@@ -18,7 +18,7 @@ namespace EstoqueAsilo.ViewModels
 
         // -- Listas
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
-        public ObservableCollection<EntradaLinha> Entradas { get; set; } = [];
+        public ObservableCollection<MovimentacaoLinha> Entradas { get; set; } = [];
 
         // -- Propriedades
         [ObservableProperty]
@@ -64,10 +64,10 @@ namespace EstoqueAsilo.ViewModels
 
             foreach (var m in _consulta.ListarEntradas().OrderByDescending(m => m.Data))
             {
-                Entradas.Add(new EntradaLinha(
+                Entradas.Add(new MovimentacaoLinha(
                     m.Data,
                     $"{m.Produto.Nome} {m.Produto.Unidade}",
-                    m.IsDoacao ? "Doação" : "Compra",
+                    m.IsDoacao,
                     m.Contraparte ?? "—",
                     m.Quantidade));
             }
