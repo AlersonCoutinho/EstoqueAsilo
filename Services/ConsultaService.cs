@@ -114,11 +114,10 @@ namespace EstoqueAsilo.Services
             return sugeridos;
         }
 
-        // --- Não Utilizado por enquanto
-        //internal IEnumerable<DateTime> ListarValidadesDeProduto(Produto produto)
-        //{
-        //    return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id).Select(l => l.DataValidade)];
-        //}
+        internal IEnumerable<DateTime> ListarValidadesDeProduto(Produto produto)
+        {
+            return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id).Select(l => l.DataValidade)];
+        }
 
         // -- Listagem de Produtos organizados por vencimento
         internal IEnumerable<VencimentoInfo> ListarProdutosVencidos()
@@ -159,7 +158,7 @@ namespace EstoqueAsilo.Services
                 .Select(v => new AtencaoLinha(
                     v.Produto.Nome,
                     v.QuantidadeRestante,
-                    $"Vence em {v.TempoRestanteEmDias} dias"));
+                    v.TempoRestanteEmDias > 0 ? $"Vence em {v.TempoRestanteEmDias} dia(s)" : "Vence hoje"));
             return [.. produtosBaixa.Concat(produtosVencidos).Concat(produtosVencendo)];
         }
 

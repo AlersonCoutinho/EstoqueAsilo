@@ -9,7 +9,6 @@
         <Label Grid.Column="1" TextColor="Black" Text="Asilo São Vicente de paulo" HorizontalOptions="Center" VerticalOptions="Center" FontSize="30"/>
         <HorizontalStackLayout Grid.Column="2" Spacing="10">
             <Label Text="{Binding NomeUsuario}" TextColor="Black" VerticalOptions="Center"/>
-            <Image Source="icone.png" HeightRequest="35"/>
         </HorizontalStackLayout>
 
     </Grid>

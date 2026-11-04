@@ -2,9 +2,14 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:comp="clr-namespace:EstoqueAsilo.Views.Components"
+             xmlns:conv="clr-namespace:EstoqueAsilo.Converters"
              xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
              x:Class="EstoqueAsilo.SaidaView"
              BackgroundColor="#F2F2F2">
+
+    <ContentView.Resources>
+        <conv:BoolToColorConverter x:Key="BoolToColor" CorVerdadeiro="#E53935"  CorFalso="#2E8B57"/>
+    </ContentView.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="30,20" Spacing="10">
             <Label Text="Registrar Saída" FontSize="24" TextColor="Black" />
@@ -76,6 +81,17 @@
                             <Label Text="Instituição de destino" TextColor="Black" FontSize="12" />
                             <Entry Text="{Binding Instituicao}" Placeholder="Ex: Centro de ajuda" TextColor="Black" />
                         </VerticalStackLayout>
+
+                        <Border BackgroundColor="{Binding TemErro, Converter={StaticResource BoolToColor}}"
+                            IsVisible="{Binding MostrarMensagem}" StrokeShape="RoundRectangle 14" StrokeThickness="0"
+                                Padding="8"  Opacity="0.9">
+                            <Label 
+                            Text="{Binding Mensagem}"
+                            TextColor="White"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center" />
+                        </Border>
 
                         <Button Command="{Binding RegSaidaCommand}"
                                 Text="Registrar saída"

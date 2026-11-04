@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -49,6 +48,12 @@ namespace EstoqueAsilo.ViewModels
         public partial decimal Preco { get; set; } = 0m;
         [ObservableProperty]
         public partial string NotaFiscal { get; set; } = string.Empty;
+        [ObservableProperty]
+        public partial bool MostrarMensagem { get; set; } = false;
+        [ObservableProperty]
+        public partial bool TemErro { get; set; } = false;
+        [ObservableProperty]
+        public partial string Mensagem { get; set; } = string.Empty;
 
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
@@ -91,7 +96,10 @@ namespace EstoqueAsilo.ViewModels
         private async Task RegEntrada()
         {
             if (string.IsNullOrWhiteSpace(NomeProduto) || string.IsNullOrWhiteSpace(Quantidade))
+            {
+                MostrarNotificacao(true, "Preencha todos os campos obrigatórios!");
                 return;
+            }
 
             Decimal? precoNum = Preco > 0 ? Preco : null;
             DateTime? validade = MostrarValidade ? DataValidade : null;
@@ -102,11 +110,12 @@ namespace EstoqueAsilo.ViewModels
             {
                 LimparCampos();
                 Atualizar();
-                WeakReferenceMessenger.Default.Send(new EstoqueAtualizadoMessage());
+                MostrarNotificacao(false, "Entrada registrada com sucesso!");
+                WeakReferenceMessenger.Default.Send(new EstoqueAtualizadoMessage()); //???
             }
             else
             {
-                Debug.WriteLine(erro);
+                MostrarNotificacao(true, erro ?? "Erro ao registrar entrada!");
             }
             await Task.CompletedTask;
         }
@@ -131,6 +140,13 @@ namespace EstoqueAsilo.ViewModels
         partial void OnUnidadeSelecionadaChanged(string value) =>
             AtualizarCategoriaSelecionada(NomeProduto, value);
 
+        //Metodos Auxiliares
+        private void MostrarNotificacao(bool ehErro, string mensagem)
+        {
+            MostrarMensagem = true;
+            TemErro = ehErro;
+            Mensagem = mensagem;
+        }
         private void AtualizarCategoriaSelecionada(string nome, string unidade)
         {
             if (_consulta.ProdutoPorNome(nome, unidade) is not Produto produto) 

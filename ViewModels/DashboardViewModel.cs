@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using EstoqueAsilo.Enums;
 using EstoqueAsilo.Services;
-using static EstoqueAsilo.EstoqueView;
 
 namespace EstoqueAsilo.ViewModels;
 
@@ -23,9 +22,7 @@ public partial class DashboardViewModel : ObservableObject
         _services = services;
         _auth = auth;
 
-        _estoque = estoque;
-        _auth = auth;
-        nomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
+        NomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
         WeakReferenceMessenger.Default.Register<NavegarParaEntradaMessage>(this, (r, m) =>
         {
             SelecionarItem("entrada");
@@ -39,7 +36,7 @@ public partial class DashboardViewModel : ObservableObject
         {
             "inicio" => _services.GetRequiredService<HomeView>(),
             "entrada" => _services.GetRequiredService<EntradaView>(),
-            "saida" => new SaidaView(),
+            "saida" => _services.GetRequiredService<SaidaView>(),
             "estoque_alimentos" => CriarEstoqueView(Categoria.Alimentos),
             "estoque_limpeza" => CriarEstoqueView(Categoria.Limpeza),
             "estoque_almoxarifado" => CriarEstoqueView(Categoria.Almoxarifado),

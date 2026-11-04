@@ -34,6 +34,12 @@ namespace EstoqueAsilo.ViewModels
         public partial bool EhDoacao { get; set; } = true;
         [ObservableProperty]
         public partial string Instituicao { get; set; } = string.Empty;
+        [ObservableProperty]
+        public partial bool MostrarMensagem { get; set; } = false;
+        [ObservableProperty]
+        public partial bool TemErro { get; set; } = false;
+        [ObservableProperty]
+        public partial string Mensagem { get; set; } = string.Empty;
 
         public SaidaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
@@ -76,15 +82,25 @@ namespace EstoqueAsilo.ViewModels
         private async Task RegSaida()
         {
             if (_consulta.ProdutoPorNome(ProdutoSelecionado, UnidadeSelecionada) is not Produto produto)
+            {
+                MostrarNotificacao(true, "Produto não encontrado!");
                 return;
+            }
             if (!int.TryParse(Quantidade, out int quantidade) || quantidade <= 0)
-                return;
+            {
+                MostrarNotificacao(true, "Quantidade inválida!");
+                return; 
+            }
 
             // -- Confirmacao Lote
             var lotesSugeridos = _consulta.SugerirLotes(produto, quantidade);
             if (produto.Categoria == Categoria.Alimentos)
             {
-                if (lotesSugeridos.Count == 0) return;
+                if (lotesSugeridos.Count == 0) 
+                { 
+                    MostrarNotificacao(true, "Não há lotes disponíveis para este produto!");
+                    return; 
+                }
 
                 foreach (var l in lotesSugeridos)
                 {
@@ -102,12 +118,22 @@ namespace EstoqueAsilo.ViewModels
             {
                 LimparCampos();
                 Atualizar();
+                MostrarNotificacao(false, "Saída registrada com sucesso!");
             }
             else
             {
+                MostrarNotificacao(true, erro ?? "Erro ao registrar saída!");
                 Debug.WriteLine(erro);
             }
             await Task.CompletedTask;
+        }
+
+        //Metodos auxiliares
+        private void MostrarNotificacao(bool ehErro, string mensagem)
+        {
+            MostrarMensagem = true;
+            TemErro = ehErro;
+            Mensagem = mensagem;
         }
         private void LimparCampos()
         {

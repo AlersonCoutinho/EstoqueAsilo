@@ -24,7 +24,7 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial ObservableCollection<EstoqueLinha> ProdutosFiltrados { get; set; } = [];
 
-        private List<EstoqueLinha> _todosProdutos = [];
+        private readonly List<EstoqueLinha> _todosProdutos = [];
 
         public EstoqueViewModel(ConsultaService consulta, EstoqueService estoque)
         {
@@ -34,7 +34,7 @@ namespace EstoqueAsilo.ViewModels
             {
                 if (!string.IsNullOrEmpty(TituloCategoria))
                 {
-                    var categoriaAtual = (Categoria)Enum.Parse(typeof(Categoria), TituloCategoria);
+                    var categoriaAtual = Enum.Parse<Categoria>(TituloCategoria);
                     CarregarCategoria(categoriaAtual);
                 }
             });
@@ -54,14 +54,14 @@ namespace EstoqueAsilo.ViewModels
                 int quantidadeAtual = _consulta.CalcularQuantidadeDeProduto(p);
 
                 var validades = _consulta.ListarValidadesDeProduto(p).ToList();
-                string dataValidadeStr = validades.Any() ? validades.Min().ToString("dd/MM/yyyy") : "—";
+                string dataValidadeStr = validades.Count != 0 ? validades.Min().ToString("dd/MM/yyyy") : "—";
 
                 string situacao = "OK";
                 if (p.QuantidadeMinima is not null && quantidadeAtual <= p.QuantidadeMinima)
                     situacao = "Estoque Baixo";
-                else if (validades.Any() && validades.Min() < DateTime.Today)
+                else if (validades.Count != 0 && validades.Min() < DateTime.Today)
                     situacao = "Vencido";
-                else if (validades.Any() && validades.Min() <= DateTime.Today.AddDays(30))
+                else if (validades.Count != 0 && validades.Min() <= DateTime.Today.AddDays(30))
                     situacao = "Vence em breve";
 
                 _todosProdutos.Add(new EstoqueLinha(p.Nome, quantidadeAtual.ToString(), p.QuantidadeMinima?.ToString() ?? "—", dataValidadeStr, situacao));
@@ -87,7 +87,7 @@ namespace EstoqueAsilo.ViewModels
             }
         }
         [RelayCommand]
-        private void NovoItem()
+        private static void NovoItem()
         {
             WeakReferenceMessenger.Default.Send(new NavegarParaEntradaMessage());
         }

@@ -16,15 +16,14 @@
                      Color="White" >
         </BoxView>
 
-        <Image  Grid.Column="0"
-                x:Name="ImagemLogo"
-                Source="logo_brasil_sem_fundo.png"
-                Aspect="AspectFit"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Margin="100,100,100,100">
-        </Image>
-
+        <Border StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="White"
+            Padding="12" HeightRequest="400" WidthRequest="400">
+            <Image  Source="logo_brasil_sem_fundo.png"
+                    Aspect="AspectFit"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+            </Image>
+        </Border>
         <VerticalStackLayout Grid.Column="1" Padding="30" Spacing="15" VerticalOptions="Center">
 
             <Label
