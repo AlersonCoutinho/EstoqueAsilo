@@ -15,7 +15,9 @@ public partial class DashboardViewModel : ObservableObject
     public partial View? ConteudoAtual { get; set; } = null;
 
     [ObservableProperty]
-    public partial string NomeUsuario { get; set; } = string.Empty;
+    public partial string NomeUsuario { get; set; } = string.Empty; 
+    [ObservableProperty]
+    public partial bool Carregando { get; set; }
 
     public DashboardViewModel(IServiceProvider services, AuthService auth)
     {
@@ -25,13 +27,16 @@ public partial class DashboardViewModel : ObservableObject
         NomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
         WeakReferenceMessenger.Default.Register<NavegarParaEntradaMessage>(this, (r, m) =>
         {
-            SelecionarItem("entrada");
+            ConteudoAtual = _services.GetRequiredService<HomeView>();
         });
     }
 
     [RelayCommand]
-    private void SelecionarItem(string item)
+    private async Task SelecionarItem(string item)
     {
+        Carregando = true;
+        await Task.Delay(50);
+
         ConteudoAtual = item switch
         {
             "inicio" => _services.GetRequiredService<HomeView>(),
@@ -43,6 +48,9 @@ public partial class DashboardViewModel : ObservableObject
             "relatorios" => _services.GetRequiredService<RelatorioView>(),
             _ => null
         };
+
+        await Task.Delay(50);
+        Carregando = false;
     }
 
     private EstoqueView CriarEstoqueView(Categoria categoria)

@@ -26,31 +26,39 @@ namespace EstoqueAsilo.Services
             CredenciaisRepository.SalvarSenhas(_caminhoSenhas, Senhas);
         }
 
-        internal bool Login(string nome, string senha)
+        internal bool AutenticarSenha(string senha)
         {
             foreach (var s in Senhas)
             {
-                if (SenhaHelper.Verificar(senha, s.Hash, s.Salt))
-                {
-                    var usuario = Usuarios.FirstOrDefault(u =>
-                        u.Nome.Equals(nome.Trim(), StringComparison.OrdinalIgnoreCase));
-                    if (usuario is null)
-                    {
-                        var ti = new CultureInfo("pt-BR").TextInfo;
-                        string nomeFormatado = ti.ToTitleCase(nome.Trim().ToLower());
-                        usuario = new Usuario
-                        {
-                            Nome = nomeFormatado,
-                            Id = IdHelper.NovoId(Usuarios, n => n.Id)
-                        };
-                        Usuarios.Add(usuario);
-                    }
-                    UsuarioLogado = usuario;
-                    return true;
-                }
+                if (SenhaHelper.Verificar(senha, s.Hash, s.Salt)) return true;
             }
             return false;
 
+        }
+
+        internal bool TemUsuario(string nome)
+        {
+            var usuario = Usuarios.FirstOrDefault(u =>
+                        u.Nome.Equals(nome.Trim(), StringComparison.OrdinalIgnoreCase));
+            if (usuario is null)
+            {
+                return false;
+            }
+            UsuarioLogado = usuario;
+            return true;
+        }
+
+        internal bool CadastrarUsuario(string nome)
+        {
+            Usuario usuario = new()
+            {
+                Nome = nome,
+                Id = IdHelper.NovoId(Usuarios, n => n.Id)
+            };
+            Usuarios.Add(usuario);
+
+            UsuarioLogado = usuario;
+            return true;
         }
 
         internal void Logout()

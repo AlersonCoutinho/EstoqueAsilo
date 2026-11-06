@@ -8,52 +8,50 @@
     <ContentView.Resources>
         <conv:SituacaoColorConverter x:Key="SituacaoColor" />
     </ContentView.Resources>
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20">
-            <Label Text="{Binding TituloCategoria}" TextColor="Black" FontSize="24" FontAttributes="Bold"/>
-            <Grid ColumnDefinitions="500, Auto" ColumnSpacing="30">
-                <Entry Placeholder="Buscar item" TextColor="Black" Text="{Binding TermoBusca}" BackgroundColor="White"/>
-                <Border Grid.Column="1" Style="{StaticResource BotaoAcaoAzul}">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding NovoItemCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label Text="+ novo item" TextColor="White" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
-                </Border>
-            </Grid>
-            <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
-                <Grid RowDefinitions="Auto, *" RowSpacing="10">
-                    <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10" Padding="0,0,0,10">
-                        <Label Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black" />
-                        <Label Grid.Column="1" Text="Quantidade" FontAttributes="Bold" TextColor="Black" />
-                        <Label Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" />
-                        <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" />
-                        <Label Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" />
-                    </Grid>
-                    <CollectionView Grid.Row="1" ItemsSource="{Binding ProdutosFiltrados}" SelectionMode="None">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
-                        </CollectionView.ItemsLayout>
-
-                        <CollectionView.EmptyView>
-                            <Label Text="Nenhum item encontrado nesta categoria." TextColor="Gray" HorizontalOptions="Center" Margin="0,20" />
-                        </CollectionView.EmptyView>
-
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:EstoqueLinha">
-                                <Border StrokeThickness="0" Padding="10,8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 3">
-                                    <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10">
-                                        <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
-                                        <Label Grid.Column="1" Text="{Binding Quantidade}" TextColor="Black" VerticalOptions="Center"/>
-                                        <Label Grid.Column="2" Text="{Binding Minimo}" TextColor="Black" VerticalOptions="Center"/>
-                                        <Label Grid.Column="3" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center"/>
-                                        <Label Grid.Column="4" Text="{Binding Situacao}" TextColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" VerticalOptions="Center" FontAttributes="Bold"/>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </Grid>
+    <Grid RowDefinitions="auto, auto, *" Padding="30" RowSpacing="20">
+        <Label Text="{Binding TituloCategoria}" TextColor="Black" FontSize="24" FontAttributes="Bold"/>
+        <Grid Grid.Row="1" ColumnDefinitions="500, Auto" ColumnSpacing="30">
+            <Entry Placeholder="Buscar item" TextColor="Black" Text="{Binding TermoBusca}" BackgroundColor="White"/>
+            <Border Grid.Column="1" Style="{StaticResource BotaoAcaoAzul}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NovoItemCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="+ novo item" TextColor="White" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
             </Border>
-        </VerticalStackLayout>
-    </ScrollView>
+        </Grid>
+        <Border Grid.Row="2" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
+            <Grid RowDefinitions="Auto, *" RowSpacing="10">
+                <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10" Padding="0,0,0,10">
+                    <Label Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Column="1" Text="Quantidade" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" />
+                    <Label Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" />
+                </Grid>
+                <CollectionView  Grid.Row="1" ItemsSource="{Binding ProdutosFiltrados}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.EmptyView>
+                        <Label Text="Nenhum item encontrado nesta categoria." TextColor="Gray" HorizontalOptions="Center" Margin="0,20" />
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:EstoqueLinha">
+                            <Border StrokeThickness="0" Padding="10,8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 3">
+                                <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10">
+                                    <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding Quantidade}" TextColor="Black" VerticalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding Minimo}" TextColor="Black" VerticalOptions="Center"/>
+                                    <Label Grid.Column="3" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center"/>
+                                    <Label Grid.Column="4" Text="{Binding Situacao}" TextColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" VerticalOptions="Center" FontAttributes="Bold"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+    </Grid>
 </ContentView>

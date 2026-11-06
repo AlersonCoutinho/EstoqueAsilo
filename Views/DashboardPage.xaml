@@ -11,5 +11,11 @@
             <local:BarraSuperior Grid.Row="0"/>
             <ContentView Grid.Row="1" Content="{Binding ConteudoAtual}" />
         </Grid>
+        <Grid IsVisible="{Binding Carregando}" BackgroundColor="#D0FFFFFF" Grid.Column="1">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12">
+                <ActivityIndicator IsRunning="{Binding Carregando}" WidthRequest="48" HeightRequest="48" />
+                <Label Text="Carregando..." TextColor="Black" />
+            </VerticalStackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

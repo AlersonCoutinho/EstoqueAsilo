@@ -34,7 +34,7 @@
             TextColor="black"/>
 
             <Label
-            Text="Digite seu email"
+            Text="Digite seu usuário:"
             FontSize="14" 
             TextColor="black"/>
 
@@ -43,7 +43,7 @@
                 Placeholder="Usuario" />
 
             <Label
-            Text="Digite a senha"
+            Text="Digite a senha:"
             FontSize="14"
             TextColor="black"/>
             
@@ -57,7 +57,7 @@
             MaxLength="50"
             TextColor="black"
             BackgroundColor="#F0F0F0"/>
-            
+
             <Button
             x:Name="EntrarButton"
             Text="Entrar"
@@ -65,13 +65,6 @@
             TextColor="White"
             BackgroundColor="#0A6FB5"/>
 
-            <Button
-            Text="Cadastrar"
-            Command="{Binding CadastrarCommand}"
-            TextColor="White"
-            BackgroundColor="#0A6FB5"/>
-            
-            
             <Button
             Text="Acessar xmls [DEBUG]"
             Command="{Binding DebugCommand}"

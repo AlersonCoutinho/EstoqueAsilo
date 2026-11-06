@@ -84,7 +84,7 @@
 
                         <Border BackgroundColor="{Binding TemErro, Converter={StaticResource BoolToColor}}"
                             IsVisible="{Binding MostrarMensagem}" StrokeShape="RoundRectangle 14" StrokeThickness="0"
-                                Padding="8"  Opacity="0.9">
+                                Padding="8"  Opacity="0.9" Margin="0,20,0,0">
                             <Label 
                             Text="{Binding Mensagem}"
                             TextColor="White"
@@ -93,12 +93,15 @@
                             HorizontalOptions="Center" />
                         </Border>
 
-                        <Button Command="{Binding RegSaidaCommand}"
-                                Text="Registrar saída"
-                                BackgroundColor="#0A6FB5"
-                                TextColor="White"
-                                CornerRadius="8"
-                                Margin="0,10,0,0" />
+                        <Border Style="{StaticResource BotaoAcaoAzul}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RegSaidaCommand}" />
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image Source="saida.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                                <Label Text="Registrar saída" TextColor="White" FontSize="15" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
                     </VerticalStackLayout>
                 </Border>
             </Grid>
