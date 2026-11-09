@@ -15,39 +15,37 @@
             <Label Text="Registrar Saída" FontSize="24" TextColor="Black" />
             <Grid ColumnDefinitions="2*, *" ColumnSpacing="20">
                 <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" VerticalOptions="Start">
-                    <VerticalStackLayout Grid.Column="0" Spacing="10">
+                    <Grid Grid.Column="0" RowDefinitions="auto,auto, *" RowSpacing="10">
                         <Label Text="Últimas Saídas" FontSize="18" TextColor="Black"/>
-                        <Grid ColumnDefinitions="100,*,90,100" RowDefinitions="Auto, *" RowSpacing="8" ColumnSpacing="10">
-                            <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" />
-                            <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" />
-                            <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" />
-                            <Label Grid.Row="0" Grid.Column="3" Text="Destino" TextColor="Black" FontAttributes="Bold" />
-
-                            <CollectionView Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Saidas}" SelectionMode="None">
-                                <CollectionView.ItemsLayout>
-                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
-                                </CollectionView.ItemsLayout>
-
-                                <CollectionView.EmptyView>
-                                    <Label Text="Nenhuma saída registrada." HorizontalOptions="Center" Margin="0,30" />
-                                </CollectionView.EmptyView>
-
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:MovimentacaoLinha">
-                                        <Border StrokeThickness="0" Padding="12,10" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
-                                            <Grid ColumnSpacing="10" ColumnDefinitions="100,2*,90,100">
-                                                <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" />
-                                                <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
-                                                <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}" />
-                                                <Label Grid.Column="3" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-
+                        <Grid Grid.Row="1" ColumnDefinitions="100,*,90,100" ColumnSpacing="10" Padding="8,0">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label Grid.Row="0" Grid.Column="3" Text="Destino" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
                         </Grid>
-                    </VerticalStackLayout>
+                        <CollectionView Grid.Row="2" ItemsSource="{Binding Saidas}" SelectionMode="None">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <Label Text="Nenhuma saída registrada." HorizontalOptions="Center" Margin="0,30" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:MovimentacaoLinha">
+                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                        <Grid ColumnSpacing="10" ColumnDefinitions="100,*,90,100">
+                                            <Label HorizontalOptions="Center" Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" />
+                                            <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
+                                            <Label HorizontalOptions="Center" Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}" />
+                                            <Label HorizontalOptions="Center" Grid.Column="3" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
                 </Border>
                 <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundREctangle 8" Padding="20">
                     <VerticalStackLayout Spacing="12">

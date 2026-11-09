@@ -106,7 +106,7 @@ namespace EstoqueAsilo.ViewModels
                 {
                     bool continuar = await Shell.Current.DisplayAlertAsync(
                         "Confirme Data de Validade do Alimento!",
-                        $"A Próxima Data de Validade é {l.Lote.DataValidade.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}",
+                        $"A Próxima Data de Validade é {l.Lote.DataValidade.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}",
                         "Registrar", "Cancelar");
 
                     if (!continuar) return;

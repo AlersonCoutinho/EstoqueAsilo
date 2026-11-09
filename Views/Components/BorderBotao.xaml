@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EstoqueAsilo.Views.Components.BorderBotao"
+             x:Name="root">
+    <Border x:Name="Caixa" Style="{Binding Estilo}" Margin="0,10,0,0">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped" />
+        </Border.GestureRecognizers>
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+            <Image Source="{Binding Image, Source={x:Reference root}}" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+            <Label Text="{Binding Text, Source={x:Reference root}}" TextColor="White" FontSize="15" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+    </Border>
+</ContentView>
