@@ -98,6 +98,7 @@
 	  <None Remove="Resources\Images\Icones\config.png" />
 	  <None Remove="Resources\Images\Icones\desligar.png" />
 	  <None Remove="Resources\Images\Icones\despensa.png" />
+	  <None Remove="Resources\Images\Icones\editar.png" />
 	  <None Remove="Resources\Images\Icones\entrada.png" />
 	  <None Remove="Resources\Images\Icones\limpeza.png" />
 	  <None Remove="Resources\Images\Icones\relatorio.png" />
@@ -110,6 +111,7 @@
 	  <MauiImage Include="Resources\Images\Icones\config.png" />
 	  <MauiImage Include="Resources\Images\Icones\desligar.png" />
 	  <MauiImage Include="Resources\Images\Icones\despensa.png" />
+	  <MauiImage Include="Resources\Images\Icones\editar.png" />
 	  <MauiImage Include="Resources\Images\Icones\entrada.png" />
 	  <MauiImage Include="Resources\Images\Icones\limpeza.png" />
 	  <MauiImage Include="Resources\Images\Icones\relatorio.png" />

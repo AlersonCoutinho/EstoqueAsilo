@@ -27,7 +27,7 @@ public partial class DashboardViewModel : ObservableObject
         NomeUsuario = _auth.UsuarioLogado?.Nome ?? "Nome Indisponível";
         WeakReferenceMessenger.Default.Register<NavegarParaEntradaMessage>(this, (r, m) =>
         {
-            ConteudoAtual = _services.GetRequiredService<HomeView>();
+            ConteudoAtual = _services.GetRequiredService<EntradaView>();
         });
     }
 

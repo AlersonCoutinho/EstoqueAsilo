@@ -11,62 +11,68 @@
                 <Border Grid.Column="0" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Entradas do mês" TextColor="Black"/>
-                        <Label Text="{Binding EntradasMes}" FontSize="28" TextColor="#2E8B57"/>
+                        <Label Text="{Binding EntradasMes}" FontSize="32" TextColor="#2E8B57" FontAttributes="Bold"/>
                         <Label Text="Itens recebidos" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
                 <Border Grid.Column="1" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Saídas do mês" TextColor="Black"/>
-                        <Label Text="{Binding SaidasMes}" FontSize="28" TextColor="Gray"/>
+                        <Label Text="{Binding SaidasMes}" FontSize="32" TextColor="Gray" FontAttributes="Bold"/>
                         <Label Text="Itens consumidos ou doados" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
                 <Border Grid.Column="2" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Precisa repor" TextColor="Black"/>
-                        <Label Text="{Binding PrecisaRepor}" FontSize="28" TextColor="#E67E22"/>
+                        <Label Text="{Binding PrecisaRepor}" FontSize="32" TextColor="#E67E22" FontAttributes="Bold"/>
                         <Label Text="Abaixo do minimo" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
                 <Border Grid.Column="3" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Vencendo em 30 dias ou Vencido" TextColor="Black"/>
-                        <Label Text="{Binding QuantVencendoVencido}" FontSize="28" TextColor="#E74C3C"/>
+                        <Label Text="{Binding QuantVencendoVencido}" FontSize="32" TextColor="#E74C3C" FontAttributes="Bold"/>
                         <Label Text="Na despensa" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
             </Grid>
-            <Label Text="Precisa de atenção" FontSize="20" TextColor="Black"/>
-            <Grid ColumnDefinitions="2*, *, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
-                <Label Grid.Row="0" Grid.Column="0" Text="Item" TextColor="Black" FontAttributes="Bold" />
-                <Label Grid.Row="0" Grid.Column="1" Text="Estoque" TextColor="Black" FontAttributes="Bold"/>
-                <Label Grid.Row="0" Grid.Column="2" Text="Situação" TextColor="Black" FontAttributes="Bold" />
-            </Grid>
-            <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding PrecisaAtencao}" SelectionMode="None">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
-                </CollectionView.ItemsLayout>
+            <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="14">
+                <Grid RowDefinitions="auto, auto, *" RowSpacing="8">
+                    <Label Text="Precisa de atenção" FontSize="20" TextColor="Black"/>
+                    <Grid Grid.Row="1" ColumnDefinitions="2*, *, *" Padding="8,0">
+                        <Label Grid.Column="0" Text="Item" TextColor="Black" FontAttributes="Bold" />
+                        <Label Grid.Column="1" Text="Estoque" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Grid.Column="2" Text="Situação" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    </Grid>
+                    <CollectionView Grid.Row="2" ItemsSource="{Binding PrecisaAtencao}" SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                        </CollectionView.ItemsLayout>
 
-                <CollectionView.EmptyView>
-                    <Label Text="Nenhum item precisa de atenção." HorizontalOptions="Center" Margin="0,30" />
-                </CollectionView.EmptyView>
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhum item precisa de atenção." HorizontalOptions="Center" Margin="0,30" />
+                        </CollectionView.EmptyView>
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AtencaoLinha">
-                        <Border StrokeThickness="0" Padding="12,10" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
-                            <Grid ColumnSpacing="10" ColumnDefinitions="2*, *, *">
-                                <Label Grid.Column="0" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
-                                <Label Grid.Column="1" VerticalOptions="Center" Text="{Binding Quantidade}" />
-                                <Border Grid.Column="2" Padding="8,2" HorizontalOptions="Start" VerticalOptions="Center" 
-                                        BackgroundColor="OrangeRed" StrokeShape="RoundRectangle 10" StrokeThickness="0">
-                                    <Label  Text="{Binding Situacao}" FontSize="12" TextColor="White" />
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:AtencaoLinha">
+                                <Grid Padding="0,0,0,6">
+                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                        <Grid ColumnSpacing="10" ColumnDefinitions="2*, *, *">
+                                            <Label Grid.Column="0" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
+                                            <Label Grid.Column="1" VerticalOptions="Center" Text="{Binding Quantidade}"  HorizontalOptions="Center"/>
+                                            <Border Grid.Column="2" Padding="8,2" HorizontalOptions="Center" VerticalOptions="Center" 
+                                                    BackgroundColor="OrangeRed" StrokeShape="RoundRectangle 10" StrokeThickness="0">
+                                                <Label  Text="{Binding Situacao}" FontSize="12" TextColor="White" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>

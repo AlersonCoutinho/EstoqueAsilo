@@ -4,6 +4,8 @@ namespace EstoqueAsilo.Views.Components;
 
 public partial class BorderBotao : ContentView
 {
+    public event EventHandler? Clicked;
+
     public static readonly BindableProperty EstiloProperty = BindableProperty.Create(
         nameof(Estilo), typeof(Style), typeof(BorderBotao), 
         null, propertyChanged: (b, _, novo) => ((BorderBotao)b).Caixa.Style = (Style?)novo);
@@ -56,5 +58,7 @@ public partial class BorderBotao : ContentView
     {
         if (Command?.CanExecute(CommandParameter) == true)
             Command.Execute(CommandParameter);
+
+        Clicked?.Invoke(this, EventArgs.Empty);
     }
 }

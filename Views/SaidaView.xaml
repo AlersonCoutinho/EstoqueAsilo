@@ -91,15 +91,12 @@
                             HorizontalOptions="Center" />
                         </Border>
 
-                        <Border Style="{StaticResource BotaoAcaoAzul}">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding RegSaidaCommand}" />
-                            </Border.GestureRecognizers>
-                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Image Source="saida.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
-                                <Label Text="Registrar saída" TextColor="White" FontSize="15" VerticalOptions="Center" />
-                            </HorizontalStackLayout>
-                        </Border>
+                        <comp:BorderBotao
+                        Estilo="{StaticResource BotaoAcaoAzul}"  
+                        Text="Registrar saída" 
+                        Image="saida.png" 
+                        Command="{Binding RegSaidaCommand}"/>
+                        
                     </VerticalStackLayout>
                 </Border>
             </Grid>

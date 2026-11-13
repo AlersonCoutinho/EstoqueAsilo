@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
              xmlns:conv="clr-namespace:EstoqueAsilo.Converters"
+             xmlns:conp="clr-namespace:EstoqueAsilo.Views.Components"
+             xmlns:vm="clr-namespace:EstoqueAsilo.ViewModels"
              x:Class="EstoqueAsilo.EstoqueView"
              BackgroundColor="#F2F2F2">
     <ContentView.Resources>
@@ -21,16 +23,16 @@
         </Grid>
         <Border Grid.Row="2" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
             <Grid RowDefinitions="Auto, *" RowSpacing="10">
-                <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10" Padding="0,0,0,10">
-                    <Label Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Column="1" Text="Quantidade" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" />
-                    <Label Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" />
+                <Grid ColumnDefinitions="2*, 40, 80, 100, *" ColumnSpacing="10" Padding="10,8">
+                    <Label Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Qtd" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                    <Label Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                    <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                    <Label Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
                 </Grid>
                 <CollectionView  Grid.Row="1" ItemsSource="{Binding ProdutosFiltrados}" SelectionMode="None">
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="4" />
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.EmptyView>
@@ -40,12 +42,25 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:EstoqueLinha">
                             <Border StrokeThickness="0" Padding="10,8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 3">
-                                <Grid ColumnDefinitions="2*, *, *, *, *" ColumnSpacing="10">
+                                <Grid ColumnDefinitions="2*, 40, 80, 100, *" ColumnSpacing="10">
                                     <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
-                                    <Label Grid.Column="1" Text="{Binding Quantidade}" TextColor="Black" VerticalOptions="Center"/>
-                                    <Label Grid.Column="2" Text="{Binding Minimo}" TextColor="Black" VerticalOptions="Center"/>
-                                    <Label Grid.Column="3" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center"/>
-                                    <Label Grid.Column="4" Text="{Binding Situacao}" TextColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" VerticalOptions="Center" FontAttributes="Bold"/>
+                                    <Label Grid.Column="1" HorizontalOptions="Center" Text="{Binding Quantidade}" TextColor="Black" VerticalOptions="Center"/>
+                                    <Grid Grid.Column="2" ColumnDefinitions="auto, * , auto" ColumnSpacing="8"
+                                          VerticalOptions="Center" HorizontalOptions="Center" >
+                                        <Label Text="{Binding Minimo}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                        <Border Grid.Column="2" HeightRequest="24" WidthRequest="24" Padding="4" HorizontalOptions="End"
+                                                Background="LightBlue" StrokeThickness="0" StrokeShape="RoundRectangle 6">
+                                            <Image Source="editar.png" Aspect="AspectFit" VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                    Command="{Binding EditarCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Border>
+                                    </Grid>
+                                    <Label Grid.Column="3" HorizontalOptions="Center" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center"/>
+                                    <Label Grid.Column="4" HorizontalOptions="Center" Text="{Binding Situacao}" TextColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" VerticalOptions="Center" FontAttributes="Bold"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

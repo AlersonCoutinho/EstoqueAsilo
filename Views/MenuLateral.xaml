@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:comp="clr-namespace:EstoqueAsilo.Views.Components"
              x:Class="EstoqueAsilo.MenuLateral"
              BackgroundColor="#0082db">
     <ContentView.Resources>
@@ -119,14 +120,11 @@
             </Border>
 
         </VerticalStackLayout>
-        <Border Grid.Row="2" Style="{StaticResource BotaoAcaoVermelho}">
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Sair1_Clicked" />
-            </Border.GestureRecognizers>
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                <Image Source="desligar.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
-                <Label Text="Sair do Sistema" TextColor="White" FontSize="15" VerticalOptions="Center" />
-            </HorizontalStackLayout>
-        </Border>
+        <comp:BorderBotao Grid.Row="2" 
+            Estilo="{StaticResource BotaoAcaoVermelho}"  
+            Text="Sair do Sistema" 
+            Image="desligar.png" 
+            Clicked="Sair_Clicked"/>
+
     </Grid>
 </ContentView>
