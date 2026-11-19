@@ -1,20 +1,14 @@
-﻿namespace EstoqueAsilo.Models.Resultados
-{
-    public class EstoqueLinha
-    {
-        public string Nome { get; set; }
-        public string Quantidade { get; set; }
-        public string Minimo { get; set; }
-        public string Validade { get; set; }
-        public string Situacao { get; set; }
+﻿using EstoqueAsilo.Enums;
 
-        public EstoqueLinha(string nome, string quantidade, string minimo, string validade, string situacao)
-        {
-            Nome = nome;
-            Quantidade = quantidade;
-            Minimo = minimo;
-            Validade = validade;
-            Situacao = situacao;
-        }
+namespace EstoqueAsilo.Models.Resultados
+{
+    public class EstoqueLinha(string nome, string quantidade, string minimo, string validade, SituacaoEstoque situacao)
+    {
+        public string Nome { get; set; } = nome;
+        public string Quantidade { get; set; } = quantidade;
+        public string Minimo { get; set; } = minimo;
+        public string Validade { get; set; } = validade;
+        public SituacaoEstoque Situacao { get; set; } = situacao;
+        public string SituacaoTexto => Situacao.ParaTexto();
     }
 }

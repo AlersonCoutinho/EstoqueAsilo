@@ -6,28 +6,48 @@
              xmlns:conp="clr-namespace:EstoqueAsilo.Views.Components"
              xmlns:vm="clr-namespace:EstoqueAsilo.ViewModels"
              x:Class="EstoqueAsilo.EstoqueView"
+             x:Name="Raiz"
              BackgroundColor="#F2F2F2">
     <ContentView.Resources>
         <conv:SituacaoColorConverter x:Key="SituacaoColor" />
     </ContentView.Resources>
     <Grid RowDefinitions="auto, auto, *" Padding="30" RowSpacing="20">
         <Label Text="{Binding TituloCategoria}" TextColor="Black" FontSize="24" FontAttributes="Bold"/>
-        <Grid Grid.Row="1" ColumnDefinitions="500, Auto" ColumnSpacing="30">
+        <Grid Grid.Row="1" ColumnDefinitions="500, 200, *, Auto" ColumnSpacing="30">
+            
             <Entry Placeholder="Buscar item" TextColor="Black" Text="{Binding TermoBusca}" BackgroundColor="White"/>
-            <Border Grid.Column="1" Style="{StaticResource BotaoAcaoAzul}">
+            
+            <Picker Grid.Column="1"
+                Title="Situação"
+                TextColor="Black"
+                TitleColor="Gray"
+                BackgroundColor="White"
+                ItemsSource="{Binding OpcoesSituacao}"
+                ItemDisplayBinding="{Binding Texto}"
+                SelectedItem="{Binding SituacaoSelecionada}" />
+            
+            <Border Grid.Column="4" Style="{StaticResource BotaoAcaoAzul}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NovoItemCommand}" />
                 </Border.GestureRecognizers>
                 <Label Text="+ novo item" TextColor="White" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
             </Border>
+            
         </Grid>
         <Border Grid.Row="2" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
             <Grid RowDefinitions="Auto, *" RowSpacing="10">
-                <Grid ColumnDefinitions="2*, 40, 80, 100, *" ColumnSpacing="10" Padding="10,8">
+                <Grid ColumnSpacing="10" Padding="10,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="{Binding ColunaValidade}" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Text="Item" FontAttributes="Bold" TextColor="Black"/>
                     <Label Grid.Column="1" Text="Qtd" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
                     <Label Grid.Column="2" Text="Mínimo" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
-                    <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                    <Label Grid.Column="3" Text="Validade" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" IsVisible="{Binding MostrarValidade}"/>
                     <Label Grid.Column="4" Text="Situação" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
                 </Grid>
                 <CollectionView  Grid.Row="1" ItemsSource="{Binding ProdutosFiltrados}" SelectionMode="None">
@@ -42,7 +62,14 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:EstoqueLinha">
                             <Border StrokeThickness="0" Padding="10,8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 3">
-                                <Grid ColumnDefinitions="2*, 40, 80, 100, *" ColumnSpacing="10">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="{Binding BindingContext.ColunaValidade, Source={x:Reference Raiz}}" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
                                     <Label Grid.Column="1" HorizontalOptions="Center" Text="{Binding Quantidade}" TextColor="Black" VerticalOptions="Center"/>
                                     <Grid Grid.Column="2" ColumnDefinitions="auto, * , auto" ColumnSpacing="8"
@@ -50,17 +77,25 @@
                                         <Label Text="{Binding Minimo}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"/>
                                         <Border Grid.Column="2" HeightRequest="24" WidthRequest="24" Padding="4" HorizontalOptions="End"
                                                 Background="LightBlue" StrokeThickness="0" StrokeShape="RoundRectangle 6">
-                                            <Image Source="editar.png" Aspect="AspectFit" VerticalOptions="Center">
-                                                <Image.GestureRecognizers>
-                                                    <TapGestureRecognizer 
-                                                    Command="{Binding EditarCommand}"
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EstoqueViewModel}},
+                                                                  Path=EditarMinimoCommand,
+                                                                  x:DataType=vm:EstoqueViewModel}"
                                                     CommandParameter="{Binding .}" />
-                                                </Image.GestureRecognizers>
-                                            </Image>
+                                            </Border.GestureRecognizers>
+                                            <Image Source="editar.png" Aspect="AspectFit" VerticalOptions="Center" />
                                         </Border>
                                     </Grid>
-                                    <Label Grid.Column="3" HorizontalOptions="Center" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center"/>
-                                    <Label Grid.Column="4" HorizontalOptions="Center" Text="{Binding Situacao}" TextColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" VerticalOptions="Center" FontAttributes="Bold"/>
+                                    <Label Grid.Column="3" HorizontalOptions="Center" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center" 
+                                           IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:EstoqueViewModel}},
+                                               Path=MostrarValidade,
+                                               x:DataType=vm:EstoqueViewModel}" />
+                                    <Border Grid.Column="4" Padding="8,2" HorizontalOptions="Center" VerticalOptions="Center"
+                                            BackgroundColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}"
+                                            StrokeShape="RoundRectangle 10" StrokeThickness="0">
+                                        <Label Text="{Binding SituacaoTexto}" FontSize="12" FontAttributes="Bold" TextColor="White" />
+                                    </Border>
                                 </Grid>
                             </Border>
                         </DataTemplate>

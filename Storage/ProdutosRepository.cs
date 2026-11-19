@@ -44,7 +44,8 @@ namespace EstoqueAsilo.Storage
                     Id = id,
                     Categoria = categoria,
                     Nome = nome.Trim(),
-                    Unidade = unidade
+                    Unidade = unidade,
+                    QuantidadeMinima = (int?)p.Element("quantidadeMinima")
                 });
             }
             return lista;
@@ -59,8 +60,8 @@ namespace EstoqueAsilo.Storage
                             new XAttribute("id", p.Id),
                             new XAttribute("categoria", p.Categoria.ToString()),
                             new XElement("nome", p.Nome.Trim()),
-                            new XElement("unidade", p.Unidade)
-
+                            new XElement("unidade", p.Unidade),
+                            p.QuantidadeMinima != null ? new XElement("quantidadeMinima", p.QuantidadeMinima) : null
                         )
                     )
                 )

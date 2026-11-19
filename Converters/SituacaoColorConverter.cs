@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using EstoqueAsilo.Enums;
+using System.Globalization;
 
 namespace EstoqueAsilo.Converters
 {
@@ -6,18 +7,15 @@ namespace EstoqueAsilo.Converters
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            string situacao = value as string ?? string.Empty;
+            if (value is not SituacaoEstoque s) return Colors.Black;
 
-            if (situacao.Contains("Vencido"))
+            if (s.HasFlag(SituacaoEstoque.Vencido))
                 return Colors.Red;
 
-            if (situacao.Contains("Vence em breve") || situacao.Contains("Estoque Baixo"))
+            if (s.HasFlag(SituacaoEstoque.VenceEmBreve) || s.HasFlag(SituacaoEstoque.EstoqueBaixo))
                 return Colors.Orange;
 
-            if (situacao.Contains("OK"))
-                return Color.FromArgb("#2E8B57");
-
-            return Colors.Black;
+            return Color.FromArgb("#2E8B57");
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
