@@ -16,7 +16,6 @@ namespace EstoqueAsilo.ViewModels
         private readonly GridLength _colunaValidadePadrao = new(100);
         private readonly GridLength _colunaValidadeVazia = new(0);
         private readonly ConsultaService _consulta;
-        private readonly EstoqueService _estoque;
 
         public List<OpcaoSituacao> OpcoesSituacao { get; } =
             [
@@ -46,10 +45,9 @@ namespace EstoqueAsilo.ViewModels
 
         private readonly List<EstoqueLinha> _todosProdutos = [];
 
-        public EstoqueViewModel(ConsultaService consulta, EstoqueService estoque)
+        public EstoqueViewModel(ConsultaService consulta)
         {
             _consulta = consulta;
-            _estoque = estoque;
 
             ColunaValidade = _colunaValidadePadrao;
             SituacaoSelecionada = OpcoesSituacao[0];
@@ -70,30 +68,33 @@ namespace EstoqueAsilo.ViewModels
             ColunaValidade = MostrarValidade ? _colunaValidadePadrao : _colunaValidadeVazia;
             _todosProdutos.Clear();
 
-            var produtosDaCategoria = _estoque.Produtos
-                .Where(p => p.Categoria == categoria)
-                .OrderBy(p => p.Nome, StringComparer.CurrentCultureIgnoreCase)
-                .ToList();
+            var produtosDaCategoria = _consulta.ListarProdutosPorCategoria(categoria);
 
             foreach (var p in produtosDaCategoria)
             {
                 int quantidadeAtual = _consulta.CalcularQuantidadeDeProduto(p);
 
                 var validades = categoria.TemValidade() ? _consulta.ListarValidadesDeProduto(p).ToList() : [];
-                string dataValidadeStr = categoria.TemValidade() ? validades.Min().ToString("dd/MM/yyyy") : "-";
+                DateTime? proxima = validades.Count != 0 ? validades.Min() : null;
+                string dataValidadeStr = proxima?.ToString("dd/MM/yyyy") ?? "-";
 
                 var situacao = SituacaoEstoque.Nenhuma;
                 if (p.QuantidadeMinima is not null && quantidadeAtual <= p.QuantidadeMinima)
                     situacao |= SituacaoEstoque.EstoqueBaixo;
-                if (validades.Count != 0)
+                if (proxima is {  } data)
                 {
-                    if (validades.Min() < DateTime.Today)
+                    if (data < DateTime.Today)
                         situacao |= SituacaoEstoque.Vencido;
-                    if (validades.Min() <= DateTime.Today.AddDays(30) && validades.Min() >= DateTime.Today)
+                    else if (data <= DateTime.Today.AddDays(30))
                         situacao |= SituacaoEstoque.VenceEmBreve;
                 } 
 
-                _todosProdutos.Add(new EstoqueLinha($"{p.Nome} - {p.Unidade}", quantidadeAtual.ToString(), p.QuantidadeMinima?.ToString() ?? "—", dataValidadeStr, situacao));
+                _todosProdutos.Add(new EstoqueLinha(
+                    $"{p.Nome} - {p.Unidade}", 
+                    quantidadeAtual.ToString(),
+                    p.QuantidadeMinima?.ToString() ?? "—", 
+                    dataValidadeStr, 
+                    situacao));
             }
 
             FiltrarProdutos();

@@ -15,16 +15,31 @@
         <Label Grid.Row="0" Text="Registrar Entrada" FontSize="24" TextColor="Black" />
         <Grid Grid.Row="1" ColumnDefinitions="2*, *" ColumnSpacing="20" RowDefinitions="*">
             <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="14">
-                <Grid RowDefinitions="auto, auto, *" RowSpacing="10">
-                    <Label Grid.Row="0" Text="Últimas entradas" FontSize="18" TextColor="Black"/>
-                    <Grid Grid.Row="1" ColumnDefinitions="100,*,90,100" ColumnSpacing="10" Padding="8,0">
-                        <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
-                        <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
-                        <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
-                        <Label Grid.Row="0" Grid.Column="3" Text="Origem" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
+                <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="10">
+                    <Label Grid.Row="0" Text="Últimas entradas" FontSize="18" TextColor="Black" FontAttributes="Bold"/>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10">
+                        <Label Text="Buscar item ou origem" TextColor="Black" />
+                        <Label Grid.Column="1" Text="Filtrar por usuário" TextColor="Black" />
+                        <Label Grid.Column="2" Text="Filtrar por tipo" TextColor="Black" />
+                        
+                        <Entry Placeholder="Ex: Arroz 5kg" Grid.Row="1" TextColor="Black" 
+                               Text="{Binding TermoBusca}" BackgroundColor="White"/>
+                        <Picker Grid.Column="1" Grid.Row="1" TextColor="Black" TitleColor="Gray" 
+                                ItemsSource="{Binding OpcoesUsuario}"
+                                SelectedItem="{Binding UsuarioFiltro}" />
+                        <Picker Grid.Column="2" Grid.Row="1" TextColor="Black" TitleColor="Gray"
+                                ItemsSource="{Binding OpcoesTipo}"
+                                SelectedItem="{Binding TipoFiltro}" />
+                    </Grid>
+                    <Grid Grid.Row="2" ColumnDefinitions="100,*,90,100" ColumnSpacing="10" Padding="8,0">
+                        <Label Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
+                        <Label Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
+                        <Label Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
+                        <Label Grid.Column="3" Text="Origem" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
                     </Grid>
 
-                    <CollectionView Grid.Row="2" ItemsSource="{Binding Entradas}" SelectionMode="None">
+                    <CollectionView Grid.Row="3" ItemsSource="{Binding Entradas}" SelectionMode="None">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" />
                         </CollectionView.ItemsLayout>
@@ -69,7 +84,7 @@
                                 <comp:ComboEditavel Grid.Row="1" 
                                                     ItemsSource="{Binding Unidades}"
                                                     Text="{Binding UnidadeSelecionada}"
-                                                    Placeholder="Ex: G/500g/2L" />
+                                                    Placeholder="Ex: M/500g/2L" />
                                 <Label Grid.Column="1" Text="Categoria" TextColor="Black" FontSize="12" VerticalOptions="End"/>
                                 <Picker Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Categorias}" 
                                         SelectedItem="{Binding CategoriaSelecionada}" TextColor="Black" 

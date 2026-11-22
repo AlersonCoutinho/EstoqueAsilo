@@ -2,6 +2,11 @@
 using EstoqueAsilo.ViewModels;
 using EstoqueAsilo.Views;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
+
+#if WINDOWS
+using Microsoft.UI.Windowing;
+#endif
 
 namespace EstoqueAsilo
 {
@@ -39,6 +44,16 @@ namespace EstoqueAsilo
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.ConfigureLifecycleEvents(events =>
+            {
+#if WINDOWS
+                events.AddWindows(windows => windows.OnWindowCreated(window =>
+                {
+                    if (window.AppWindow.Presenter is OverlappedPresenter presenter)
+                        presenter.Maximize();
+                }));
+#endif
+            });
 
             return builder.Build();
         }

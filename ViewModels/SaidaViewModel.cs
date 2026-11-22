@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstoqueAsilo.Enums;
+using EstoqueAsilo.Helpers;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
@@ -12,12 +13,28 @@ namespace EstoqueAsilo.ViewModels
 {
     public partial class SaidaViewModel : ObservableObject
     {
+        #region Serviços
         private readonly EstoqueService _estoque;
         private readonly ConsultaService _consulta;
+        #endregion
 
+        #region Listas
+        private readonly List<MovimentacaoLinha> _todasSaidas = [];
         public ObservableCollection<MovimentacaoLinha> Saidas { get; set; } = [];
+        public ObservableCollection<string> OpcoesUsuario { get; } = ["Todos"];
+        public List<string> OpcoesTipo { get; } = ["Todas", "Doação", "Consumo"];
+        #endregion
 
-        // -- Propriedades
+        #region Propriedades Filtros
+        [ObservableProperty]
+        public partial string TermoBusca { get; set; } = string.Empty;
+        [ObservableProperty]
+        public partial string UsuarioFiltro { get; set; } = "Todos";
+        [ObservableProperty]
+        public partial string TipoFiltro { get; set; } = "Todas";
+        #endregion
+
+        #region Propriedades Criação Movimentação
         [ObservableProperty]
         public partial IEnumerable<string> Produtos { get; set; } = [];
         [ObservableProperty]
@@ -39,7 +56,8 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial bool TemErro { get; set; } = false;
         [ObservableProperty]
-        public partial string Mensagem { get; set; } = string.Empty;
+        public partial string Mensagem { get; set; } = string.Empty; 
+        #endregion
 
         public SaidaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
@@ -51,18 +69,30 @@ namespace EstoqueAsilo.ViewModels
 
         private void Atualizar()
         {
-            Saidas.Clear();
-
+            // -- Atualiza a lista de saídas
+            _todasSaidas.Clear();
             foreach (var m in _consulta.ListarSaidas().OrderByDescending(m => m.Data))
             {
-                Saidas.Add(new MovimentacaoLinha(
+                _todasSaidas.Add(new MovimentacaoLinha(
                     m.Data,
                     $"{m.Produto.Nome} {m.Produto.Unidade}",
                     m.IsDoacao,
                     m.Contraparte ?? "Consumo",
-                    m.Quantidade));
+                    m.Quantidade,
+                    m.Usuario.Nome));
             }
 
+            // -- Atualiza as lista de usuários
+            OpcoesUsuario.Clear();
+            OpcoesUsuario.Add("Todos");
+            UsuarioFiltro = "Todos";
+            foreach (var u in _todasSaidas.Select(e => e.Usuario).Where(u => u != "").Distinct().Order())
+                OpcoesUsuario.Add(u);
+
+            // -- Aplicar Filtro
+            FiltrarSaidas();
+
+            // -- Atualiza a lista de produtos
             Produtos = _consulta.ListarProdutos() ?? [];
             AtualizarUnidades();
         }
@@ -72,11 +102,28 @@ namespace EstoqueAsilo.ViewModels
             UnidadeSelecionada = Unidades.FirstOrDefault() ?? string.Empty;
         }
 
+        private void FiltrarSaidas()
+        {
+            var saidasFiltradas = FiltroMovimentacoesHelper.FiltrarMovimentacoes(_todasSaidas, TermoBusca, UsuarioFiltro, TipoFiltro);
+            Saidas.Clear();
+            foreach (var s in saidasFiltradas)
+                Saidas.Add(s);
+        }
+
+        #region Métodos OnPropertyChanged 
+        // -- Filtros
+        partial void OnTermoBuscaChanged(string value) =>
+            FiltrarSaidas();
+        partial void OnUsuarioFiltroChanged(string value) =>
+            FiltrarSaidas();
+        partial void OnTipoFiltroChanged(string value) =>
+            FiltrarSaidas();
         partial void OnProdutoSelecionadoChanged(string value)
         {
             AtualizarUnidades();
             UnidadeIsEnabled = Unidades.Count() > 1;
         }
+        #endregion
 
         [RelayCommand]
         private async Task RegSaida()
@@ -111,6 +158,18 @@ namespace EstoqueAsilo.ViewModels
 
                     if (!continuar) return;
                 }
+            }
+            int qtProduto = _consulta.CalcularQuantidadeDeProduto(produto);
+            if (quantidade > qtProduto)
+            {
+                bool continuar = await Shell.Current.DisplayAlertAsync(
+                    "Não há quantidade suficiente registrado no estoque!",
+                    $"Deseja registrar saída de {qtProduto} unidades?",
+                    "Registrar", "Cancelar");
+
+                if (!continuar) return;
+
+                quantidade = qtProduto;
             }
 
             var (sucesso, erro) = _estoque.RegNovaSaida(produto, quantidade, EhDoacao, Instituicao, lotesSugeridos);

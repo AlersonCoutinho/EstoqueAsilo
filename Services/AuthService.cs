@@ -1,8 +1,6 @@
-﻿using EstoqueAsilo.Enums;
-using EstoqueAsilo.Helpers;
+﻿using EstoqueAsilo.Helpers;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Storage;
-using System.Globalization;
 
 namespace EstoqueAsilo.Services
 {

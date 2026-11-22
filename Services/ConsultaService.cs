@@ -13,19 +13,11 @@ namespace EstoqueAsilo.Services
         // -- Listagem de movimentações
         internal IEnumerable<Movimentacao> ListarEntradas()
         {
-            return [.. _estoque.Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Entrada)];
+            return _estoque.Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Entrada).ToList();
         }
         internal IEnumerable<Movimentacao> ListarSaidas()
         {
-            return [.. _estoque.Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Saida)];
-        }
-        internal IEnumerable<Movimentacao> ListarMovimentacoesPorUsuario(Usuario user)
-        {
-            return [.. _estoque.Movimentacoes.Where(m => m.Usuario.Id == user.Id)];
-        }
-        internal IEnumerable<Movimentacao> ListarMovimentacoesDeProduto(Produto produto)
-        {
-            return [.. _estoque.Movimentacoes.Where(m => m.Produto.Id == produto.Id)];
+            return _estoque.Movimentacoes.Where(m => m.TipoMovimentacao == TipoMovimentacao.Saida).ToList();
         }
         internal IEnumerable<Movimentacao> ObterEntradasMes()
         {
@@ -39,24 +31,31 @@ namespace EstoqueAsilo.Services
         // -- Listagem objetos, variáveis e propriedades
         internal IEnumerable<string> ListarUnidades()
         {
-            return [.. _estoque.Produtos
-                .Select(p => p.Unidade).Distinct().OrderBy(u=>u)];
+            return _estoque.Produtos
+                .Select(p => p.Unidade).Distinct().OrderBy(u=>u).ToList();
         }
         internal IEnumerable<string> ListarProdutos()
         {
-            return [.. _estoque.Produtos
-                .Select(p => p.Nome).Distinct().OrderBy(p => p)];
+            return _estoque.Produtos
+                .Select(p => p.Nome).Distinct().OrderBy(p => p).ToList();
+        }
+        internal IEnumerable<Produto> ListarProdutosPorCategoria(Categoria categoria)
+        {
+            return _estoque.Produtos
+                .Where(p => p.Categoria == categoria)
+                .OrderBy(p => p.Nome, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
         }
         internal IEnumerable<string> ListarUnidadesProduto(string nomeProduto)
         {
             if (string.IsNullOrWhiteSpace(nomeProduto))
                 return [];
 
-            return [.. _estoque.Produtos
+            return _estoque.Produtos
                 .Where(p => p.Nome.Equals(nomeProduto.Trim(), StringComparison.OrdinalIgnoreCase))
                 .Select(p => p.Unidade)
                 .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(u => u)];
+                .OrderBy(u => u).ToList();
         }
         internal Produto? ProdutoPorNome(string nomeProduto, string unidade)
         {
@@ -81,14 +80,15 @@ namespace EstoqueAsilo.Services
         // -- Listagem de produtos com quantidade baixa
         internal IEnumerable<Produto> ListarProdutosComQuantidadeBaixa()
         {
-            return [.. _estoque.Produtos.Where(p => p.QuantidadeMinima is not null && CalcularQuantidadeDeProduto(p) <= p.QuantidadeMinima)];
+            return _estoque.Produtos.Where(p => 
+            p.QuantidadeMinima is not null && CalcularQuantidadeDeProduto(p) <= p.QuantidadeMinima).ToList();
         }
 
         // -- Listagem de Produtos com vencimento
         internal IEnumerable<Lote> ListarLotesDeProduto(Produto produto)
         {
-            return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id)
-                .OrderBy(l => l.DataValidade)];
+            return _estoque.Lotes.Where(l => l.Produto.Id == produto.Id)
+                .OrderBy(l => l.DataValidade).ToList();
         }
 
         // -- Proximo Lote a vencer de um produto
@@ -116,7 +116,7 @@ namespace EstoqueAsilo.Services
 
         internal IEnumerable<DateTime> ListarValidadesDeProduto(Produto produto)
         {
-            return [.. _estoque.Lotes.Where(l => l.Produto.Id == produto.Id).Select(l => l.DataValidade)];
+            return _estoque.Lotes.Where(l => l.Produto.Id == produto.Id).Select(l => l.DataValidade).ToList();
         }
 
         // -- Listagem de Produtos organizados por vencimento
@@ -130,15 +130,16 @@ namespace EstoqueAsilo.Services
         }
         internal IEnumerable<VencimentoInfo> VencimentosEntre(DateTime? min, DateTime? max)
         {
-            return [.. _estoque.Lotes
+            var restante = RestantePorLote();
+            return _estoque.Lotes
                 .Where(l => (min is null || l.DataValidade >= min) && (max is null || l.DataValidade <= max))
                 .Select(l => new VencimentoInfo(
                     l.Produto, 
                     l.DataValidade,
-                    RestantePorLote().GetValueOrDefault(l.Id),
+                    restante.GetValueOrDefault(l.Id),
                     (l.DataValidade - DateTime.Today).Days))
                 .Where(v => v.QuantidadeRestante > 0)
-                .OrderBy(v => v.DataValidade)];
+                .OrderBy(v => v.DataValidade).ToList();
         }
 
         // -- Listagem de produtos com atenção
@@ -146,17 +147,17 @@ namespace EstoqueAsilo.Services
         {
             var produtosBaixa = ListarProdutosComQuantidadeBaixa()
                 .Select(p => new AtencaoLinha(
-                    p.Nome,
+                    $"{p.Nome} {p.Unidade}",
                     CalcularQuantidadeDeProduto(p),
                     "Quantidade baixa"));
             var produtosVencidos = ListarProdutosVencidos()
                 .Select(v => new AtencaoLinha(
-                    v.Produto.Nome,
+                    $"{v.Produto.Nome} {v.Produto.Unidade}",
                     v.QuantidadeRestante,
                     "Produto vencido"));
             var produtosVencendo = ListarVencimentosNoTempoLimite()
                 .Select(v => new AtencaoLinha(
-                    v.Produto.Nome,
+                    $"{v.Produto.Nome} {v.Produto.Unidade}",
                     v.QuantidadeRestante,
                     v.TempoRestanteEmDias > 0 ? $"Vence em {v.TempoRestanteEmDias} dia(s)" : "Vence hoje"));
             return [.. produtosBaixa.Concat(produtosVencidos).Concat(produtosVencendo)];
@@ -181,7 +182,7 @@ namespace EstoqueAsilo.Services
         }
         private IEnumerable<Movimentacao> ListarMovimentacoesPorDoacao(TipoMovimentacao tipo, bool isDoacao)
         {
-            return [.. _estoque.Movimentacoes.Where(m => m.TipoMovimentacao == tipo && m.IsDoacao == isDoacao)];
+            return _estoque.Movimentacoes.Where(m => m.TipoMovimentacao == tipo && m.IsDoacao == isDoacao).ToList();
         }
 
         // Métodos auxiliares
@@ -195,8 +196,8 @@ namespace EstoqueAsilo.Services
 
         private IEnumerable<Movimentacao> MovimentacoesUltimosNDias(TipoMovimentacao tipo, int n)
         {
-            return [.. _estoque.Movimentacoes
-                .Where(m => (m.TipoMovimentacao == tipo && m.Data >= DateTime.Today.AddDays(n)))];
+            return _estoque.Movimentacoes
+                .Where(m => (m.TipoMovimentacao == tipo && m.Data >= DateTime.Today.AddDays(n))).ToList();
         }
     }
 }

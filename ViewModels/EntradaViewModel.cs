@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using EstoqueAsilo.Enums;
+using EstoqueAsilo.Helpers;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
@@ -11,15 +12,30 @@ namespace EstoqueAsilo.ViewModels
 {
     public partial class EntradaViewModel : ObservableObject
     {
-        // -- Serviços
+        #region Serviços
+
         private readonly EstoqueService _estoque;
         private readonly ConsultaService _consulta;
+        #endregion
 
-        // -- Listas
+        #region Listas
+        private readonly List<MovimentacaoLinha> _todasEntradas = [];
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
         public ObservableCollection<MovimentacaoLinha> Entradas { get; set; } = [];
+        public ObservableCollection<string> OpcoesUsuario { get; } = ["Todos"];
+        public List<string> OpcoesTipo { get; } = ["Todas", "Doação", "Compra"]; 
+        #endregion
 
-        // -- Propriedades
+        #region Propriedades Filtros
+        [ObservableProperty]
+        public partial string TermoBusca { get; set; } = string.Empty;
+        [ObservableProperty]
+        public partial string UsuarioFiltro { get; set; } = "Todos";
+        [ObservableProperty]
+        public partial string TipoFiltro { get; set; } = "Todas"; 
+        #endregion
+
+        #region Propriedades Criação Movimentação
         [ObservableProperty]
         public partial IEnumerable<string> Produtos { get; set; } = [];
         [ObservableProperty]
@@ -53,7 +69,8 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial bool TemErro { get; set; } = false;
         [ObservableProperty]
-        public partial string Mensagem { get; set; } = string.Empty;
+        public partial string Mensagem { get; set; } = string.Empty; 
+        #endregion
 
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
         {
@@ -65,20 +82,40 @@ namespace EstoqueAsilo.ViewModels
 
         public void Atualizar()
         {
-            Entradas.Clear();
-
+            // -- Atualiza a lista de entradas
+            _todasEntradas.Clear();
             foreach (var m in _consulta.ListarEntradas().OrderByDescending(m => m.Data))
             {
-                Entradas.Add(new MovimentacaoLinha(
+                _todasEntradas.Add(new MovimentacaoLinha(
                     m.Data,
                     $"{m.Produto.Nome} {m.Produto.Unidade}",
                     m.IsDoacao,
                     m.Contraparte ?? "—",
-                    m.Quantidade));
+                    m.Quantidade,
+                    m.Usuario.Nome));
             }
 
+            // -- Atualiza as lista de usuários
+            OpcoesUsuario.Clear();
+            OpcoesUsuario.Add("Todos");
+            UsuarioFiltro = "Todos";
+            foreach (var u in _todasEntradas.Select(e => e.Usuario).Where(u => u != "").Distinct().Order())
+                OpcoesUsuario.Add(u);
+
+            // -- Aplica Filtros
+            FiltrarEntradas();
+
+            // -- Atualiza as listas de produtos e unidades
             Produtos = _consulta.ListarProdutos() ?? [];
             Unidades = _consulta.ListarUnidades() ?? [];
+        }
+
+        private void FiltrarEntradas()
+        {
+            var entradasFiltradas = FiltroMovimentacoesHelper.FiltrarMovimentacoes(_todasEntradas, TermoBusca, UsuarioFiltro, TipoFiltro);
+            Entradas.Clear();
+            foreach (var e in entradasFiltradas)
+                Entradas.Add(e);
         }
 
         public void LimparCampos()
@@ -119,10 +156,18 @@ namespace EstoqueAsilo.ViewModels
             }
             await Task.CompletedTask;
         }
-        partial void OnCategoriaSelecionadaChanged(Categoria value)
-        {
-            MostrarValidade = (value == Categoria.Alimentos);
-        }
+
+        #region Métodos OnPropertyChanged
+
+        // -- Filtros
+        partial void OnTermoBuscaChanged(string value) =>
+            FiltrarEntradas();
+        partial void OnUsuarioFiltroChanged(string value) =>
+            FiltrarEntradas();
+        partial void OnTipoFiltroChanged(string value) =>
+            FiltrarEntradas();
+
+        // -- Criação Movimentação
         partial void OnEhDoacaoChanged(bool value)
         {
             NaoEhDoacao = !value;
@@ -134,11 +179,13 @@ namespace EstoqueAsilo.ViewModels
                 NotaFiscal = string.Empty;
             }
         }
-
-        partial void OnNomeProdutoChanged(string value) => 
+        partial void OnCategoriaSelecionadaChanged(Categoria value) => 
+            MostrarValidade = (value == Categoria.Alimentos);
+        partial void OnNomeProdutoChanged(string value) =>
             AtualizarCategoriaSelecionada(value, UnidadeSelecionada);
         partial void OnUnidadeSelecionadaChanged(string value) =>
             AtualizarCategoriaSelecionada(NomeProduto, value);
+        #endregion
 
         //Metodos Auxiliares
         private void MostrarNotificacao(bool ehErro, string mensagem)

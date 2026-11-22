@@ -13,12 +13,11 @@
     </ContentView.Resources>
     <Grid RowDefinitions="auto, auto, *" Padding="30" RowSpacing="20">
         <Label Text="{Binding TituloCategoria}" TextColor="Black" FontSize="24" FontAttributes="Bold"/>
-        <Grid Grid.Row="1" ColumnDefinitions="500, 200, *, Auto" ColumnSpacing="30">
-            
-            <Entry Placeholder="Buscar item" TextColor="Black" Text="{Binding TermoBusca}" BackgroundColor="White"/>
-            
-            <Picker Grid.Column="1"
-                Title="Situação"
+        <Grid Grid.Row="1" RowDefinitions="auto, auto" ColumnDefinitions="500, 200, *, Auto" ColumnSpacing="30">
+            <Label Text="Buscar item" TextColor="Black" FontAttributes="Bold"/>
+            <Entry Grid.Row="1" Placeholder="Ex: Arroz 1kg" TextColor="Black" Text="{Binding TermoBusca}" BackgroundColor="White"/>
+            <Label Text="Filtrar por situação" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
+            <Picker Grid.Column="1" Grid.Row="1"
                 TextColor="Black"
                 TitleColor="Gray"
                 BackgroundColor="White"
@@ -26,7 +25,7 @@
                 ItemDisplayBinding="{Binding Texto}"
                 SelectedItem="{Binding SituacaoSelecionada}" />
             
-            <Border Grid.Column="4" Style="{StaticResource BotaoAcaoAzul}">
+            <Border Grid.Column="4" Grid.RowSpan="2" Style="{StaticResource BotaoAcaoAzul}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NovoItemCommand}" />
                 </Border.GestureRecognizers>
@@ -79,18 +78,15 @@
                                                 Background="LightBlue" StrokeThickness="0" StrokeShape="RoundRectangle 6">
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer 
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EstoqueViewModel}},
-                                                                  Path=EditarMinimoCommand,
-                                                                  x:DataType=vm:EstoqueViewModel}"
+                                                    Command="{Binding BindingContext.EditarMinimoCommand,
+                                                    Source={x:Reference Raiz},
+                                                    x:DataType={x:Null}}"
                                                     CommandParameter="{Binding .}" />
                                             </Border.GestureRecognizers>
                                             <Image Source="editar.png" Aspect="AspectFit" VerticalOptions="Center" />
                                         </Border>
                                     </Grid>
-                                    <Label Grid.Column="3" HorizontalOptions="Center" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center" 
-                                           IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:EstoqueViewModel}},
-                                               Path=MostrarValidade,
-                                               x:DataType=vm:EstoqueViewModel}" />
+                                    <Label Grid.Column="3" HorizontalOptions="Center" Text="{Binding Validade}" TextColor="Black" VerticalOptions="Center" />
                                     <Border Grid.Column="4" Padding="8,2" HorizontalOptions="Center" VerticalOptions="Center"
                                             BackgroundColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}"
                                             StrokeShape="RoundRectangle 10" StrokeThickness="0">

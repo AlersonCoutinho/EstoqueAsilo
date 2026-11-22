@@ -6,6 +6,7 @@
         string Item,
         bool IsDoacao,
         string? Contraparte,
-        int Quantidade
+        int Quantidade,
+        string Usuario
     );
 }
