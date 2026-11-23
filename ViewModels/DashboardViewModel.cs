@@ -46,6 +46,7 @@ public partial class DashboardViewModel : ObservableObject
             "estoque_limpeza" => CriarEstoqueView(Categoria.Limpeza),
             "estoque_almoxarifado" => CriarEstoqueView(Categoria.Almoxarifado),
             "relatorios" => _services.GetRequiredService<RelatorioView>(),
+            "configuracoes" => _services.GetRequiredService<ConfiguracaoView>(),
             _ => null
         };
 

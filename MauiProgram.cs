@@ -40,6 +40,8 @@ namespace EstoqueAsilo
             builder.Services.AddSingleton<ConsultaService>();
             builder.Services.AddTransient<RelatorioView>();
             builder.Services.AddTransient<RelatorioViewModel>();
+            builder.Services.AddTransient<ConfiguracaoView>();
+            builder.Services.AddTransient<ConfiguracaoViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

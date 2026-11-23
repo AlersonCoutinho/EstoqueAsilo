@@ -119,6 +119,16 @@
                 </HorizontalStackLayout>
             </Border>
 
+            <Border Style="{StaticResource MenuItemBorder}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelecionarItemCommand}" CommandParameter="configuracoes" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="15">
+                    <Image Source="config.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                    <Label Text="Configurações" Style="{StaticResource MenuItemText}" />
+                </HorizontalStackLayout>
+            </Border>
+
         </VerticalStackLayout>
         <comp:BorderBotao Grid.Row="2" 
             Estilo="{StaticResource BotaoAcaoVermelho}"  

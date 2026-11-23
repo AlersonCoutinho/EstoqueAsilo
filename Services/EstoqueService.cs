@@ -168,14 +168,16 @@ namespace EstoqueAsilo.Services
             return lote;
         }
 
-        private static void ConfigurarQuantidadeMinima(Produto produto, int quantidadeMinima)
+        internal bool ExcluirDados()
         {
-            if (quantidadeMinima <= 0)
-            {
-                Debug.WriteLine($"Quantidade mínima inválida para o produto {produto.Nome}. Ignorando.");
-                return;
-            }
-            produto.QuantidadeMinima = quantidadeMinima;
+            Produtos = [];
+            Movimentacoes = [];
+            Lotes = [];
+
+            if (Produtos.Count == 0 && Movimentacoes.Count == 0 && Lotes.Count == 0)
+                return true;
+
+            return false;
         }
     }
 }

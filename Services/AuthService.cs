@@ -34,6 +34,36 @@ namespace EstoqueAsilo.Services
 
         }
 
+        internal bool RegSenha(string senha, bool admin = false)
+        {
+            var (hash, salt) = SenhaHelper.Gerar(senha);
+            Senha novaSenha = new()
+            {
+                Hash = hash,
+                Salt = salt,
+                Admin = admin
+            };
+            Senhas.Add(novaSenha);
+            return true;
+        }
+        internal bool AltSenha(string senhaAtual, string senhaNova)
+        {
+            Senha? senha = null;
+            foreach (var s in Senhas)
+            {
+                if (SenhaHelper.Verificar(senhaAtual, s.Hash, s.Salt))
+                {
+                    senha = s;
+                    break;
+                }
+            }
+            if (senha is null) return false;
+            var (hash, salt) = SenhaHelper.Gerar(senhaNova);
+            senha.Hash = hash;
+            senha.Salt = salt;
+            return true;
+        }
+
         internal bool TemUsuario(string nome)
         {
             var usuario = Usuarios.FirstOrDefault(u =>
@@ -58,6 +88,14 @@ namespace EstoqueAsilo.Services
             UsuarioLogado = usuario;
             return true;
         }
+        internal bool AltUsuario(string nomeAtual, string nomeNovo)
+        {
+            var usuario = Usuarios.FirstOrDefault(u =>
+                        u.Nome.Equals(nomeAtual.Trim(), StringComparison.OrdinalIgnoreCase));
+            if (usuario is null) return false;
+            usuario.Nome = nomeNovo;
+            return true;
+        }
 
         internal void Logout()
         {
@@ -67,7 +105,7 @@ namespace EstoqueAsilo.Services
         // -- Consultas
         internal IEnumerable<string> ListarUsuarios()
         {
-            return [.. Usuarios.Select(u => u.Nome).Distinct().OrderBy(u => u)];
+            return Usuarios.Select(u => u.Nome).Distinct().OrderBy(u => u).ToList();
         }
     }
 }
