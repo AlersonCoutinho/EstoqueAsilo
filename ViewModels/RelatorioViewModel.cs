@@ -1,15 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace EstoqueAsilo.ViewModels
 {
     public partial class RelatorioViewModel : ObservableObject
     {
+        private static readonly CultureInfo PtBr = new("pt-BR");
         private readonly ConsultaService _consulta;
-        public ObservableCollection<BarraRelatorio> ConsumoInterno { get; } = [];
+        public ObservableCollection<BarraRelatorio> OrigemSaidas { get; } = [];
+        [ObservableProperty]
+        public partial int TotalSaidas { get; set; } = 0;
         public ObservableCollection<BarraRelatorio> OrigemEntradas { get; } = [];
-        public ObservableCollection<DoacaoEnviadaLinha> DoacoesEnviadas { get; } = [];
+        [ObservableProperty]
+        public partial int TotalEntradas { get; set; } = 0;
+        public ObservableCollection<ProdutoConsumidoLinha> ProdutosConsumidos { get; } = [];
+        public ObservableCollection<ProdutoCompradoLinha> ProdutosComprados { get; } = [];
+        [ObservableProperty]
+        public partial string TotalPreco { get; set; } = String.Empty;
 
         public RelatorioViewModel(ConsultaService consulta)
         {
@@ -19,7 +29,41 @@ namespace EstoqueAsilo.ViewModels
 
         private void CarregarDados()
         {
-            var saidasConsumo = _consulta.ListarSaidasConsumo().ToList();
+            // -- Relatório origem das entradas
+            int totalDoacoesEnt = _consulta.ListarEntradasDoacaoMes().Sum(e => e.Quantidade);
+            int totalCompras = _consulta.ListarEntradasCompraMes().Sum(e => e.Quantidade);
+            TotalEntradas = totalDoacoesEnt + totalCompras;
+            OrigemEntradas.Add(new BarraRelatorio
+            {
+                Nome = "Compra",
+                Valor = totalCompras,
+                PorcentagemBarra = (double)totalCompras / TotalEntradas
+            });
+            OrigemEntradas.Add(new BarraRelatorio
+            {
+                Nome = "Doação",
+                Valor = totalDoacoesEnt,
+                PorcentagemBarra = (double)totalDoacoesEnt / TotalEntradas
+            });
+
+
+            // -- Relatorio destino de saidas
+            int totalDoacoesSai = _consulta.ListarSaidasDoacaoMes().Sum(e => e.Quantidade);
+            int totalConsumo = _consulta.ListarSaidasConsumoMes().Sum(e => e.Quantidade);
+            TotalSaidas = totalDoacoesSai + totalConsumo;
+            OrigemSaidas.Add(new BarraRelatorio
+            {
+                Nome = "Consumo",
+                Valor = totalConsumo,
+                PorcentagemBarra = (double)totalConsumo / TotalSaidas
+            });
+            OrigemSaidas.Add(new BarraRelatorio
+            {
+                Nome = "Doação",
+                Valor = totalDoacoesSai,
+                PorcentagemBarra = (double)totalDoacoesSai / TotalSaidas
+            });
+            /*var saidasConsumo = _consulta.ListarSaidasConsumo().ToList();
             var consumoAgrupado = saidasConsumo
                 .GroupBy(s => s.Produto.Nome)
                 .Select(g => new { Nome = g.Key, Total = g.Sum(s => s.Quantidade) })
@@ -27,7 +71,7 @@ namespace EstoqueAsilo.ViewModels
                 .Take(4)
                 .ToList();
 
-            int maxConsumo = consumoAgrupado.Any() ? consumoAgrupado.Max(x => x.Total) : 1;
+            int maxConsumo = consumoAgrupado.Count!=0 ? consumoAgrupado.Max(x => x.Total) : 1;
 
             foreach (var item in consumoAgrupado)
             {
@@ -37,34 +81,39 @@ namespace EstoqueAsilo.ViewModels
                     Valor = item.Total,
                     PorcentagemBarra = (double)item.Total / maxConsumo
                 });
-            }
-            int totalDoacoes = _consulta.ListarEntradasDoacao().Sum(e => e.Quantidade);
-            int totalCompras = _consulta.ListarEntradasCompra().Sum(e => e.Quantidade);
+            }*/
 
-            if (totalDoacoes > 0 || totalCompras > 0)
-            {
-                int maxEntradas = Math.Max(totalDoacoes, totalCompras);
-
-                if (totalDoacoes > 0)
-                    OrigemEntradas.Add(new BarraRelatorio { Nome = "Doação", Valor = totalDoacoes, PorcentagemBarra = (double)totalDoacoes / maxEntradas });
-
-                if (totalCompras > 0)
-                    OrigemEntradas.Add(new BarraRelatorio { Nome = "Compra", Valor = totalCompras, PorcentagemBarra = (double)totalCompras / maxEntradas });
-            }
-            var doacoesEnviadas = _consulta.ListarSaidasDoacao()
-                .OrderByDescending(d => d.Data)
-                .Take(5);
-
-            foreach (var d in doacoesEnviadas)
-            {
-                DoacoesEnviadas.Add(new DoacaoEnviadaLinha
+            // -- Relatório itens consumidos
+            var consumos = _consulta.ListarSaidasConsumoMes()
+                .GroupBy(c => c.Produto.Id)
+                .Select(g => new ProdutoConsumidoLinha
                 {
-                    Data = d.Data,
-                    Item = d.Produto.Nome,
-                    Quantidade = d.Quantidade,
-                    Destino = d.Contraparte ?? "Não especificado"
-                });
+                    Item = $"{g.First().Produto.Nome} {g.First().Produto.Unidade}",
+                    Quantidade = g.Sum(c => c.Quantidade)
+                })
+                .OrderBy(l => l.Item, StringComparer.CurrentCultureIgnoreCase);
+
+            foreach (var c in consumos)
+            {
+                ProdutosConsumidos.Add(c);
             }
+
+            // -- Relatório itens comprados
+            var compras = _consulta.ListarEntradasCompraMes()
+                .GroupBy(c => c.Produto.Id)
+                .Select(g => new ProdutoCompradoLinha
+                {
+                    Item = $"{g.First().Produto.Nome} {g.First().Produto.Unidade}",
+                    Quantidade = g.Sum(c => c.Quantidade),
+                    Preco = g.Sum(c => c.Preco ?? 0).ToString("C2", PtBr)
+                })
+                .OrderBy(l => l.Item, StringComparer.CurrentCultureIgnoreCase);
+
+            foreach (var c in compras)
+            {
+                ProdutosComprados.Add(c);
+            }
+            TotalPreco = _consulta.ListarPrecoCompraMes().ToString("C2", PtBr);
         }
     }
 
@@ -73,13 +122,7 @@ namespace EstoqueAsilo.ViewModels
         public string Nome { get; set; } = string.Empty;
         public int Valor { get; set; }
         public double PorcentagemBarra { get; set; }
-    }
-
-    public class DoacaoEnviadaLinha
-    {
-        public DateTime Data { get; set; }
-        public string Item { get; set; } = string.Empty;
-        public int Quantidade { get; set; }
-        public string Destino { get; set; } = string.Empty;
+        public GridLength LarguraPreenchida => new(Math.Clamp(PorcentagemBarra, 0, 1), GridUnitType.Star);
+        public GridLength LarguraVazia => new(1 - Math.Clamp(PorcentagemBarra, 0, 1), GridUnitType.Star);
     }
 }

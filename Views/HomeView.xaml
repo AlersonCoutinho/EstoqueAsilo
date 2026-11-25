@@ -60,19 +60,17 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:AtencaoLinha">
-                                <Grid Padding="0,0,0,6">
-                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
-                                        <Grid ColumnSpacing="10" ColumnDefinitions="2*, *, *">
-                                            <Label Grid.Column="0" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
-                                            <Label Grid.Column="1" VerticalOptions="Center" Text="{Binding Quantidade}"  HorizontalOptions="Center"/>
-                                            <Border Grid.Column="2" Padding="8,2" HorizontalOptions="Center" VerticalOptions="Center" 
+                                <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                    <Grid ColumnSpacing="10" ColumnDefinitions="2*, *, *">
+                                        <Label Grid.Column="0" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
+                                        <Label Grid.Column="1" VerticalOptions="Center" Text="{Binding Quantidade}"  HorizontalOptions="Center"/>
+                                        <Border Grid.Column="2" Padding="8,2" HorizontalOptions="Center" VerticalOptions="Center" 
                                                     BackgroundColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" 
                                                     StrokeShape="RoundRectangle 10" StrokeThickness="0">
-                                                <Label  Text="{Binding Situacao}" FontSize="12" TextColor="White" />
-                                            </Border>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
+                                            <Label  Text="{Binding SituacaoTexto}" FontSize="12" TextColor="White" FontAttributes="Bold" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

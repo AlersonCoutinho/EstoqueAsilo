@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using EstoqueAsilo.Services;
 using System.Collections.ObjectModel;
 
@@ -40,31 +39,31 @@ namespace EstoqueAsilo.ViewModels
 
 
         #region Campos Senha
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string SenhaAtual { get; set; } = "";
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string NovaSenha { get; set; } = "";
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string ConfirmarSenha { get; set; } = "";
         #endregion
 
         // -- Campo Usuário
         public ObservableCollection<string> OpcoesUsuario { get; } = [];
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string NovoUsuario { get; set; } = "";
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string UsuarioSelecionado { get; set; } = "";
 
         // -- Campo de confirmação para exclusão de dados
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string TextoConfirmacao { get; set; } = "";
 
         // -- Mensagem
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial string Mensagem { get; set; } = "";
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial bool TemErro { get; set; }
-        [ObservableProperty] 
+        [ObservableProperty]
         public partial bool MostrarMensagem { get; set; }
 
         private void Mostrar(string texto, bool erro)
@@ -130,9 +129,9 @@ namespace EstoqueAsilo.ViewModels
             }
 
             if (string.IsNullOrWhiteSpace(NovoUsuario))
-            { 
-                Mostrar("Digite um nome de usuário.", true); 
-                return; 
+            {
+                Mostrar("Digite um nome de usuário.", true);
+                return;
             }
 
             if (!_auth.AltUsuario(UsuarioSelecionado, NovoUsuario.Trim()))
@@ -154,16 +153,16 @@ namespace EstoqueAsilo.ViewModels
                 return;
             }
             if (TextoConfirmacao != "EXCLUIR")
-            { 
-                Mostrar("Digite EXCLUIR para confirmar.", true); 
-                return; 
+            {
+                Mostrar("Digite EXCLUIR para confirmar.", true);
+                return;
             }
 
             bool ok = await MostrarJanelaConf("Excluir todos os dados",
                 "Isso apaga produtos, lotes e movimentações. Não é possível desfazer. Continuar?",
                 "Excluir", "Cancelar"
                 );
-            if(!ok) return;
+            if (!ok) return;
 
             if (!_estoque.ExcluirDados())
             {
@@ -187,7 +186,7 @@ namespace EstoqueAsilo.ViewModels
             if (string.IsNullOrWhiteSpace(NovaSenha) || NovaSenha.Length < 4)
             {
                 Mostrar("A nova senha deve ter pelo menos 4 caracteres.", true);
-                return false ;
+                return false;
             }
 
             if (NovaSenha != ConfirmarSenha)

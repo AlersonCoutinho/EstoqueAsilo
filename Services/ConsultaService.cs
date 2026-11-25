@@ -5,8 +5,8 @@ using System.Collections.ObjectModel;
 
 namespace EstoqueAsilo.Services
 {
-        // Busca de informações
-    public class ConsultaService (EstoqueService estoque)
+    // Busca de informações
+    public class ConsultaService(EstoqueService estoque)
     {
         private readonly EstoqueService _estoque = estoque;
 
@@ -32,7 +32,7 @@ namespace EstoqueAsilo.Services
         internal IEnumerable<string> ListarUnidades()
         {
             return _estoque.Produtos
-                .Select(p => p.Unidade).Distinct().OrderBy(u=>u).ToList();
+                .Select(p => p.Unidade).Distinct().OrderBy(u => u).ToList();
         }
         internal IEnumerable<Produto> ListarProdutos()
         {
@@ -85,7 +85,7 @@ namespace EstoqueAsilo.Services
         // -- Listagem de produtos com quantidade baixa
         internal IEnumerable<Produto> ListarProdutosComQuantidadeBaixa()
         {
-            return _estoque.Produtos.Where(p => 
+            return _estoque.Produtos.Where(p =>
             p.QuantidadeMinima is not null && CalcularQuantidadeDeProduto(p) <= p.QuantidadeMinima).ToList();
         }
 
@@ -139,7 +139,7 @@ namespace EstoqueAsilo.Services
             return _estoque.Lotes
                 .Where(l => (min is null || l.DataValidade >= min) && (max is null || l.DataValidade <= max))
                 .Select(l => new VencimentoInfo(
-                    l.Produto, 
+                    l.Produto,
                     l.DataValidade,
                     restante.GetValueOrDefault(l.Id),
                     (l.DataValidade - DateTime.Today).Days))
@@ -159,7 +159,6 @@ namespace EstoqueAsilo.Services
 
                 var validades = p.Categoria.TemValidade() ? ListarValidadesDeProduto(p).ToList() : [];
                 DateTime? proxima = validades.Count != 0 ? validades.Min() : null;
-                string dataValidadeStr = proxima?.ToString("dd/MM/yyyy") ?? "-";
 
                 var situacao = SituacaoEstoque.Nenhuma;
                 if (p.QuantidadeMinima is not null && quantidadeAtual <= p.QuantidadeMinima)
@@ -177,27 +176,11 @@ namespace EstoqueAsilo.Services
                     produtosAtencao.Add(new AtencaoLinha(
                         $"{p.Nome} {p.Unidade}",
                         quantidadeAtual,
-                        situacao));
+                        situacao,
+                        situacao.ParaTexto()));
                 }
             }
             return produtosAtencao;
-
-            /*var produtosBaixa = ListarProdutosComQuantidadeBaixa()
-                .Select(p => new AtencaoLinha(
-                    $"{p.Nome} {p.Unidade}",
-                    CalcularQuantidadeDeProduto(p),
-                    OpcaoSituacao.));
-            var produtosVencidos = ListarProdutosVencidos()
-                .Select(v => new AtencaoLinha(
-                    $"{v.Produto.Nome} {v.Produto.Unidade}",
-                    v.QuantidadeRestante,
-                    "Produto vencido"));
-            var produtosVencendo = ListarVencimentosNoTempoLimite()
-                .Select(v => new AtencaoLinha(
-                    $"{v.Produto.Nome} {v.Produto.Unidade}",
-                    v.QuantidadeRestante,
-                    v.TempoRestanteEmDias > 0 ? $"Vence em {v.TempoRestanteEmDias} dia(s)" : "Vence hoje"));
-            return [.. produtosBaixa.Concat(produtosVencidos).Concat(produtosVencendo)];*/
         }
 
         // -- Listagem de movimentações filtradas por doação
@@ -205,17 +188,37 @@ namespace EstoqueAsilo.Services
         {
             return ListarMovimentacoesPorDoacao(TipoMovimentacao.Entrada, true);
         }
+        internal IEnumerable<Movimentacao> ListarEntradasDoacaoMes(int m = 0, int a = 0)
+        {
+            return FiltrarMovimentacoesPorMes(ListarEntradasDoacao(), m, a);
+        }
         internal IEnumerable<Movimentacao> ListarEntradasCompra()
         {
             return ListarMovimentacoesPorDoacao(TipoMovimentacao.Entrada, false);
+        }
+        internal IEnumerable<Movimentacao> ListarEntradasCompraMes(int m = 0, int a = 0)
+        {
+            return FiltrarMovimentacoesPorMes(ListarEntradasCompra(), m, a);
+        }
+        internal decimal ListarPrecoCompraMes(int m = 0, int a = 0)
+        {
+            return ListarEntradasCompraMes(m, a).Sum(s => s.Preco ?? 0);
         }
         internal IEnumerable<Movimentacao> ListarSaidasDoacao()
         {
             return ListarMovimentacoesPorDoacao(TipoMovimentacao.Saida, true);
         }
+        internal IEnumerable<Movimentacao> ListarSaidasDoacaoMes(int m = 0, int a = 0)
+        {
+            return FiltrarMovimentacoesPorMes(ListarSaidasDoacao(), m, a);
+        }
         internal IEnumerable<Movimentacao> ListarSaidasConsumo()
         {
-            return ListarMovimentacoesPorDoacao(TipoMovimentacao.Saida, false);
+            return ListarMovimentacoesPorDoacao(TipoMovimentacao.Saida, false).OrderByDescending(d => d.Data);
+        }
+        internal IEnumerable<Movimentacao> ListarSaidasConsumoMes(int m = 0, int a = 0)
+        {
+            return FiltrarMovimentacoesPorMes(ListarSaidasConsumo(), m, a);
         }
         private IEnumerable<Movimentacao> ListarMovimentacoesPorDoacao(TipoMovimentacao tipo, bool isDoacao)
         {
@@ -235,6 +238,16 @@ namespace EstoqueAsilo.Services
         {
             return _estoque.Movimentacoes
                 .Where(m => (m.TipoMovimentacao == tipo && m.Data >= DateTime.Today.AddDays(n))).ToList();
+        }
+
+        private IEnumerable<Movimentacao> FiltrarMovimentacoesPorMes(IEnumerable<Movimentacao> movimentacoes, int mes, int ano)
+        {
+            var inicio = new DateTime(
+                ano == 0 ? DateTime.Today.Year : ano,
+                mes == 0 ? DateTime.Today.Month : mes,
+                1);
+            var fim = inicio.AddMonths(1);
+            return movimentacoes.Where(s => s.Data >= inicio && s.Data < fim);
         }
     }
 }

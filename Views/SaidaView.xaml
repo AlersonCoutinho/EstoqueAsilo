@@ -10,113 +10,115 @@
     <ContentView.Resources>
         <conv:BoolToColorConverter x:Key="BoolToColor" CorVerdadeiro="#E53935"  CorFalso="#2E8B57"/>
     </ContentView.Resources>
-    <ScrollView>
-        <VerticalStackLayout Padding="30,20" Spacing="10">
-            <Label Text="Registrar Saída" FontSize="24" TextColor="Black" FontAttributes="Bold" />
-            <Grid ColumnDefinitions="2*, *" ColumnSpacing="20">
-                <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" VerticalOptions="Start">
-                    <Grid Grid.Column="0" RowDefinitions="auto, auto, auto, *" RowSpacing="10">
-                        <Label Text="Últimas Saídas" FontSize="18" TextColor="Black" FontAttributes="Bold" />
+    <Grid RowDefinitions="auto, *"  Padding="30, 20" RowSpacing="10">
+        <Label Text="Registrar Saída" FontSize="24" TextColor="Black" FontAttributes="Bold" />
+        <Grid Grid.Row="1" ColumnDefinitions="2*, *" ColumnSpacing="20">
+            <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" VerticalOptions="Start">
+                <Grid Grid.Column="0" RowDefinitions="auto, auto, auto, *" RowSpacing="10">
+                    <Label Text="Últimas Saídas" FontSize="18" TextColor="Black" FontAttributes="Bold" />
 
-                        <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10" Padding="8" >
-                            <Label Text="Buscar item ou origem" TextColor="Black" />
-                            <Label Grid.Column="1" Text="Buscar por usuário" TextColor="Black" />
-                            <Label Grid.Column="2" Text="Buscar por tipo" TextColor="Black" />
+                    <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10" Padding="8" >
+                        <Label Text="Buscar item ou origem" TextColor="Black" />
+                        <Label Grid.Column="1" Text="Buscar por usuário" TextColor="Black" />
+                        <Label Grid.Column="2" Text="Buscar por tipo" TextColor="Black" />
 
-                            <Entry Placeholder="Ex: Arroz 5kg" Grid.Row="1" TextColor="Black" 
+                        <Entry Placeholder="Ex: Arroz 5kg" Grid.Row="1" TextColor="Black" 
                                Text="{Binding TermoBusca}" BackgroundColor="White"/>
-                            <Picker Grid.Column="1" Grid.Row="1" TextColor="Black" TitleColor="Gray" 
+                        <Picker Grid.Column="1" Grid.Row="1" TextColor="Black" TitleColor="Gray" 
                                 ItemsSource="{Binding OpcoesUsuario}"
                                 SelectedItem="{Binding UsuarioFiltro}" />
-                            <Picker Grid.Column="2" Grid.Row="1" TextColor="Black" TitleColor="Gray"
+                        <Picker Grid.Column="2" Grid.Row="1" TextColor="Black" TitleColor="Gray"
                                 ItemsSource="{Binding OpcoesTipo}"
                                 SelectedItem="{Binding TipoFiltro}" />
-                        </Grid>
-                        
-                        <Grid Grid.Row="2" ColumnDefinitions="100,*,90,100" ColumnSpacing="10" Padding="8,0">
-                            <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Row="0" Grid.Column="3" Text="Destino" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
-                        </Grid>
-                        
-                        <CollectionView Grid.Row="3" ItemsSource="{Binding Saidas}" SelectionMode="None">
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
-                            </CollectionView.ItemsLayout>
-
-                            <CollectionView.EmptyView>
-                                <Label Text="Nenhuma saída registrada." HorizontalOptions="Center" Margin="0,30" />
-                            </CollectionView.EmptyView>
-
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:MovimentacaoLinha">
-                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
-                                        <Grid ColumnSpacing="10" ColumnDefinitions="100,*,90,100">
-                                            <Label HorizontalOptions="Center" Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" />
-                                            <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
-                                            <Label HorizontalOptions="Center" Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}" />
-                                            <Label HorizontalOptions="Center" Grid.Column="3" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
                     </Grid>
-                </Border>
-                <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundREctangle 8" Padding="20">
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="Nova Saída" FontSize="18" TextColor="Black"/>
 
-                        <Grid ColumnDefinitions="2*, *" ColumnSpacing="10">
+                    <Grid Grid.Row="2" ColumnDefinitions="100,*,90,100" ColumnSpacing="10" Padding="8,0">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Start" Padding="12,0" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Start"/>
+                        <Label Grid.Row="0" Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Grid.Row="0" Grid.Column="3" Text="Destino" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    </Grid>
+
+                    <CollectionView Grid.Row="3" ItemsSource="{Binding Saidas}" SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhuma saída registrada." HorizontalOptions="Center" Margin="0,30" />
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:MovimentacaoLinha">
+                                <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                    <Grid ColumnSpacing="10" ColumnDefinitions="100,*,90,100">
+                                        <Label HorizontalOptions="Center" Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" />
+                                        <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
+                                        <Label HorizontalOptions="Center" Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}" />
+                                        <Label HorizontalOptions="Center" Grid.Column="3" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundREctangle 8" Padding="20">
+                <Grid RowDefinitions="auto, *, auto">
+                    <Label Text="Nova Saída" FontSize="18" TextColor="Black" Padding="0,0,0,10" />
+
+                    <ScrollView Grid.Row="1" Padding="0,0,14,0">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="2*, *" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="Item" TextColor="Black" FontSize="12" />
+                                    <Picker ItemsSource="{Binding Produtos}" SelectedItem="{Binding ProdutoSelecionado}" 
+                                                TextColor="Black" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="Unidade" TextColor="Black" FontSize="12" />
+                                    <Picker ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" 
+                                                TextColor="Black" IsEnabled="{Binding UnidadeIsEnabled}" />
+                                </VerticalStackLayout>
+                            </Grid>
+
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="Item" TextColor="Black" FontSize="12" />
-                                <Picker ItemsSource="{Binding Produtos}" SelectedItem="{Binding ProdutoSelecionado}" 
-                                        TextColor="Black" />
+                                <Label Text="Quantidade" TextColor="Black" FontSize="12" />
+                                <Entry Text="{Binding Quantidade}" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" />
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="1" Spacing="5">
-                                <Label Text="Unidade" TextColor="Black" FontSize="12" />
-                                <Picker ItemsSource="{Binding Unidades}" SelectedItem="{Binding UnidadeSelecionada}" 
-                                        TextColor="Black" IsEnabled="{Binding UnidadeIsEnabled}" />
+                            <Grid ColumnDefinitions="auto, *, 50">
+                                <Label Grid.Column="0" Text="É doação?" TextColor="Black" FontSize="12" VerticalOptions="Center" />
+                                <Switch Grid.Column="2" IsToggled="{Binding EhDoacao}" />
+                            </Grid>
+
+                            <VerticalStackLayout Spacing="5" IsVisible="{Binding EhDoacao}">
+                                <Label Text="Instituição de destino" TextColor="Black" FontSize="12" />
+                                <Entry Text="{Binding Instituicao}" Placeholder="Ex: Centro de ajuda" TextColor="Black" />
                             </VerticalStackLayout>
-                        </Grid>
-                        
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Quantidade" TextColor="Black" FontSize="12" />
-                            <Entry Text="{Binding Quantidade}" Placeholder="Ex: 20" Keyboard="Numeric" TextColor="Black" />
+                            
                         </VerticalStackLayout>
-
-                        <Grid ColumnDefinitions="auto, *, 50">
-                            <Label Grid.Column="0" Text="É doação?" TextColor="Black" FontSize="12" VerticalOptions="Center" />
-                            <Switch Grid.Column="2" IsToggled="{Binding EhDoacao}" />
-                        </Grid>
-
-                        <VerticalStackLayout Spacing="5" IsVisible="{Binding EhDoacao}">
-                            <Label Text="Instituição de destino" TextColor="Black" FontSize="12" />
-                            <Entry Text="{Binding Instituicao}" Placeholder="Ex: Centro de ajuda" TextColor="Black" />
-                        </VerticalStackLayout>
-
+                    </ScrollView>
+                    <VerticalStackLayout Grid.Row="2" Margin="0,10,0,0" >
                         <Border BackgroundColor="{Binding TemErro, Converter={StaticResource BoolToColor}}"
-                            IsVisible="{Binding MostrarMensagem}" StrokeShape="RoundRectangle 14" StrokeThickness="0"
+                                IsVisible="{Binding MostrarMensagem}" StrokeShape="RoundRectangle 14" StrokeThickness="0"
                                 Padding="8"  Opacity="0.9" Margin="0,20,0,0">
                             <Label 
-                            Text="{Binding Mensagem}"
-                            TextColor="White"
-                            FontSize="14"
-                            FontAttributes="Bold"
-                            HorizontalOptions="Center" />
+                                Text="{Binding Mensagem}"
+                                TextColor="White"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center" />
                         </Border>
-
                         <comp:BorderBotao
                         Estilo="{StaticResource BotaoAcaoAzul}"  
                         Text="Registrar saída" 
                         Image="saida.png" 
                         Command="{Binding RegSaidaCommand}"/>
-                        
                     </VerticalStackLayout>
-                </Border>
-            </Grid>
-        </VerticalStackLayout>
-    </ScrollView>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
 </ContentView>

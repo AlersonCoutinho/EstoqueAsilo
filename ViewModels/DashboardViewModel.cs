@@ -15,7 +15,7 @@ public partial class DashboardViewModel : ObservableObject
     public partial View? ConteudoAtual { get; set; } = null;
 
     [ObservableProperty]
-    public partial string NomeUsuario { get; set; } = string.Empty; 
+    public partial string NomeUsuario { get; set; } = string.Empty;
     [ObservableProperty]
     public partial bool Carregando { get; set; }
 

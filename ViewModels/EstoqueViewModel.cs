@@ -88,19 +88,19 @@ namespace EstoqueAsilo.ViewModels
                 var situacao = SituacaoEstoque.Nenhuma;
                 if (p.QuantidadeMinima is not null && quantidadeAtual <= p.QuantidadeMinima)
                     situacao |= SituacaoEstoque.EstoqueBaixo;
-                if (proxima is {  } data)
+                if (proxima is { } data)
                 {
                     if (data < DateTime.Today)
                         situacao |= SituacaoEstoque.Vencido;
                     else if (data <= DateTime.Today.AddDays(30))
                         situacao |= SituacaoEstoque.VenceEmBreve;
-                } 
+                }
 
                 _todosProdutos.Add(new EstoqueLinha(
-                    $"{p.Nome} - {p.Unidade}", 
+                    $"{p.Nome} {p.Unidade}",
                     quantidadeAtual.ToString(),
-                    p.QuantidadeMinima?.ToString() ?? "—", 
-                    dataValidadeStr, 
+                    p.QuantidadeMinima?.ToString() ?? "—",
+                    dataValidadeStr,
                     situacao));
             }
 
@@ -126,7 +126,7 @@ namespace EstoqueAsilo.ViewModels
 
             ProdutosFiltrados = new ObservableCollection<EstoqueLinha>(consulta);
         }
-        
+
         partial void OnSituacaoSelecionadaChanged(OpcaoSituacao? value) => FiltrarProdutos();
 
 

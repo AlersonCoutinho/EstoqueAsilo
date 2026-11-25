@@ -1,11 +1,11 @@
 ﻿using EstoqueAsilo.Services;
 using EstoqueAsilo.ViewModels;
-using EstoqueAsilo.Views;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 
 #if WINDOWS
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Controls;
 #endif
 
 namespace EstoqueAsilo
@@ -53,6 +53,17 @@ namespace EstoqueAsilo
                 {
                     if (window.AppWindow.Presenter is OverlappedPresenter presenter)
                         presenter.Maximize();
+
+                    var titleBar = window.AppWindow.TitleBar;
+
+                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
+                    titleBar.ButtonInactiveForegroundColor = Microsoft.UI.Colors.Gray;
+
+                    titleBar.ButtonHoverForegroundColor = Microsoft.UI.Colors.Black;
+                    titleBar.ButtonHoverBackgroundColor = Windows.UI.Color.FromArgb(255, 229, 229, 229);
+
+                    titleBar.ButtonPressedForegroundColor = Microsoft.UI.Colors.Black;
+                    titleBar.ButtonPressedBackgroundColor = Windows.UI.Color.FromArgb(255, 204, 204, 204);
                 }));
 #endif
             });

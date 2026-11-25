@@ -4,7 +4,7 @@ namespace EstoqueAsilo.Helpers
 {
     internal static class FiltroMovimentacoesHelper
     {
-        internal static IEnumerable<MovimentacaoLinha> FiltrarMovimentacoes(IEnumerable<MovimentacaoLinha> movimentacoes, 
+        internal static IEnumerable<MovimentacaoLinha> FiltrarMovimentacoes(IEnumerable<MovimentacaoLinha> movimentacoes,
             string termoBusca, string usuarioFiltro, string tipoFiltro)
         {
             var consulta = movimentacoes;

@@ -33,15 +33,15 @@
                                 SelectedItem="{Binding TipoFiltro}" />
                     </Grid>
                     <Grid Grid.Row="2" ColumnDefinitions="100,*,90,100" ColumnSpacing="10" Padding="8,0">
-                        <Label Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
-                        <Label Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
+                        <Label Grid.Column="0" Text="Data" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Start"/>
+                        <Label Grid.Column="1" Text="Item" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Start"/>
                         <Label Grid.Column="2" Text="Qtd" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
                         <Label Grid.Column="3" Text="Origem" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"/>
                     </Grid>
 
                     <CollectionView Grid.Row="3" ItemsSource="{Binding Entradas}" SelectionMode="None">
                         <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" />
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
                         </CollectionView.ItemsLayout>
                         <CollectionView.EmptyView>
                             <Label Text="Nenhuma entrada registrada." HorizontalOptions="Center" Margin="0,30" />
@@ -49,16 +49,14 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:MovimentacaoLinha">
-                                <Grid Padding="0,0,0,6">
-                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
-                                        <Grid ColumnSpacing="10" ColumnDefinitions="100,*,90,100">
-                                            <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}"  HorizontalOptions="Center"/>
-                                            <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" Padding="8,0"/>
-                                            <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}"  HorizontalOptions="Center"/>
-                                            <Label Grid.Column="3" VerticalOptions="Center" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222"  HorizontalOptions="Center"/>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
+                                <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                    <Grid ColumnSpacing="10" ColumnDefinitions="100,*,90,100">
+                                        <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}"  HorizontalOptions="Center" />
+                                        <Label Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
+                                        <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Quantidade}"  HorizontalOptions="Center"/>
+                                        <Label Grid.Column="3" VerticalOptions="Center" Text="{Binding Contraparte}" FontSize="12" TextColor="#222222"  HorizontalOptions="Center"/>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -67,7 +65,7 @@
             <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="20">
                 <Grid RowDefinitions="auto, *, auto">
                     
-                    <Label Text="Nova entrada" FontSize="18" TextColor="Black" Padding="0,0,0,10"/>
+                    <Label Text="Nova entrada" FontSize="18" TextColor="Black" Padding="0,0,0,10" />
                     
                     <ScrollView Grid.Row="1" Padding="0,0,14,0">
                         <VerticalStackLayout Spacing="12">
@@ -128,7 +126,6 @@
                                 <Entry Placeholder="Ex: NF-12345" TextColor="Black" Text="{Binding NotaFiscal}"/>
                             </VerticalStackLayout>
 
-                            
                         </VerticalStackLayout>
                     </ScrollView>
                     <VerticalStackLayout Grid.Row="2" Margin="0,10,0,0">

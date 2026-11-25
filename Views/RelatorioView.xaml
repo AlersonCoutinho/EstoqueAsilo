@@ -3,74 +3,149 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EstoqueAsilo.RelatorioView"
              BackgroundColor="#F2F2F2">
-    <ScrollView>
-        <VerticalStackLayout Padding="30,20" Spacing="20">
-            <Label Text="Relatórios" FontSize="24" TextColor="Black" />
-            <Grid ColumnDefinitions="*, *" ColumnSpacing="20">
-                <Border Grid.Column="0" BackgroundColor="White" Stroke="LightGray" StrokeShape="RoundRectangle 3" Padding="20">
-                    <VerticalStackLayout Spacing="5">
-                        <Label Text="Consumo por item (uso interno)" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
-                        <Label Text="Base para a média mensal, inclusive por tamanho de fralda." FontSize="11" TextColor="Gray" Margin="0,0,0,15"/>
-
-                        <CollectionView ItemsSource="{Binding ConsumoInterno}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid ColumnDefinitions="120, *, Auto" ColumnSpacing="10" Margin="0,2">
-                                        <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" VerticalOptions="Center" FontSize="13"/>
-                                        <ProgressBar Grid.Column="1" Progress="{Binding PorcentagemBarra}" ProgressColor="#0A6FB5" VerticalOptions="Center"/>
-                                        <Label Grid.Column="2" Text="{Binding Valor}" TextColor="Black" VerticalOptions="Center" FontSize="13" FontAttributes="Bold"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </Border>
-                <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeShape="RoundRectangle 3" Padding="20">
-                    <VerticalStackLayout Spacing="5">
-                        <Label Text="Compra x doação (entradas)" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
-                        <Label Text="De onde vem o que entra no estoque." FontSize="11" TextColor="Gray" Margin="0,0,0,15"/>
-                        <CollectionView ItemsSource="{Binding OrigemEntradas}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid ColumnDefinitions="80, *, Auto" ColumnSpacing="10" Margin="0,2">
-                                        <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" VerticalOptions="Center" FontSize="13"/>
-                                        <ProgressBar Grid.Column="1" Progress="{Binding PorcentagemBarra}" ProgressColor="#0A6FB5" VerticalOptions="Center"/>
-                                        <Label Grid.Column="2" Text="{Binding Valor}" TextColor="Black" VerticalOptions="Center" FontSize="13" FontAttributes="Bold"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </Border>
-            </Grid>
-            <Label Text="Doações enviadas a outras instituições" FontSize="16" TextColor="Gray" Margin="0,15,0,0"/>
-
+    <Grid RowDefinitions="auto, *" Padding="30,20" RowSpacing="20">
+        <Label Text="Relatórios" FontSize="24" TextColor="Black" />
+        <Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="auto, *" ColumnSpacing="20" RowSpacing="20">
             <Border BackgroundColor="White" Stroke="LightGray" StrokeShape="RoundRectangle 3" Padding="20">
-                <Grid RowDefinitions="Auto, *" RowSpacing="10">
-                    <Grid ColumnDefinitions="100, *, 80, *" ColumnSpacing="10" Padding="0,0,0,10">
-                        <Label Grid.Column="0" Text="Data" FontAttributes="Bold" TextColor="Black" FontSize="13"/>
-                        <Label Grid.Column="1" Text="Item" FontAttributes="Bold" TextColor="Black" FontSize="13"/>
-                        <Label Grid.Column="2" Text="Qtd" FontAttributes="Bold" TextColor="Black" FontSize="13"/>
-                        <Label Grid.Column="3" Text="Destino" FontAttributes="Bold" TextColor="Black" FontSize="13"/>
-                    </Grid>
-                    <CollectionView Grid.Row="1" ItemsSource="{Binding DoacoesEnviadas}">
-                        <CollectionView.EmptyView>
-                            <Label Text="Nenhuma doação registrada." TextColor="Gray" Margin="0,10"/>
-                        </CollectionView.EmptyView>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Compra x Doação (Entradas no Mês)" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
+                    <Label Text="De onde vem o que entra no estoque." FontSize="11" TextColor="Gray" Margin="0,0,0,15"/>
+                    <CollectionView ItemsSource="{Binding OrigemEntradas}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid ColumnDefinitions="100, *, 80, *" ColumnSpacing="10" Padding="0,5">
-                                    <Label Grid.Column="0" Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}" TextColor="Black" FontSize="13"/>
-                                    <Label Grid.Column="1" Text="{Binding Item}" TextColor="Black" FontSize="13"/>
-                                    <Label Grid.Column="2" Text="{Binding Quantidade}" TextColor="Black" FontSize="13"/>
-                                    <Label Grid.Column="3" Text="{Binding Destino}" TextColor="Black" FontSize="13"/>
+                                <Grid ColumnDefinitions="70, *, 30" ColumnSpacing="10" Margin="0,2">
+                                    <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" HorizontalOptions="Start" FontSize="13"/>
+                                    <Grid Grid.Column="1" VerticalOptions="Center" HeightRequest="10">
+                                        <Border BackgroundColor="#E3E8EF" StrokeThickness="0" StrokeShape="RoundRectangle 5" />
+
+                                        <Grid ColumnSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding LarguraPreenchida}" />
+                                                <ColumnDefinition Width="{Binding LarguraVazia}" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border StrokeThickness="0" StrokeShape="RoundRectangle 5">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#0A6FB5" Offset="0.0" />
+                                                        <GradientStop Color="#3FA9F5" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                    <Label Grid.Column="2" Text="{Binding Valor}" TextColor="Black" HorizontalOptions="End" FontSize="13" FontAttributes="Bold"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
+                    <Grid Padding="0,10,0,6">
+                        <Label Text="Total entradas:" FontSize="13" HorizontalOptions="Start"/>
+                        <Label Text="{Binding TotalEntradas}" FontSize="13" HorizontalOptions="End" FontAttributes="Bold" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeShape="RoundRectangle 3" Padding="20">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Consumo x Doação (Saídas no Mês)" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
+                    <Label Text="Para onde vai o que sai do estoque." FontSize="11" TextColor="Gray" Margin="0,0,0,15"/>
+                    <CollectionView ItemsSource="{Binding OrigemSaidas}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="70, *, 30" ColumnSpacing="10" Margin="0,2">
+                                    <Label Grid.Column="0" Text="{Binding Nome}" TextColor="Black" HorizontalOptions="Start" FontSize="13"/>
+                                    <Grid Grid.Column="1" VerticalOptions="Center" HeightRequest="10">
+                                        <Border BackgroundColor="#E3E8EF" StrokeThickness="0" StrokeShape="RoundRectangle 5" />
+
+                                        <Grid ColumnSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding LarguraPreenchida}" />
+                                                <ColumnDefinition Width="{Binding LarguraVazia}" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border StrokeThickness="0" StrokeShape="RoundRectangle 5">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#0A6FB5" Offset="0.0" />
+                                                        <GradientStop Color="#3FA9F5" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                    <Label Grid.Column="2" Text="{Binding Valor}" TextColor="Black" HorizontalOptions="End" FontSize="13" FontAttributes="Bold"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Grid Padding="0,10,0,6">
+                        <Label Text="Total saídas:" FontSize="13" HorizontalOptions="Start"/>
+                        <Label Text="{Binding TotalSaidas}" FontSize="13" HorizontalOptions="End" FontAttributes="Bold" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+            <Border Grid.Row="1" BackgroundColor="White" Stroke="LightGray" StrokeShape="RoundRectangle 3" Padding="20">
+                <Grid RowDefinitions="auto, *" RowSpacing="20">
+                    <Label Text="Compras Por Item Desse Mês" FontSize="16" FontAttributes="Bold" />
+                    <Grid Grid.Row="1" RowDefinitions="Auto, *, Auto" RowSpacing="6" >
+                        <Grid ColumnDefinitions="80, *, 100" ColumnSpacing="10" Padding="8,0">
+                            <Label Text="Qtd" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                            <Label Grid.Column="1" Text="Item" FontAttributes="Bold" TextColor="Black" />
+                            <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Start" />
+                        </Grid>
+                        <CollectionView Grid.Row="1" ItemsSource="{Binding ProdutosComprados}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <Label Text="Nenhuma compra registrada esse mês." TextColor="Gray" Margin="0,10"/>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                        <Grid ColumnDefinitions="80, *, 100" ColumnSpacing="10">
+                                            <Label Text="{Binding Quantidade}" TextColor="Black" HorizontalOptions="Center" />
+                                            <Label Grid.Column="1" Text="{Binding Item}" TextColor="Black" FontAttributes="Bold" />
+                                            <Label Grid.Column="2" Text="{Binding Preco}" TextColor="Black" FontAttributes="Bold" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Grid Grid.Row="2" ColumnDefinitions="*, *" ColumnSpacing="10" Padding="8,0">
+                            <Label Text="Total" Grid.Column="1" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                            <Label Text="{Binding TotalPreco}" Grid.Column="1" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End" />
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Border>
-
-        </VerticalStackLayout>
-    </ScrollView>
+            <Border Grid.Row="1" Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeShape="RoundRectangle 3" Padding="20">
+                <Grid RowDefinitions="auto, *" RowSpacing="20">
+                    <Label Text="Consumo Por Item Desse Mês" FontSize="16" FontAttributes="Bold" />
+                    <Grid Grid.Row="1" RowDefinitions="Auto, *" RowSpacing="6" >
+                        <Grid ColumnDefinitions="80, *" ColumnSpacing="10" Padding="8,0">
+                            <Label Text="Qtd" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                            <Label Grid.Column="1" Text="Item" FontAttributes="Bold" TextColor="Black" />
+                        </Grid>
+                        <CollectionView Grid.Row="1" ItemsSource="{Binding ProdutosConsumidos}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <Label Text="Nenhuma doação registrada esse mês." TextColor="Gray" Margin="0,10"/>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
+                                        <Grid ColumnDefinitions="80, *" ColumnSpacing="10">
+                                            <Label Text="{Binding Quantidade}" TextColor="Black" HorizontalOptions="Center" />
+                                            <Label Grid.Column="1" Text="{Binding Item}" TextColor="Black" FontAttributes="Bold" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
 </ContentView>

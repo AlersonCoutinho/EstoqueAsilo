@@ -7,7 +7,7 @@ public partial class BorderBotao : ContentView
     public event EventHandler? Clicked;
 
     public static readonly BindableProperty EstiloProperty = BindableProperty.Create(
-        nameof(Estilo), typeof(Style), typeof(BorderBotao), 
+        nameof(Estilo), typeof(Style), typeof(BorderBotao),
         null, propertyChanged: (b, _, novo) => ((BorderBotao)b).Caixa.Style = (Style?)novo);
 
     public static readonly BindableProperty TextProperty = BindableProperty.Create(
@@ -22,7 +22,8 @@ public partial class BorderBotao : ContentView
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter), typeof(object), typeof(BorderBotao), null);
 
-    public Style Estilo {
+    public Style Estilo
+    {
         get => (Style)GetValue(EstiloProperty);
         set => SetValue(EstiloProperty, value);
     }
@@ -51,8 +52,8 @@ public partial class BorderBotao : ContentView
         set => SetValue(CommandParameterProperty, value);
     }
 
-    public BorderBotao() 
-		=> InitializeComponent();
+    public BorderBotao()
+        => InitializeComponent();
 
     private void OnTapped(object? sender, TappedEventArgs e)
     {

@@ -6,6 +6,7 @@ namespace EstoqueAsilo.Models.Resultados
     (
         string Item,
         int Quantidade,
-        SituacaoEstoque Situacao
+        SituacaoEstoque Situacao,
+        string SituacaoTexto
     );
 }

@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using EstoqueAsilo.Enums;
 using EstoqueAsilo.Helpers;
 using EstoqueAsilo.Models;
 using EstoqueAsilo.Models.Resultados;
 using EstoqueAsilo.Services;
+using System.Collections.ObjectModel;
 
 namespace EstoqueAsilo.ViewModels
 {
@@ -23,7 +22,7 @@ namespace EstoqueAsilo.ViewModels
         public ObservableCollection<Categoria> Categorias { get; } = new(Enum.GetValues<Categoria>().Where(c => c != Categoria.Outros));
         public ObservableCollection<MovimentacaoLinha> Entradas { get; set; } = [];
         public ObservableCollection<string> OpcoesUsuario { get; } = ["Todos"];
-        public List<string> OpcoesTipo { get; } = ["Todas", "Doação", "Compra"]; 
+        public List<string> OpcoesTipo { get; } = ["Todas", "Doação", "Compra"];
         #endregion
 
         #region Propriedades Filtros
@@ -32,7 +31,7 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial string UsuarioFiltro { get; set; } = "Todos";
         [ObservableProperty]
-        public partial string TipoFiltro { get; set; } = "Todas"; 
+        public partial string TipoFiltro { get; set; } = "Todas";
         #endregion
 
         #region Propriedades Criação Movimentação
@@ -69,7 +68,7 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial bool TemErro { get; set; } = false;
         [ObservableProperty]
-        public partial string Mensagem { get; set; } = string.Empty; 
+        public partial string Mensagem { get; set; } = string.Empty;
         #endregion
 
         public EntradaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
@@ -141,7 +140,7 @@ namespace EstoqueAsilo.ViewModels
             Decimal? precoNum = Preco > 0 ? Preco : null;
             DateTime? validade = MostrarValidade ? DataValidade : null;
 
-            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem, 
+            var (sucesso, erro) = _estoque.RegNovaEntrada(NomeProduto, UnidadeSelecionada, Quantidade, EhDoacao, Origem,
                 CategoriaSelecionada, validade, precoNum, NotaFiscal);
             if (sucesso)
             {
@@ -179,7 +178,7 @@ namespace EstoqueAsilo.ViewModels
                 NotaFiscal = string.Empty;
             }
         }
-        partial void OnCategoriaSelecionadaChanged(Categoria value) => 
+        partial void OnCategoriaSelecionadaChanged(Categoria value) =>
             MostrarValidade = (value.TemValidade());
         partial void OnNomeProdutoChanged(string value) =>
             AtualizarCategoriaSelecionada(value, UnidadeSelecionada);
@@ -196,7 +195,7 @@ namespace EstoqueAsilo.ViewModels
         }
         private void AtualizarCategoriaSelecionada(string nome, string unidade)
         {
-            if (_consulta.ProdutoPorNome(nome, unidade) is not Produto produto) 
+            if (_consulta.ProdutoPorNome(nome, unidade) is not Produto produto)
             {
                 CategoriaIsEnabled = true;
                 return;

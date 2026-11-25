@@ -51,7 +51,7 @@
                 </Grid>
                 <CollectionView  Grid.Row="1" ItemsSource="{Binding ProdutosFiltrados}" SelectionMode="None">
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="4" />
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.EmptyView>
@@ -60,7 +60,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:EstoqueLinha">
-                            <Border StrokeThickness="0" Padding="10,8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 3">
+                            <Border StrokeThickness="0" Padding="8" BackgroundColor="#F4F5F7" StrokeShape="RoundRectangle 10">
                                 <Grid ColumnSpacing="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*" />

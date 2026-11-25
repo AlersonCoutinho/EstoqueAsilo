@@ -56,7 +56,7 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial bool TemErro { get; set; } = false;
         [ObservableProperty]
-        public partial string Mensagem { get; set; } = string.Empty; 
+        public partial string Mensagem { get; set; } = string.Empty;
         #endregion
 
         public SaidaViewModel(EstoqueService servicoEstoque, ConsultaService consulta)
@@ -97,7 +97,8 @@ namespace EstoqueAsilo.ViewModels
             AtualizarUnidades();
         }
 
-        private void AtualizarUnidades() {
+        private void AtualizarUnidades()
+        {
             Unidades = _consulta.ListarUnidadesProduto(ProdutoSelecionado) ?? [];
             UnidadeSelecionada = Unidades.FirstOrDefault() ?? string.Empty;
         }
@@ -136,17 +137,17 @@ namespace EstoqueAsilo.ViewModels
             if (!int.TryParse(Quantidade, out int quantidade) || quantidade <= 0)
             {
                 MostrarNotificacao(true, "Quantidade inválida!");
-                return; 
+                return;
             }
 
             // -- Confirmacao Lote
             var lotesSugeridos = _consulta.SugerirLotes(produto, quantidade);
             if (produto.Categoria == Categoria.Alimentos)
             {
-                if (lotesSugeridos.Count == 0) 
-                { 
+                if (lotesSugeridos.Count == 0)
+                {
                     MostrarNotificacao(true, "Não há lotes disponíveis para este produto!");
-                    return; 
+                    return;
                 }
 
                 foreach (var l in lotesSugeridos)

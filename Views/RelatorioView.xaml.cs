@@ -4,9 +4,9 @@ namespace EstoqueAsilo;
 
 public partial class RelatorioView : ContentView
 {
-	public RelatorioView(RelatorioViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    public RelatorioView(RelatorioViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 }

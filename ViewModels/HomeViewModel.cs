@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace EstoqueAsilo.ViewModels
 {
-    public partial class HomeViewModel:ObservableObject
+    public partial class HomeViewModel : ObservableObject
     {
         private readonly ConsultaService _consulta;
 
@@ -20,7 +20,8 @@ namespace EstoqueAsilo.ViewModels
         [ObservableProperty]
         public partial ObservableCollection<AtencaoLinha> PrecisaAtencao { get; set; }
 
-        public HomeViewModel(ConsultaService consulta){
+        public HomeViewModel(ConsultaService consulta)
+        {
             _consulta = consulta;
 
             EntradasMes = _consulta.ObterEntradasMes().Count();
@@ -28,7 +29,7 @@ namespace EstoqueAsilo.ViewModels
             PrecisaRepor = _consulta.ListarProdutosComQuantidadeBaixa().Count();
             QuantVencendoVencido = _consulta.ListarVencimentosNoTempoLimite().Count() + _consulta.ListarProdutosVencidos().Count();
             PrecisaAtencao = _consulta.ListarProdutosComAtencao();
-            
+
         }
     }
 }

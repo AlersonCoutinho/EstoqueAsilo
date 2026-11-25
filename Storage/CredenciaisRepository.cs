@@ -105,7 +105,7 @@ namespace EstoqueAsilo.Storage
             doc.Save(temp);
             File.Move(temp, caminho, overwrite: true);
         }
-        
+
         private static bool EhBase64(string texto)
         {
             return Convert.TryFromBase64String(texto, new byte[texto.Length], out _);

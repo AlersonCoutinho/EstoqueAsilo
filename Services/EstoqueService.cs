@@ -103,7 +103,7 @@ namespace EstoqueAsilo.Services
                 throw new InvalidOperationException("Usuário não está logado.");
 
             // -- Informações Movimentação
-            if (isDoacao && string.IsNullOrWhiteSpace(instituicao)) 
+            if (isDoacao && string.IsNullOrWhiteSpace(instituicao))
                 return (false, "Instituição inválida");
 
             //Criação da movimentação de saida, considerando lotes sugeridos se houver
@@ -121,7 +121,7 @@ namespace EstoqueAsilo.Services
                         Data = DateTime.Now,
                         IsDoacao = isDoacao,
                         Lote = l.Lote,
-                        Contraparte = isDoacao? instituicao.Trim() : null
+                        Contraparte = isDoacao ? instituicao.Trim() : null
                     };
                     Movimentacoes.Add(saidaComLote);
                 }
