@@ -34,7 +34,12 @@ namespace EstoqueAsilo.Services
             return _estoque.Produtos
                 .Select(p => p.Unidade).Distinct().OrderBy(u=>u).ToList();
         }
-        internal IEnumerable<string> ListarProdutos()
+        internal IEnumerable<Produto> ListarProdutos()
+        {
+            return _estoque.Produtos
+                .Distinct().OrderBy(p => p.Nome).ToList();
+        }
+        internal IEnumerable<string> ListarNomeProdutos()
         {
             return _estoque.Produtos
                 .Select(p => p.Nome).Distinct().OrderBy(p => p).ToList();
@@ -143,13 +148,45 @@ namespace EstoqueAsilo.Services
         }
 
         // -- Listagem de produtos com atenção
-        internal ObservableCollection<AtencaoLinha> ListarProdutosComAtencao()
+        internal ObservableCollection<AtencaoLinha> ListarProdutosComAtencao(IEnumerable<Produto>? produtos = null)
         {
-            var produtosBaixa = ListarProdutosComQuantidadeBaixa()
+            produtos ??= ListarProdutos();
+            ObservableCollection<AtencaoLinha> produtosAtencao = [];
+
+            foreach (var p in produtos)
+            {
+                int quantidadeAtual = CalcularQuantidadeDeProduto(p);
+
+                var validades = p.Categoria.TemValidade() ? ListarValidadesDeProduto(p).ToList() : [];
+                DateTime? proxima = validades.Count != 0 ? validades.Min() : null;
+                string dataValidadeStr = proxima?.ToString("dd/MM/yyyy") ?? "-";
+
+                var situacao = SituacaoEstoque.Nenhuma;
+                if (p.QuantidadeMinima is not null && quantidadeAtual <= p.QuantidadeMinima)
+                    situacao |= SituacaoEstoque.EstoqueBaixo;
+                if (proxima is { } data)
+                {
+                    if (data < DateTime.Today)
+                        situacao |= SituacaoEstoque.Vencido;
+                    else if (data <= DateTime.Today.AddDays(30))
+                        situacao |= SituacaoEstoque.VenceEmBreve;
+                }
+
+                if (situacao != SituacaoEstoque.Nenhuma)
+                {
+                    produtosAtencao.Add(new AtencaoLinha(
+                        $"{p.Nome} {p.Unidade}",
+                        quantidadeAtual,
+                        situacao));
+                }
+            }
+            return produtosAtencao;
+
+            /*var produtosBaixa = ListarProdutosComQuantidadeBaixa()
                 .Select(p => new AtencaoLinha(
                     $"{p.Nome} {p.Unidade}",
                     CalcularQuantidadeDeProduto(p),
-                    "Quantidade baixa"));
+                    OpcaoSituacao.));
             var produtosVencidos = ListarProdutosVencidos()
                 .Select(v => new AtencaoLinha(
                     $"{v.Produto.Nome} {v.Produto.Unidade}",
@@ -160,7 +197,7 @@ namespace EstoqueAsilo.Services
                     $"{v.Produto.Nome} {v.Produto.Unidade}",
                     v.QuantidadeRestante,
                     v.TempoRestanteEmDias > 0 ? $"Vence em {v.TempoRestanteEmDias} dia(s)" : "Vence hoje"));
-            return [.. produtosBaixa.Concat(produtosVencidos).Concat(produtosVencendo)];
+            return [.. produtosBaixa.Concat(produtosVencidos).Concat(produtosVencendo)];*/
         }
 
         // -- Listagem de movimentações filtradas por doação

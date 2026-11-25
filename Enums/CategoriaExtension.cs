@@ -9,6 +9,7 @@ namespace EstoqueAsilo.Enums
         public static bool TemValidade(this Categoria c) => c switch
         {
             Categoria.Alimentos => true,
+            Categoria.Limpeza => true,
             _ => false
         };
     }

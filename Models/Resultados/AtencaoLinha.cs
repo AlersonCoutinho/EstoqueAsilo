@@ -1,9 +1,11 @@
-﻿namespace EstoqueAsilo.Models.Resultados
+﻿using EstoqueAsilo.Enums;
+
+namespace EstoqueAsilo.Models.Resultados
 {
     public record AtencaoLinha
     (
         string Item,
         int Quantidade,
-        string Situacao
+        SituacaoEstoque Situacao
     );
 }

@@ -106,7 +106,7 @@ namespace EstoqueAsilo.ViewModels
             FiltrarEntradas();
 
             // -- Atualiza as listas de produtos e unidades
-            Produtos = _consulta.ListarProdutos() ?? [];
+            Produtos = _consulta.ListarNomeProdutos() ?? [];
             Unidades = _consulta.ListarUnidades() ?? [];
         }
 
@@ -148,7 +148,7 @@ namespace EstoqueAsilo.ViewModels
                 LimparCampos();
                 Atualizar();
                 MostrarNotificacao(false, "Entrada registrada com sucesso!");
-                WeakReferenceMessenger.Default.Send(new EstoqueAtualizadoMessage()); //???
+                //WeakReferenceMessenger.Default.Send(new EstoqueAtualizadoMessage());
             }
             else
             {
@@ -180,7 +180,7 @@ namespace EstoqueAsilo.ViewModels
             }
         }
         partial void OnCategoriaSelecionadaChanged(Categoria value) => 
-            MostrarValidade = (value == Categoria.Alimentos);
+            MostrarValidade = (value.TemValidade());
         partial void OnNomeProdutoChanged(string value) =>
             AtualizarCategoriaSelecionada(value, UnidadeSelecionada);
         partial void OnUnidadeSelecionadaChanged(string value) =>

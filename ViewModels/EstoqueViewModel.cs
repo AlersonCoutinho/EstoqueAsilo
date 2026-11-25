@@ -17,14 +17,7 @@ namespace EstoqueAsilo.ViewModels
         private readonly GridLength _colunaValidadeVazia = new(0);
         private readonly ConsultaService _consulta;
 
-        public List<OpcaoSituacao> OpcoesSituacao { get; } =
-            [
-                new("Todas", null),
-                new("OK", SituacaoEstoque.Nenhuma),
-                new("Estoque baixo", SituacaoEstoque.EstoqueBaixo),
-                new("Vence em breve", SituacaoEstoque.VenceEmBreve),
-                new("Vencido", SituacaoEstoque.Vencido)
-            ];
+        public List<OpcaoSituacao> OpcoesSituacao { get; set; } = [];
 
         [ObservableProperty]
         public partial bool MostrarValidade { get; set; } = true;
@@ -50,7 +43,6 @@ namespace EstoqueAsilo.ViewModels
             _consulta = consulta;
 
             ColunaValidade = _colunaValidadePadrao;
-            SituacaoSelecionada = OpcoesSituacao[0];
             WeakReferenceMessenger.Default.Register<EstoqueAtualizadoMessage>(this, (r, m) =>
             {
                 if (!string.IsNullOrEmpty(TituloCategoria))
@@ -66,6 +58,21 @@ namespace EstoqueAsilo.ViewModels
             TituloCategoria = categoria.ToString();
             MostrarValidade = categoria.TemValidade();
             ColunaValidade = MostrarValidade ? _colunaValidadePadrao : _colunaValidadeVazia;
+            OpcoesSituacao = Enum.Parse<Categoria>(TituloCategoria).TemValidade() ?
+            [
+                new("Todas", null),
+                new("OK", SituacaoEstoque.Nenhuma),
+                new("Estoque baixo", SituacaoEstoque.EstoqueBaixo),
+                new("Vence em breve", SituacaoEstoque.VenceEmBreve),
+                new("Vencido", SituacaoEstoque.Vencido)
+            ] :
+            [
+                new("Todas", null),
+                new("OK", SituacaoEstoque.Nenhuma),
+                new("Estoque baixo", SituacaoEstoque.EstoqueBaixo)
+            ];
+            SituacaoSelecionada = OpcoesSituacao[0];
+
             _todosProdutos.Clear();
 
             var produtosDaCategoria = _consulta.ListarProdutosPorCategoria(categoria);

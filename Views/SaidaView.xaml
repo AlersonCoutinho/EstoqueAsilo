@@ -12,13 +12,13 @@
     </ContentView.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="30,20" Spacing="10">
-            <Label Text="Registrar Saída" FontSize="24" TextColor="Black" />
+            <Label Text="Registrar Saída" FontSize="24" TextColor="Black" FontAttributes="Bold" />
             <Grid ColumnDefinitions="2*, *" ColumnSpacing="20">
                 <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" VerticalOptions="Start">
                     <Grid Grid.Column="0" RowDefinitions="auto, auto, auto, *" RowSpacing="10">
-                        <Label Text="Últimas Saídas" FontSize="18" TextColor="Black"/>
-                        
-                        <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10">
+                        <Label Text="Últimas Saídas" FontSize="18" TextColor="Black" FontAttributes="Bold" />
+
+                        <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10" Padding="8" >
                             <Label Text="Buscar item ou origem" TextColor="Black" />
                             <Label Grid.Column="1" Text="Buscar por usuário" TextColor="Black" />
                             <Label Grid.Column="2" Text="Buscar por tipo" TextColor="Black" />

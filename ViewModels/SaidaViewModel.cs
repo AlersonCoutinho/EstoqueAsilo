@@ -93,7 +93,7 @@ namespace EstoqueAsilo.ViewModels
             FiltrarSaidas();
 
             // -- Atualiza a lista de produtos
-            Produtos = _consulta.ListarProdutos() ?? [];
+            Produtos = _consulta.ListarNomeProdutos() ?? [];
             AtualizarUnidades();
         }
 

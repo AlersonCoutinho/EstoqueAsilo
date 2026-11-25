@@ -11,14 +11,14 @@
         <conv:BoolToStringConverter x:Key="BoolToString" />
         <conv:BoolToColorConverter x:Key="BoolToColor" CorVerdadeiro="#E53935"  CorFalso="#2E8B57"/>
     </ContentView.Resources>
-    <Grid RowDefinitions="auto, *"  Padding="30,20" RowSpacing="10">
-        <Label Grid.Row="0" Text="Registrar Entrada" FontSize="24" TextColor="Black" />
+    <Grid RowDefinitions="auto, *"  Padding="30, 20" RowSpacing="10">
+        <Label Grid.Row="0" Text="Registrar Entrada" FontSize="24" TextColor="Black" FontAttributes="Bold" />
         <Grid Grid.Row="1" ColumnDefinitions="2*, *" ColumnSpacing="20" RowDefinitions="*">
             <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="14">
                 <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="10">
                     <Label Grid.Row="0" Text="Últimas entradas" FontSize="18" TextColor="Black" FontAttributes="Bold"/>
 
-                    <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10">
+                    <Grid Grid.Row="1" ColumnDefinitions="*, 160, 130" RowDefinitions="auto, auto" ColumnSpacing="10" Padding="8" >
                         <Label Text="Buscar item ou origem" TextColor="Black" />
                         <Label Grid.Column="1" Text="Filtrar por usuário" TextColor="Black" />
                         <Label Grid.Column="2" Text="Filtrar por tipo" TextColor="Black" />

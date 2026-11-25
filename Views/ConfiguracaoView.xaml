@@ -1,80 +1,83 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:conv="clr-namespace:EstoqueAsilo.Converters"
-             x:Class="EstoqueAsilo.ConfiguracaoView">
+             x:Class="EstoqueAsilo.ConfiguracaoView"
+             BackgroundColor="#F2F2F2">
     <ContentView.Resources>
         <conv:BoolToColorConverter x:Key="BoolToColor" CorVerdadeiro="#E53935"  CorFalso="#2E8B57"/>
     </ContentView.Resources>
-    <Grid RowDefinitions="auto, *" Padding="30,20" RowSpacing="10">
-        <Label Text="Configurações" FontSize="24" VerticalOptions="Center" />
-        <Grid Grid.Row="1" ColumnDefinitions="250, *" ColumnSpacing="20">
+    <Grid RowDefinitions="auto, *" ColumnDefinitions="250,*"  Padding="30,20" RowSpacing="20" ColumnSpacing="20">
+        <Label Text="Configurações" FontSize="24" VerticalOptions="Center" FontAttributes="Bold" />
 
-            <VerticalStackLayout Spacing="10" VerticalOptions="Start">
+        <VerticalStackLayout Grid.Row="1"  Spacing="15" VerticalOptions="Start">
                 <Button Text="Configurar Senha" Command="{Binding AbrirSenhaCommand}" />
                 <Button Text="Configurar Usuário" Command="{Binding AbrirUsuarioCommand}" />
                 <Button Text="Excluir Dados" BackgroundColor="Red" TextColor="White"
                         Command="{Binding AbrirExcluirCommand}" />
             </VerticalStackLayout>
 
-            <Border Grid.Column="1" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1"
+        <Border Grid.Column="1" Grid.RowSpan="2" BackgroundColor="White" Stroke="LightGray" StrokeThickness="1"
                     StrokeShape="RoundRectangle 3" Padding="20"
                     IsVisible="{Binding PainelAberto}">
-                <Grid RowDefinitions="*, auto" RowSpacing="10">
-                    <Grid>
-                        <!-- Config Senha -->
-                        <VerticalStackLayout Spacing="12" IsVisible="{Binding MostrarSenha}">
-                            <Label Text="Configurar senha" FontSize="18" TextColor="Black" />
-                            <Label Text="Senha atual" FontSize="12" TextColor="Black" />
-                            <Entry IsPassword="True" TextColor="Black" Text="{Binding SenhaAtual}" />
-                            <Label Text="Nova senha" FontSize="12" TextColor="Black" />
-                            <Entry IsPassword="True" TextColor="Black" Text="{Binding NovaSenha}" />
-                            <Label Text="Confirmar nova senha" FontSize="12" TextColor="Black" />
-                            <Entry IsPassword="True" TextColor="Black" Text="{Binding ConfirmarSenha}" />
-                            <HorizontalStackLayout Spacing="10">
-                                <Button Text="Alterar senha" Command="{Binding AlterarSenhaCommand}" />
-                                <Button Text="Nova senha" Command="{Binding CriarSenhaCommand}" />
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
+            <Grid RowDefinitions="*, auto" RowSpacing="10">
+                <Grid Padding="10">
+                    <!-- Config Senha -->
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding MostrarSenha}">
+                        <Label Text="Configurar senha" FontSize="18" TextColor="Black" />
+                        <Label Text="Senha atual" FontSize="12" TextColor="Black" />
+                        <Entry IsPassword="True" TextColor="Black" Text="{Binding SenhaAtual}" />
+                        <Label Text="Nova senha" FontSize="12" TextColor="Black" />
+                        <Entry IsPassword="True" TextColor="Black" Text="{Binding NovaSenha}" />
+                        <Label Text="Confirmar nova senha" FontSize="12" TextColor="Black" />
+                        <Entry IsPassword="True" TextColor="Black" Text="{Binding ConfirmarSenha}" />
+                        <HorizontalStackLayout Spacing="10" Padding="0,10">
+                            <Button Text="Alterar senha" Command="{Binding AlterarSenhaCommand}" />
+                            <Button Text="Nova senha" Command="{Binding CriarSenhaCommand}" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
 
-                        <!-- Config Usuário -->
-                        <VerticalStackLayout Spacing="12" IsVisible="{Binding MostrarUsuario}">
-                            <Label Text="Alterar usuário" FontSize="18" TextColor="Black" />
-                            <Label Text="Selecione usuário" FontSize="12" TextColor="Black" />
-                            <Picker ItemsSource="{Binding OpcoesUsuario}" SelectedItem="{Binding UsuarioSelecionado}"
+                    <!-- Config Usuário -->
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding MostrarUsuario}">
+                        <Label Text="Alterar usuário" FontSize="18" TextColor="Black" />
+                        <Label Text="Selecione usuário" FontSize="12" TextColor="Black" />
+                        <Picker ItemsSource="{Binding OpcoesUsuario}" SelectedItem="{Binding UsuarioSelecionado}"
                                     TextColor="Black" TitleColor="Gray" />
-                            <Label Text="Novo nome do usuário" FontSize="12" TextColor="Black" />
-                            <Entry TextColor="Black" Text="{Binding NovoUsuario}" />
+                        <Label Text="Novo nome do usuário" FontSize="12" TextColor="Black" />
+                        <Entry TextColor="Black" Text="{Binding NovoUsuario}" />
+                        <HorizontalStackLayout Padding="0,10">
                             <Button Text="Alterar usuário" Command="{Binding AlterarUsuarioCommand}" />
-                        </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
 
-                        <!-- Deletar Dados -->
-                        <VerticalStackLayout Spacing="12" IsVisible="{Binding MostrarExcluir}">
-                            <Label Text="Excluir todos os dados" FontSize="18" TextColor="Red" />
-                            <Label Text="Apaga produtos, lotes e movimentações. Esta ação não pode ser desfeita."
+                    <!-- Deletar Dados -->
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding MostrarExcluir}">
+                        <Label Text="Excluir todos os dados" FontSize="18" TextColor="Red" />
+                        <Label Text="Apaga produtos, lotes e movimentações. Esta ação não pode ser desfeita."
                                    TextColor="Black" />
-                            <Label Text="Senha atual" FontSize="12" TextColor="Black" />
-                            <Entry IsPassword="True" TextColor="Black" Text="{Binding SenhaAtual}" />
-                            <Label Text="Digite EXCLUIR para confirmar" FontSize="12" TextColor="Black" />
-                            <Entry TextColor="Black" Text="{Binding TextoConfirmacao}" />
+                        <Label Text="Senha atual" FontSize="12" TextColor="Black" />
+                        <Entry IsPassword="True" TextColor="Black" Text="{Binding SenhaAtual}" />
+                        <Label Text="Digite EXCLUIR para confirmar" FontSize="12" TextColor="Black" />
+                        <Entry TextColor="Black" Text="{Binding TextoConfirmacao}" />
+                        <HorizontalStackLayout Padding="0,10">
                             <Button Text="Excluir tudo" BackgroundColor="Red" TextColor="White"
                                     Command="{Binding ExcluirDadosCommand}" />
-                        </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
 
-                        <Button Text="✕" HorizontalOptions="End" VerticalOptions="Start"
+                    <Button Text="✕" HorizontalOptions="End" VerticalOptions="Start"
                                 WidthRequest="20" HeightRequest="20"
                                 BackgroundColor="Transparent" TextColor="Gray"
                                 BorderColor="Gray" BorderWidth="1"
                                 Command="{Binding FecharCommand}" />
-                    </Grid>
-                    <!-- Feedback message -->
-                    <Border Grid.Row="1" IsVisible="{Binding MostrarMensagem}"
+                </Grid>
+                <!-- Feedback message -->
+                <Border Grid.Row="1" IsVisible="{Binding MostrarMensagem}"
                             BackgroundColor="{Binding TemErro, Converter={StaticResource BoolToColor}}"
                             StrokeShape="RoundRectangle 14" StrokeThickness="0" Padding="8" Opacity="0.9">
-                        <Label Text="{Binding Mensagem}" TextColor="White" FontSize="12"
+                    <Label Text="{Binding Mensagem}" TextColor="White" FontSize="12"
                                 FontAttributes="Bold" HorizontalOptions="Center" />
-                    </Border>
-                </Grid>
-            </Border>
-        </Grid>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </ContentView>

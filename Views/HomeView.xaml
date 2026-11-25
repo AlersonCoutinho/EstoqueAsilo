@@ -3,43 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EstoqueAsilo.HomeView"
              xmlns:models="clr-namespace:EstoqueAsilo.Models.Resultados"
+             xmlns:conv="clr-namespace:EstoqueAsilo.Converters"
              BackgroundColor="#F2F2F2">
+    <ContentView.Resources>
+        <conv:SituacaoColorConverter x:Key="SituacaoColor" />
+    </ContentView.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="20">
-            <Label Text="Resumo do mês" FontSize="24" TextColor="Black"/>
+            <Label Text="Resumo do mês" FontSize="24" TextColor="Black" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="15" RowDefinitions="Auto" RowSpacing="10">
-                <Border Grid.Column="0" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                <Border Grid.Column="0" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Entradas do mês" TextColor="Black"/>
-                        <Label Text="{Binding EntradasMes}" FontSize="32" TextColor="#2E8B57" FontAttributes="Bold"/>
+                        <Label Text="{Binding EntradasMes}" FontSize="48" TextColor="#2E8B57" FontAttributes="Bold" />
                         <Label Text="Itens recebidos" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
-                <Border Grid.Column="1" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                <Border Grid.Column="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Saídas do mês" TextColor="Black"/>
-                        <Label Text="{Binding SaidasMes}" FontSize="32" TextColor="Gray" FontAttributes="Bold"/>
+                        <Label Text="{Binding SaidasMes}" FontSize="48" TextColor="Gray" FontAttributes="Bold"/>
                         <Label Text="Itens consumidos ou doados" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
-                <Border Grid.Column="2" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                <Border Grid.Column="2" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Precisa repor" TextColor="Black"/>
-                        <Label Text="{Binding PrecisaRepor}" FontSize="32" TextColor="#E67E22" FontAttributes="Bold"/>
+                        <Label Text="{Binding PrecisaRepor}" FontSize="48" TextColor="#E67E22" FontAttributes="Bold"/>
                         <Label Text="Abaixo do minimo" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
-                <Border Grid.Column="3" Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
+                <Border Grid.Column="3" StrokeShape="RoundRectangle 8" Padding="15" BackgroundColor="White">
                     <VerticalStackLayout>
                         <Label Text="Vencendo em 30 dias ou Vencido" TextColor="Black"/>
-                        <Label Text="{Binding QuantVencendoVencido}" FontSize="32" TextColor="#E74C3C" FontAttributes="Bold"/>
+                        <Label Text="{Binding QuantVencendoVencido}" FontSize="48" TextColor="#E74C3C" FontAttributes="Bold"/>
                         <Label Text="Na despensa" TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
             </Grid>
             <Border BackgroundColor="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 3" Padding="14">
                 <Grid RowDefinitions="auto, auto, *" RowSpacing="8">
-                    <Label Text="Precisa de atenção" FontSize="20" TextColor="Black"/>
+                    <Label Text="Precisa de atenção" FontSize="20" TextColor="Black" Padding="0,8"/>
                     <Grid Grid.Row="1" ColumnDefinitions="2*, *, *" Padding="8,0">
                         <Label Grid.Column="0" Text="Item" TextColor="Black" FontAttributes="Bold" />
                         <Label Grid.Column="1" Text="Estoque" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
@@ -62,7 +66,8 @@
                                             <Label Grid.Column="0" VerticalOptions="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" Text="{Binding Item}" />
                                             <Label Grid.Column="1" VerticalOptions="Center" Text="{Binding Quantidade}"  HorizontalOptions="Center"/>
                                             <Border Grid.Column="2" Padding="8,2" HorizontalOptions="Center" VerticalOptions="Center" 
-                                                    BackgroundColor="OrangeRed" StrokeShape="RoundRectangle 10" StrokeThickness="0">
+                                                    BackgroundColor="{Binding Situacao, Converter={StaticResource SituacaoColor}}" 
+                                                    StrokeShape="RoundRectangle 10" StrokeThickness="0">
                                                 <Label  Text="{Binding Situacao}" FontSize="12" TextColor="White" />
                                             </Border>
                                         </Grid>
