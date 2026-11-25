@@ -31,8 +31,8 @@
                         <Label Text="Confirmar nova senha" FontSize="12" TextColor="Black" />
                         <Entry IsPassword="True" TextColor="Black" Text="{Binding ConfirmarSenha}" />
                         <HorizontalStackLayout Spacing="10" Padding="0,10">
-                            <Button Text="Alterar senha" Command="{Binding AlterarSenhaCommand}" />
                             <Button Text="Nova senha" Command="{Binding CriarSenhaCommand}" />
+                            <Button Text="Alterar senha" Command="{Binding AlterarSenhaCommand}" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 

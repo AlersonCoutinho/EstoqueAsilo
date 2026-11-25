@@ -82,9 +82,15 @@ namespace EstoqueAsilo.ViewModels
 
         // -- Metodos Senha
         [RelayCommand]
-        private void CriarSenha()
+        private async Task CriarSenha()
         {
             if (!AutenticarSenha()) return;
+
+            bool ok = await MostrarJanelaConf("Criar nova senha?",
+                "Isso vai CRIAR uma nova senha. Continuar?",
+                "Criar", "Cancelar"
+                );
+            if (!ok) return;
 
             if (!_auth.RegSenha(NovaSenha))
             {
@@ -96,9 +102,15 @@ namespace EstoqueAsilo.ViewModels
         }
 
         [RelayCommand]
-        private void AlterarSenha()
+        private async Task AlterarSenha()
         {
             if (!AutenticarSenha()) return;
+
+            bool ok = await MostrarJanelaConf("Alterar a senha?",
+                "Isso vai ALTERAR a senha inserida. Continuar?",
+                "Alterar", "Cancelar"
+                );
+            if (!ok) return;
 
             if (!_auth.AltSenha(SenhaAtual, NovaSenha))
             {
@@ -147,14 +159,11 @@ namespace EstoqueAsilo.ViewModels
                 return; 
             }
 
-            var page = Application.Current?.Windows[0]?.Page;
-            if (page is null) return;
-
-            bool ok = await page.DisplayAlertAsync(
-                "Excluir todos os dados",
+            bool ok = await MostrarJanelaConf("Excluir todos os dados",
                 "Isso apaga produtos, lotes e movimentações. Não é possível desfazer. Continuar?",
-                "Excluir", "Cancelar");
-            if (!ok) return;
+                "Excluir", "Cancelar"
+                );
+            if(!ok) return;
 
             if (!_estoque.ExcluirDados())
             {
@@ -196,6 +205,13 @@ namespace EstoqueAsilo.ViewModels
                 OpcoesUsuario.Add(usuario);
             if (OpcoesUsuario.Count == 0) OpcoesUsuario.Add("Nenhum usuário cadastrado");
             UsuarioSelecionado = OpcoesUsuario[0];
+        }
+
+        private static async Task<bool> MostrarJanelaConf(string title, string message, string accept, string cancel)
+        {
+            var page = Application.Current?.Windows[0]?.Page;
+            if (page is null) return false;
+            return await page.DisplayAlertAsync(title, message, accept, cancel);
         }
     }
 }

@@ -25,11 +25,11 @@
                 ItemDisplayBinding="{Binding Texto}"
                 SelectedItem="{Binding SituacaoSelecionada}" />
             
-            <Border Grid.Column="4" Grid.RowSpan="2" Style="{StaticResource BotaoAcaoAzul}">
+            <Border Grid.Column="4" Grid.Row="1" Style="{StaticResource BotaoAcaoAzul}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NovoItemCommand}" />
                 </Border.GestureRecognizers>
-                <Label Text="+ novo item" TextColor="White" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
+                <Label Text="+ Novo Item" TextColor="White" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
             </Border>
             
         </Grid>
